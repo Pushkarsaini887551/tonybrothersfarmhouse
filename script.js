@@ -69,3 +69,46 @@ function showSlides() {
 
   setTimeout(showSlides, 4000); // हर 4 सेकंड में फोटो बदलेगी
 }
+function showSuggestions(){
+
+const trees = [
+"नीम",
+"पीपल",
+"बरगद",
+"आम",
+"बांस",
+"अर्जुन",
+"शीशम",
+"जामुन",
+"अशोक",
+"सागौन"
+];
+
+let input = document.getElementById("searchInput").value.toLowerCase();
+
+let suggestions = document.getElementById("suggestions");
+
+suggestions.innerHTML = "";
+
+if(input==="") return;
+
+trees.forEach(tree=>{
+
+if(tree.toLowerCase().includes(input)){
+
+suggestions.innerHTML +=
+`<div onclick="selectTree('${tree}')">${tree}</div>`;
+
+}
+
+});
+
+}
+
+function selectTree(name){
+
+document.getElementById("searchInput").value = name;
+
+document.getElementById("suggestions").innerHTML = "";
+
+}
