@@ -3,27 +3,23 @@ function searchTree(){
 let tree = document.getElementById("searchInput").value.trim().toLowerCase();
 
 let data = {
+
 "नीम":{
 name:"🌿 नीम",
 info:"नीम एक औषधीय पेड़ है।",
-image:"https://upload.wikimedia.org/..."
-},
-"नीम":{
-name:"🌿 नीम",
-info:"नीम एक औषधीय पेड़ है।",
-image:"https://upload.wikimedia.org/wikipedia/commons/2/20/Azadirachta_indica.jpg"
+image:"neem.jpg"
 },
 
 "आम":{
 name:"🥭 आम",
 info:"आम भारत का सबसे लोकप्रिय फलदार पेड़ है।",
-image:"https://upload.wikimedia.org/wikipedia/commons/9/90/Hapus_Mango.jpg"
+image:"mango.jpg"
 },
 
 "पीपल":{
 name:"🌳 पीपल",
 info:"पीपल पर्यावरण के लिए बहुत महत्वपूर्ण पेड़ है।",
-image:"https://upload.wikimedia.org/wikipedia/commons/4/4f/Ficus_religiosa_tree.jpg"
+image:"peepal.jpg"
 }
 
 };
