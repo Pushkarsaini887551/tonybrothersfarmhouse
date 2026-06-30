@@ -3,7 +3,11 @@ function searchTree(){
 let tree = document.getElementById("searchInput").value.trim().toLowerCase();
 
 let data = {
-
+"नीम":{
+name:"🌿 नीम",
+info:"नीम एक औषधीय पेड़ है।",
+image:"https://upload.wikimedia.org/..."
+},
 "नीम":{
 name:"🌿 नीम",
 info:"नीम एक औषधीय पेड़ है।",
