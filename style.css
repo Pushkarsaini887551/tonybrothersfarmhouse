@@ -4,11 +4,29 @@ font-family:Arial,sans-serif;
 background:#f4fff4;
 }
 
-header{
-background:#228B22;
+.banner{
+background:url("banner.jpg") center center/cover no-repeat;
+height:420px;
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+
 color:white;
-padding:20px;
 text-align:center;
+}
+
+.banner h1{
+font-size:55px;
+text-shadow:2px 2px 8px black;
+margin:0;
+}
+
+.banner p{
+font-size:24px;
+text-shadow:2px 2px 8px black;
+margin-top:15px;
 }
 
 nav{
