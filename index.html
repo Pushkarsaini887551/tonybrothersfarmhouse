@@ -1,188 +1,43 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tony Brothers Farmhouse - Khairthal me Taza Plants</title>
-    <style>
-        * {margin: 0; padding: 0; box-sizing: border-box;}
-        body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f8fbf8;
-        }
-        .container {max-width: 1100px; margin: auto; padding: 0 15px;}
-        
-        /* Header */
-        header {
-            background: #2d5016;
-            color: white;
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {font-size: 22px; font-weight: bold;}
-        .whatsapp-btn {
-            background: #25D366;
-            color: white;
-            padding: 10px 18px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        
-        /* Hero */
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1463320726281-696a485928c7?w=1200') center/cover;
-            color: white;
-            text-align: center;
-            padding: 80px 15px;
-        }
-        .hero h1 {font-size: 32px; margin-bottom: 10px;}
-        .hero p {font-size: 18px; margin-bottom: 20px;}
-        .hero .tag {background: #FFD700; color: #333; padding: 5px 12px; border-radius: 15px; display: inline-block; font-weight: bold;}
-        
-        /* Products */
-        .products {padding: 50px 0;}
-        .products h2 {text-align: center; font-size: 28px; margin-bottom: 30px; color: #2d5016;}
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        .card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: 0.3s;
-        }
-        .card:hover {transform: translateY(-5px);}
-        .card img {width: 100%; height: 200px; object-fit: cover;}
-        .card-body {padding: 15px;}
-        .card h3 {font-size: 20px; margin-bottom: 8px; color: #2d5016;}
-        .price {font-size: 22px; font-weight: bold; color: #333; margin: 10px 0;}
-        .price span {font-size: 14px; color: #666; font-weight: normal;}
-        .features {font-size: 14px; margin: 10px 0; color: #555;}
-        .features li {margin-bottom: 4px;}
-        .order-btn {
-            display: block;
-            background: #25D366;
-            color: white;
-            text-align: center;
-            padding: 12px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        
-        /* Why Us */
-        .why-us {background: white; padding: 50px 0;}
-        .why-us h2 {text-align: center; font-size: 28px; margin-bottom: 30px; color: #2d5016;}
-        .why-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 25px;
-            text-align: center;
-        }
-        .why-item h3 {font-size: 40px; margin-bottom: 10px;}
-        
-        /* Footer */
-        footer {
-            background: #2d5016;
-            color: white;
-            text-align: center;
-            padding: 30px 15px;
-            margin-top: 40px;
-        }
-        footer a {color: #FFD700;}
-        
-        @media (max-width: 600px) {
-            .hero h1 {font-size: 26px;}
-            .logo {font-size: 18px;}
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tony Brothers Farm House</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="logo">🌿 Tony Brothers Farmhouse</div>
-            <a href="https://wa.me/916307804790?text=Namaste, mujhe plants ke baare me jaankari chahiye" class="whatsapp-btn">WhatsApp Karein</a>
-        </div>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <span class="tag">Free Delivery Khairthal me</span>
-            <h1>Khairthal ke Sabse Taza Plants</h1>
-            <p>Ghar tak delivery + Plant care support WhatsApp pe free</p>
-            <a href="#plants" class="whatsapp-btn" style="font-size: 18px;">Plants Dekho 👇</a>
-        </div>
-    </section>
+<header>
+<img src="profile.jpg" class="profile">
+<h1>🌳 Tony Brothers Farm House 🌳</h1>
+<p>पेड़ों की पूरी जानकारी एक ही जगह</p>
+</header>
 
-    <!-- Products -->
-    <section class="products" id="plants">
-        <div class="container">
-            <h2>Bestseller Plants</h2>
-            <div class="grid">
-                <!-- Plant 1 -->
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1586095129196-a7a58e2180aa?w=500" alt="Snake Plant">
-                    <div class="card-body">
-                        <h3>Snake Plant</h3>
-                        <div class="price">₹199 <span>+ Pot ₹99 extra</span></div>
-                        <ul class="features">
-                            <li>✓ Light: Kam chahiye</li>
-                            <li>✓ Water: 15 din me 1 baar</li>
-                            <li>✓ Air purify karta hai</li>
-                            <li>✓ Beginner friendly</li>
-                        </ul>
-                        <a href="https://wa.me/916307804790?text=Mujhe Snake Plant order karna hai. Price kya hai?" class="order-btn">WhatsApp pe Order Karein</a>
-                    </div>
-                </div>
+<nav>
+<a href="#">Home</a>
+<a href="#">Trees</a>
+<a href="#">Plants</a>
+<a href="#">About</a>
+<a href="#">Contact</a>
+</nav>
 
-                <!-- Plant 2 -->
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=500" alt="Money Plant">
-                    <div class="card-body">
-                        <h3>Money Plant</h3>
-                        <div class="price">₹149 <span>+ Pot ₹99 extra</span></div>
-                        <ul class="features">
-                            <li>✓ Light: Indirect chahiye</li>
-                            <li>✓ Water: Hafte me 2 baar</li>
-                            <li>✓ Lucky plant maana jata hai</li>
-                            <li>✓ Bahut jaldi badhta hai</li>
-                        </ul>
-                        <a href="https://wa.me/916307804790?text=Mujhe Money Plant order karna hai" class="order-btn">WhatsApp pe Order Karein</a>
-                    </div>
-                </div>
+<section class="hero">
+<h1>पेड़ खोजें</h1>
+<p>हजारों पेड़ों की जानकारी प्राप्त करें</p>
 
-                <!-- Plant 3 -->
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1459411552884-841f9bcf0f90?w=500" alt="Tulsi Plant">
-                    <div class="card-body">
-                        <h3>Tulsi Plant</h3>
-                        <div class="price">₹99 <span>+ Pot ₹99 extra</span></div>
-                        <ul class="features">
-                            <li>✓ Light: Dhoop chahiye</li>
-                            <li>✓ Water: Roz thoda</li>
-                            <li>✓ Medicinal benefits</li>
-                            <li>✓ Har ghar me hona chahiye</li>
-                        </ul>
-                        <a href="https://wa.me/916307804790?text=Mujhe Tulsi Plant chahiye" class="order-btn">WhatsApp pe Order Karein</a>
-                    </div>
-                </div>
+<div class="search">
+<input type="text" id="searchInput" placeholder="पेड़ का नाम लिखें...">
+<button class="btn" onclick="searchTree()">Search</button>
+</div>
+</section>
 
-                <!-- Plant 4 -->
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1593482892290-f54927ae1bb6?w=500"
+<div id="result" style="padding:20px;"></div>
+
+<footer>
+© 2026 Tony Brothers Farm House
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
