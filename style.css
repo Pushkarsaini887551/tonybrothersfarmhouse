@@ -7,14 +7,12 @@ background:#f4fff4;
 .banner{
 background:url("banner.jpg") center center/cover no-repeat;
 height:420px;
-
 display:flex;
-flex-direction:column;
-justify-content:center;
 align-items:center;
-
+justify-content:flex-start;
+padding:40px;
 color:white;
-text-align:center;
+text-align:left;
 }
 
 .banner h1{
@@ -133,4 +131,7 @@ margin:0;
 .banner-text p{
 font-size:24px;
 text-shadow:2px 2px 8px black;
+}
+.banner-text{
+margin-left:30px;
 }
