@@ -1,1 +1,135 @@
-/* CSS File */
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tony Brothers Farm House</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+<img src="profile.jpg" class="profile">
+<h1>🌳 Tony Brothers Farm House 🌳</h1>
+<p>पेड़ों की पूरी जानकारी एक ही जगह</p>
+</header>
+
+<nav>
+<a href="#">Home</a>
+<a href="#">Trees</a>
+<a href="#">Plants</a>
+<a href="#">About</a>
+<a href="#">Contact</a>
+</nav>
+
+<section class="hero">
+<h1>पेड़ खोजें</h1>
+<p>हजारों पेड़ों की जानकारी प्राप्त करें</p>
+
+<div class="search">
+<input type="text" id="searchInput" placeholder="पेड़ का नाम लिखें...">
+<button class="btn" onclick="searchTree()">Search</button>
+</div>
+</section>
+
+<section class="cards">
+
+<div class="card">
+<h2>🌿 नीम</h2>
+<p>औषधीय गुणों से भरपूर पेड़।</p>
+</div>
+
+<div class="card">
+<h2>🥭 आम</h2>
+<p>भारत का लोकप्रिय फलदार पेड़।</p>
+</div>
+
+<div class="card">
+<h2>🌳 पीपल</h2>
+<p>ऑक्सीजन और पर्यावरण के लिए महत्वपूर्ण।</p>
+</div>
+
+</section>
+
+<footer>
+© 2026 Tony Brothers Farm House
+</footer>
+<script>
+function searchTree(){
+
+let tree = document.getElementById("searchInput").value.trim().toLowerCase();
+
+if(tree=="नीम" || tree=="neem"){
+alert("🌿 नीम\n\nनीम एक औषधीय पेड़ है। इसकी पत्तियाँ, छाल और फल दवा बनाने में उपयोग होते हैं।");
+}
+
+else if(tree=="आम" || tree=="mango"){
+alert("🥭 आम\n\nआम भारत का राष्ट्रीय फल है। यह स्वादिष्ट और पौष्टिक होता है।");
+}
+
+else if(tree=="पीपल" || tree=="peepal"){
+alert("🌳 पीपल\n\nपीपल पर्यावरण के लिए अत्यंत महत्वपूर्ण पेड़ माना जाता है।");
+}
+
+else{
+alert("❌ यह पेड़ अभी डेटाबेस में उपलब्ध नहीं है।");
+}
+
+}
+</script>
+  <script>
+function searchTree(){
+
+let tree = document.querySelector("input").value.trim().toLowerCase();
+
+let data = {
+"नीम":{
+name:"🌿 नीम",
+info:"नीम एक औषधीय पेड़ है। इसकी पत्तियाँ, छाल और फल दवा बनाने में उपयोग होते हैं।",
+image:"https://upload.wikimedia.org/wikipedia/commons/2/20/Azadirachta_indica.jpg"
+},
+
+"आम":{
+name:"🥭 आम",
+info:"आम भारत का सबसे लोकप्रिय फलदार पेड़ है।",
+image:"https://upload.wikimedia.org/wikipedia/commons/9/90/Hapus_Mango.jpg"
+},
+
+"पीपल":{
+name:"🌳 पीपल",
+info:"पीपल का पेड़ पर्यावरण और ऑक्सीजन के लिए बहुत महत्वपूर्ण माना जाता है।",
+image:"https://upload.wikimedia.org/wikipedia/commons/4/4f/Ficus_religiosa_tree.jpg"
+}
+};
+
+if(data[tree]){
+
+document.getElementById("result").innerHTML=
+`
+<div class="card">
+<h2>${data[tree].name}</h2>
+
+<img src="${data[tree].image}" style="width:100%;border-radius:10px;">
+
+<p>${data[tree].info}</p>
+
+</div>
+`;
+
+}
+else{
+
+document.getElementById("result").innerHTML=
+"<h3>❌ पेड़ नहीं मिला</h3>";
+
+}
+
+}
+</script>
+ </section>
+
+<div id="result" style="padding:20px;"></div>
+
+<section class="cards">
+</body>
+</html>
