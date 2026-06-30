@@ -1,1 +1,20 @@
-{}
+[
+  {
+    "name": "नीम",
+    "english": "neem",
+    "image": "neem.jpg",
+    "info": "नीम एक औषधीय पेड़ है।"
+  },
+  {
+    "name": "आम",
+    "english": "mango",
+    "image": "mango.jpg",
+    "info": "आम भारत का लोकप्रिय फलदार पेड़ है।"
+  },
+  {
+    "name": "पीपल",
+    "english": "peepal",
+    "image": "peepal.jpg",
+    "info": "पीपल पर्यावरण के लिए बहुत महत्वपूर्ण पेड़ है।"
+  }
+]
