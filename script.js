@@ -20,12 +20,23 @@ function searchTree() {
     if(found){
 
         result.innerHTML = `
-        <div class="card">
-            <h2>${found.name}</h2>
-            <p><b>English:</b> ${found.english}</p>
-            <p>${found.info}</p>
-        </div>
-        `;
+<div class="card">
+<img src="${found.image}">
+
+<h2>${found.name}</h2>
+
+<p><b>🔬 वैज्ञानिक नाम:</b> ${found.scientific}</p>
+
+<p><b>🌿 परिवार:</b> ${found.family}</p>
+
+<p><b>📍 भारत में:</b> ${found.state}</p>
+
+<p><b>🌱 उपयोग:</b> ${found.uses}</p>
+
+<p><b>📖 जानकारी:</b> ${found.info}</p>
+
+</div>
+`;
 
     }else{
 
