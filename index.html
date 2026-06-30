@@ -1,10 +1,146 @@
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tony Brothers Farm House</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4fff4;
+}
+
+header{
+background:#228B22;
+color:white;
+padding:20px;
+text-align:center;
+}
+
+nav{
+background:#2e8b57;
+padding:10px;
+text-align:center;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin:15px;
+font-weight:bold;
+}
+
+.hero{
+padding:50px 20px;
+text-align:center;
+}
+
+.hero h1{
+font-size:40px;
+color:#006400;
+}
+
+.hero p{
+font-size:20px;
+}
+
+.search{
+margin-top:20px;
+}
+
+.search input{
+padding:12px;
+width:70%;
+max-width:400px;
+border-radius:25px;
+border:1px solid #999;
+}
+
+.btn{
+padding:12px 20px;
+background:#228B22;
+color:white;
+border:none;
+border-radius:25px;
+cursor:pointer;
+}
+
+.cards{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:20px;
+padding:20px;
+}
+
+.card{
+background:white;
+width:250px;
+padding:15px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.2);
+text-align:center;
+}
+
+footer{
+background:#228B22;
+color:white;
+text-align:center;
+padding:15px;
+margin-top:30px;
+}
+</style>
+
 </head>
 <body>
+
+<header>
 <h1>🌳 Tony Brothers Farm House 🌳</h1>
-<p>पेड़ों की पूरी जानकारी एक ही जगह।</p>
+<p>पेड़ों की पूरी जानकारी एक ही जगह</p>
+</header>
+
+<nav>
+<a href="#">Home</a>
+<a href="#">Trees</a>
+<a href="#">Plants</a>
+<a href="#">About</a>
+<a href="#">Contact</a>
+</nav>
+
+<section class="hero">
+<h1>पेड़ खोजें</h1>
+<p>हजारों पेड़ों की जानकारी प्राप्त करें</p>
+
+<div class="search">
+<input type="text" placeholder="पेड़ का नाम लिखें...">
+<button class="btn">Search</button>
+</div>
+</section>
+
+<section class="cards">
+
+<div class="card">
+<h2>🌿 नीम</h2>
+<p>औषधीय गुणों से भरपूर पेड़।</p>
+</div>
+
+<div class="card">
+<h2>🥭 आम</h2>
+<p>भारत का लोकप्रिय फलदार पेड़।</p>
+</div>
+
+<div class="card">
+<h2>🌳 पीपल</h2>
+<p>ऑक्सीजन और पर्यावरण के लिए महत्वपूर्ण।</p>
+</div>
+
+</section>
+
+<footer>
+© 2026 Tony Brothers Farm House
+</footer>
+
 </body>
 </html>
