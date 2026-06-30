@@ -1,9 +1,162 @@
+[
 {
-  "name": "नीम",
-  "english": "Neem",
-  "scientific": "Azadirachta indica",
-  "family": "Meliaceae",
-  "state": "पूरे भारत में",
-  "uses": "औषधि, लकड़ी",
-  "info": "नीम भारत का प्रसिद्ध औषधीय वृक्ष है।"
+"name":"नीम",
+"english":"neem",
+"scientific":"Azadirachta indica",
+"image":"neem.jpg",
+"uses":"औषधि, छाया",
+"info":"नीम भारत का प्रसिद्ध औषधीय वृक्ष है।"
+},
+{
+"name":"पीपल",
+"english":"peepal",
+"scientific":"Ficus religiosa",
+"image":"peepal.jpg",
+"uses":"ऑक्सीजन, धार्मिक",
+"info":"पीपल लंबे समय तक जीवित रहने वाला वृक्ष है।"
+},
+{
+"name":"बरगद",
+"english":"banyan",
+"scientific":"Ficus benghalensis",
+"image":"bargad.jpg",
+"uses":"छाया",
+"info":"भारत का राष्ट्रीय वृक्ष।"
+},
+{
+"name":"आम",
+"english":"mango",
+"scientific":"Mangifera indica",
+"image":"mango.jpg",
+"uses":"फल",
+"info":"भारत का लोकप्रिय फलदार वृक्ष।"
+},
+{
+"name":"जामुन",
+"english":"jamun",
+"scientific":"Syzygium cumini",
+"image":"jamun.jpg",
+"uses":"फल, औषधि",
+"info":"मधुमेह में उपयोगी फल।"
+},
+{
+"name":"अर्जुन",
+"english":"arjun",
+"scientific":"Terminalia arjuna",
+"image":"arjun.jpg",
+"uses":"हृदय औषधि",
+"info":"हृदय स्वास्थ्य के लिए प्रसिद्ध।"
+},
+{
+"name":"सागौन",
+"english":"teak",
+"scientific":"Tectona grandis",
+"image":"teak.jpg",
+"uses":"लकड़ी",
+"info":"बहुमूल्य लकड़ी का वृक्ष।"
+},
+{
+"name":"शीशम",
+"english":"shisham",
+"scientific":"Dalbergia sissoo",
+"image":"shisham.jpg",
+"uses":"फर्नीचर",
+"info":"मजबूत लकड़ी के लिए प्रसिद्ध।"
+},
+{
+"name":"बाँस",
+"english":"bamboo",
+"scientific":"Bambusa vulgaris",
+"image":"bamboo.jpg",
+"uses":"निर्माण",
+"info":"दुनिया का सबसे तेज़ बढ़ने वाला पौधा।"
+},
+{
+"name":"अशोक",
+"english":"ashoka",
+"scientific":"Saraca asoca",
+"image":"ashoka.jpg",
+"uses":"सजावटी",
+"info":"सुंदर फूलों वाला वृक्ष।"
+},
+{
+"name":"चंदन",
+"english":"sandalwood",
+"scientific":"Santalum album",
+"image":"sandalwood.jpg",
+"uses":"इत्र",
+"info":"सुगंधित लकड़ी के लिए प्रसिद्ध।"
+},
+{
+"name":"महुआ",
+"english":"mahua",
+"scientific":"Madhuca longifolia",
+"image":"mahua.jpg",
+"uses":"फल, फूल",
+"info":"ग्रामीण क्षेत्रों का महत्वपूर्ण वृक्ष।"
+},
+{
+"name":"इमली",
+"english":"tamarind",
+"scientific":"Tamarindus indica",
+"image":"tamarind.jpg",
+"uses":"फल",
+"info":"खट्टे स्वाद वाला प्रसिद्ध वृक्ष।"
+},
+{
+"name":"आंवला",
+"english":"amla",
+"scientific":"Phyllanthus emblica",
+"image":"amla.jpg",
+"uses":"औषधि",
+"info":"विटामिन C का अच्छा स्रोत।"
+},
+{
+"name":"बेल",
+"english":"bael",
+"scientific":"Aegle marmelos",
+"image":"bael.jpg",
+"uses":"फल, धार्मिक",
+"info":"भगवान शिव से जुड़ा पवित्र वृक्ष।"
+},
+{
+"name":"गुलमोहर",
+"english":"gulmohar",
+"scientific":"Delonix regia",
+"image":"gulmohar.jpg",
+"uses":"सजावटी",
+"info":"लाल फूलों के लिए प्रसिद्ध।"
+},
+{
+"name":"कदंब",
+"english":"kadamba",
+"scientific":"Neolamarckia cadamba",
+"image":"kadamba.jpg",
+"uses":"धार्मिक",
+"info":"भगवान कृष्ण से जुड़ा वृक्ष।"
+},
+{
+"name":"पलाश",
+"english":"palash",
+"scientific":"Butea monosperma",
+"image":"palash.jpg",
+"uses":"रंग",
+"info":"'जंगल की आग' के नाम से प्रसिद्ध।"
+},
+{
+"name":"देवदार",
+"english":"deodar",
+"scientific":"Cedrus deodara",
+"image":"deodar.jpg",
+"uses":"लकड़ी",
+"info":"हिमालयी क्षेत्र का प्रमुख वृक्ष।"
+},
+{
+"name":"साल",
+"english":"sal",
+"scientific":"Shorea robusta",
+"image":"sal.jpg",
+"uses":"लकड़ी",
+"info":"भारत के प्रमुख वनों का महत्वपूर्ण वृक्ष।"
 }
+]
