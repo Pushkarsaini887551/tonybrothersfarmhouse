@@ -1,40 +1,34 @@
-function searchTree(){
+fetch("trees.json")
+.then(response => response.json())
+.then(data => {
+
+window.searchTree = function() {
 
 let tree = document.getElementById("searchInput").value.trim().toLowerCase();
 
-let data = {
+let result = document.getElementById("result");
 
-"नीम":{
-name:"🌿 नीम",
-info:"नीम एक औषधीय पेड़ है।",
-image:"neem.jpg"
-},
+let found = data.find(item =>
+item.name.toLowerCase() === tree ||
+item.english.toLowerCase() === tree
+);
 
-"आम":{
-name:"🥭 आम",
-info:"आम भारत का सबसे लोकप्रिय फलदार पेड़ है।",
-image:"mango.jpg"
-},
+if(found){
 
-"पीपल":{
-name:"🌳 पीपल",
-info:"पीपल पर्यावरण के लिए बहुत महत्वपूर्ण पेड़ है।",
-image:"peepal.jpg"
-}
-
-};
-
-let result=document.getElementById("result");
-
-if(data[tree]){
-result.innerHTML=`
+result.innerHTML = `
 <div class="card">
-<img src="${data[tree].image}" style="width:100%;border-radius:10px;">
-<h2>${data[tree].name}</h2>
-<p>${data[tree].info}</p>
-</div>`;
+<img src="${found.image}" style="width:100%;border-radius:10px;">
+<h2>${found.name}</h2>
+<p>${found.info}</p>
+</div>
+`;
+
 }else{
-result.innerHTML="<h2>❌ पेड़ नहीं मिला</h2>";
+
+result.innerHTML = "<h2>❌ पेड़ नहीं मिला</h2>";
+
 }
 
 }
+
+});
