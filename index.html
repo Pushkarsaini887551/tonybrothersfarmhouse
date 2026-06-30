@@ -123,8 +123,8 @@ margin-top:30px;
 <p>हजारों पेड़ों की जानकारी प्राप्त करें</p>
 
 <div class="search">
-<input type="text" placeholder="पेड़ का नाम लिखें...">
-<button class="btn">Search</button>
+<input type="text" id="searchInput" placeholder="पेड़ का नाम लिखें...">
+<button class="btn" onclick="searchTree()">Search</button>
 </div>
 </section>
 
@@ -150,6 +150,28 @@ margin-top:30px;
 <footer>
 © 2026 Tony Brothers Farm House
 </footer>
+<script>
+function searchTree(){
 
+let tree = document.getElementById("searchInput").value.toLowerCase();
+
+if(tree=="नीम" || tree=="neem"){
+alert("🌿 नीम\n\nनीम एक औषधीय पेड़ है। इसकी पत्तियाँ, छाल और फल दवा बनाने में उपयोग होते हैं।");
+}
+
+else if(tree=="आम" || tree=="mango"){
+alert("🥭 आम\n\nआम भारत का राष्ट्रीय फल है। यह स्वादिष्ट और पौष्टिक होता है।");
+}
+
+else if(tree=="पीपल" || tree=="peepal"){
+alert("🌳 पीपल\n\nपीपल पर्यावरण के लिए अत्यंत महत्वपूर्ण पेड़ माना जाता है।");
+}
+
+else{
+alert("❌ यह पेड़ अभी डेटाबेस में उपलब्ध नहीं है।");
+}
+
+}
+</script>
 </body>
 </html>
