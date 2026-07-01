@@ -23,7 +23,7 @@ function searchTree() {
         result.innerHTML = `
 <div class="card">
 
-<img src="${found.image}" alt="${found.name}">
+<img src="${found.image}" alt="${found.name}" onerror="this.src='profile.jpg'"> alt="${found.name}">
 
 <h2>${found.name}</h2>
 
