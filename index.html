@@ -4,49 +4,98 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tony Brothers Farm House</title>
+
 <link rel="stylesheet" href="style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
+
 <body>
 
-<header class="banner">
+<header>
 
-<img src="profile.jpg" class="logo">
+<nav class="navbar">
 
-<div class="banner-text">
-<h1>🌳 Tony Brothers Farm House 🌳</h1>
-<p>पेड़ों की पूरी जानकारी एक ही जगह</p>
+<div class="logo">
+
+<img src="profile.jpg">
+
+<h2>Tony Brothers Farm House</h2>
+
 </div>
+
+<ul>
+
+<li><a href="#">Home</a></li>
+
+<li><a href="#">Trees</a></li>
+
+<li><a href="#">Medicinal</a></li>
+
+<li><a href="#">Gallery</a></li>
+
+<li><a href="#">About</a></li>
+
+<li><a href="#">Contact</a></li>
+
+</ul>
+
+</nav>
 
 </header>
 
-<nav>
-<a href="#">Home</a>
-<a href="#">Trees</a>
-<a href="#">Plants</a>
-<a href="#">About</a>
-<a href="#">Contact</a>
-</nav>
 <section class="slider">
 
 <div class="slides fade">
-<img src="slide1.jpg" alt="Slide 1">
+<img src="slide1.jpg">
 </div>
 
 <div class="slides fade">
-<img src="slide2.jpg" alt="Slide 2">
+<img src="slide2.jpg">
 </div>
 
 <div class="slides fade">
-<img src="slide3.jpg" alt="Slide 3">
+<img src="slide3.jpg">
 </div>
 
 </section>
+
 <section class="hero">
-  <div class="categories">
+
+<h1>🌳 भारत के पेड़ों की पूरी जानकारी</h1>
+
+<p>1000+ भारतीय पेड़ों की जानकारी एक ही जगह</p>
+
+<div class="search">
+
+<input
+type="text"
+id="searchInput"
+placeholder="पेड़ का नाम लिखें..."
+onkeyup="showSuggestions()"
+onkeypress="if(event.key==='Enter') searchTree()">
+
+<button onclick="searchTree()" class="btn">
+
+Search
+
+</button>
+
+<div id="suggestions"></div>
+
+</div>
+
+</section>
+
+<section class="categories">
 
 <button onclick="filterTrees('all')">🌳 सभी</button>
 
-<button onclick="filterTrees('फलदार')">🍎 फलदार</button>
+<button onclick="filterTrees('फलदार')">🥭 फलदार</button>
 
 <button onclick="filterTrees('औषधीय')">🌿 औषधीय</button>
 
@@ -54,25 +103,22 @@
 
 <button onclick="filterTrees('सजावटी')">🌸 सजावटी</button>
 
-  </div>
-  
-<h1>पेड़ खोजें</h1>
-<p>हजारों पेड़ों की जानकारी प्राप्त करें</p>
-
-<div class="search">
-<input type="text" id="searchInput" placeholder="पेड़ का नाम लिखें..." onkeyup="showSuggestions()" onkeypress="if(event.key==='Enter') searchTree()">
-<button class="btn" onclick="searchTree()">Search</button>
-  
-<div id="suggestions"></div>
-</div>
 </section>
 
-<div id="result" style="padding:20px;"></div>
+<div id="result"></div>
 
 <footer>
-© 2026 Tony Brothers Farm House
+
+<h3>🌳 Tony Brothers Farm House</h3>
+
+<p>भारत के पेड़ों की सबसे बड़ी जानकारी वेबसाइट</p>
+
+<p>© 2026 All Rights Reserved</p>
+
 </footer>
 
 <script src="script.js"></script>
+
 </body>
+
 </html>
