@@ -2,7 +2,13 @@
 
 let trees = [];
 let slideIndex = 0;
-
+fetch("trees.json")
+.then(response => response.json())
+.then(data => {
+    trees = data;
+    if (typeof showSuggestions === "function") showSuggestions();
+})
+.catch(error => console.log("Error loading trees:", error));
 // Load Database
 fetch("trees.json")
 .then(res => res.json())
