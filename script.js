@@ -70,19 +70,7 @@ function showSlides() {
   setTimeout(showSlides, 4000); // हर 4 सेकंड में फोटो बदलेगी
 }
 function showSuggestions(){
-
-const trees = [
-"नीम",
-"पीपल",
-"बरगद",
-"आम",
-"बांस",
-"अर्जुन",
-"शीशम",
-"जामुन",
-"अशोक",
-"सागौन"
-];
+function showSuggestions(){
 
 let input = document.getElementById("searchInput").value.toLowerCase();
 
@@ -94,10 +82,13 @@ if(input==="") return;
 
 trees.forEach(tree=>{
 
-if(tree.toLowerCase().includes(input)){
+if(
+tree.name.toLowerCase().includes(input) ||
+tree.english.toLowerCase().includes(input)
+){
 
 suggestions.innerHTML +=
-`<div onclick="selectTree('${tree}')">${tree}</div>`;
+`<div onclick="selectTree('${tree.name}')">${tree.name}</div>`;
 
 }
 
