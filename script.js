@@ -4,7 +4,8 @@ fetch("trees.json")
 .then(response => response.json())
 .then(data => {
     trees = data;
-});
+})
+.catch(error => console.log(error));
 
 function searchTree() {
 
@@ -22,19 +23,19 @@ function searchTree() {
         result.innerHTML = `
 <div class="card">
 
-<img src="${found.image}">
+<img src="${found.image}" alt="${found.name}">
 
 <h2>${found.name}</h2>
 
-<p><b>🔬 वैज्ञानिक नाम:</b> ${found.scientific}</p>
+<p><b>🔬 वैज्ञानिक नाम:</b> ${found.scientific || "-"}</p>
 
-<p><b>🌿 परिवार:</b> ${found.family}</p>
+<p><b>🌿 परिवार:</b> ${found.family || "-"}</p>
 
-<p><b>📍 भारत में:</b> ${found.state}</p>
+<p><b>📍 भारत में:</b> ${found.state || "-"}</p>
 
-<p><b>🌱 उपयोग:</b> ${found.uses}</p>
+<p><b>🌱 उपयोग:</b> ${found.uses || "-"}</p>
 
-<p><b>📖 जानकारी:</b> ${found.info}</p>
+<p><b>📖 जानकारी:</b> ${found.info || "-"}</p>
 
 <button class="fav-btn">❤️ Favourite</button>
 
@@ -44,34 +45,15 @@ function searchTree() {
     }else{
 
         result.innerHTML = `
-        <div class="card">
-            <h2>❌ पेड़ नहीं मिला</h2>
-        </div>
-        `;
+<div class="card">
+<h2>❌ पेड़ नहीं मिला</h2>
+</div>
+`;
 
     }
 
 }
-let slideIndex = 0;
-showSlides();
 
-function showSlides() {
-  let slides = document.getElementsByClassName("slides");
-
-  for (let i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
-
-  slideIndex++;
-
-  if (slideIndex > slides.length) {
-    slideIndex = 1;
-  }
-
-  slides[slideIndex - 1].style.display = "block";
-
-  setTimeout(showSlides, 4000); // हर 4 सेकंड में फोटो बदलेगी
-}
 function showSuggestions(){
 
 let input = document.getElementById("searchInput").value.toLowerCase();
@@ -107,30 +89,55 @@ document.getElementById("suggestions").innerHTML = "";
 searchTree();
 
 }
+
 document.getElementById("searchInput").addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
         searchTree();
     }
 });
-function filterTrees(category){
 
-let result = document.getElementById("result");
+let slideIndex = 0;
+showSlides();
 
-result.innerHTML = "";
+function showSlides() {
 
-let filtered = trees;
+let slides = document.getElementsByClassName("slides");
 
-if(category !== "all"){
+for(let i=0;i<slides.length;i++){
+slides[i].style.display="none";
+}
 
-filtered = trees.filter(tree => tree.category === category);
+slideIndex++;
+
+if(slideIndex>slides.length){
+slideIndex=1;
+}
+
+slides[slideIndex-1].style.display="block";
+
+setTimeout(showSlides,4000);
 
 }
 
-filtered.forEach(tree => {
+function filterTrees(category){
 
-result.innerHTML += `
+let result=document.getElementById("result");
+
+result.innerHTML="";
+
+let filtered=trees;
+
+if(category!=="all"){
+
+filtered=trees.filter(tree=>tree.category===category);
+
+}
+
+filtered.forEach(tree=>{
+
+result.innerHTML+=`
 <div class="card">
-<img src="${tree.image}">
+<img src="${tree.image}" alt="${tree.name}">
 <h2>${tree.name}</h2>
 <p>${tree.info}</p>
 </div>
