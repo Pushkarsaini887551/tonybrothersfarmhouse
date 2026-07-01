@@ -202,3 +202,25 @@ font-size:16px;
 .fav-btn:hover{
 background:#e63950;
 }
+.categories{
+margin-bottom:20px;
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:10px;
+}
+
+.categories button{
+background:#228B22;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:20px;
+cursor:pointer;
+font-size:15px;
+transition:.3s;
+}
+
+.categories button:hover{
+background:#006400;
+}
