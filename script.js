@@ -112,3 +112,8 @@ document.getElementById("searchInput").value = name;
 document.getElementById("suggestions").innerHTML = "";
 
 }
+document.getElementById("searchInput").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        searchTree();
+    }
+});
