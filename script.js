@@ -113,3 +113,30 @@ document.getElementById("searchInput").addEventListener("keypress", function(eve
         searchTree();
     }
 });
+function filterTrees(category){
+
+let result = document.getElementById("result");
+
+result.innerHTML = "";
+
+let filtered = trees;
+
+if(category !== "all"){
+
+filtered = trees.filter(tree => tree.category === category);
+
+}
+
+filtered.forEach(tree => {
+
+result.innerHTML += `
+<div class="card">
+<img src="${tree.image}">
+<h2>${tree.name}</h2>
+<p>${tree.info}</p>
+</div>
+`;
+
+});
+
+}
