@@ -1,9 +1,11 @@
 [
 {
+  "id":1,
   "name":"नीम",
   "english":"neem",
   "scientific":"Azadirachta indica",
   "family":"Meliaceae",
+  "category":"औषधीय",
   "state":"पूरे भारत में",
   "image":"neem.jpg",
   "uses":"औषधि, लकड़ी, कीटनाशक",
