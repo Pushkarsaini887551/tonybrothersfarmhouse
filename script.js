@@ -21,6 +21,7 @@ function searchTree() {
 
         result.innerHTML = `
 <div class="card">
+
 <img src="${found.image}">
 
 <h2>${found.name}</h2>
@@ -34,6 +35,8 @@ function searchTree() {
 <p><b>🌱 उपयोग:</b> ${found.uses}</p>
 
 <p><b>📖 जानकारी:</b> ${found.info}</p>
+
+<button class="fav-btn">❤️ Favourite</button>
 
 </div>
 `;
