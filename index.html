@@ -46,7 +46,7 @@
 <p>हजारों पेड़ों की जानकारी प्राप्त करें</p>
 
 <div class="search">
-<input type="text" id="searchInput" placeholder="पेड़ का नाम लिखें..." onkeyup="showSuggestions()">
+<input type="text" id="searchInput" placeholder="पेड़ का नाम लिखें..." onkeyup="showSuggestions()" onkeypress="if(event.key==='Enter') searchTree()">
 <button class="btn" onclick="searchTree()">Search</button>
   
 <div id="suggestions"></div>
