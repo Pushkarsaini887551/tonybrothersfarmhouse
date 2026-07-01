@@ -1,78 +1,124 @@
-let trees = [];
+// Tony Brothers Farm House V2.0
 
+let trees = [];
+let slideIndex = 0;
+
+// Load Database
 fetch("trees.json")
-.then(response => response.json())
-.then(data => {
+.then(res => res.json())
+.then(data=>{
     trees = data;
 })
-.catch(error => console.log(error));
+.catch(()=>{
+    document.getElementById("result").innerHTML =
+    "<h2 style='text-align:center'>❌ trees.json लोड नहीं हुई</h2>";
+});
 
-function searchTree() {
+// ----------------------
+// Search
+// ----------------------
 
-    let text = document.getElementById("searchInput").value.trim().toLowerCase();
+function searchTree(){
 
-    let found = trees.find(tree =>
-        tree.name.toLowerCase() === text ||
-        tree.english.toLowerCase() === text
-    );
+let text=document.getElementById("searchInput").value.trim().toLowerCase();
 
-    let result = document.getElementById("result");
+if(text=="") return;
 
-    if(found){
+let found=trees.find(tree=>
 
-        result.innerHTML = `
+tree.name.toLowerCase()==text ||
+
+tree.english.toLowerCase()==text
+
+);
+
+let result=document.getElementById("result");
+
+if(found){
+
+result.innerHTML=`
+
 <div class="card">
 
-<img src="${found.image}" alt="${found.name}" onerror="this.src='profile.jpg'"> alt="${found.name}">
+<img src="${found.image}" onerror="this.src='profile.jpg'">
 
 <h2>${found.name}</h2>
 
-<p><b>🔬 वैज्ञानिक नाम:</b> ${found.scientific || "-"}</p>
+<p><b>English :</b> ${found.english}</p>
 
-<p><b>🌿 परिवार:</b> ${found.family || "-"}</p>
+<p><b>Scientific :</b> ${found.scientific}</p>
 
-<p><b>📍 भारत में:</b> ${found.state || "-"}</p>
+<p><b>Family :</b> ${found.family}</p>
 
-<p><b>🌱 उपयोग:</b> ${found.uses || "-"}</p>
+<p><b>Category :</b> ${found.category}</p>
 
-<p><b>📖 जानकारी:</b> ${found.info || "-"}</p>
+<p><b>State :</b> ${found.state}</p>
 
-<button class="fav-btn">❤️ Favourite</button>
+<p><b>Uses :</b> ${found.uses}</p>
+
+<p>${found.info}</p>
+
+<button class="fav-btn" onclick="addFavourite(${found.id})">
+
+❤️ Favourite
+
+</button>
 
 </div>
+
 `;
 
-    }else{
+}else{
 
-        result.innerHTML = `
+result.innerHTML=`
+
 <div class="card">
-<h2>❌ पेड़ नहीं मिला</h2>
-</div>
-`;
 
-    }
+<h2>❌ पेड़ नहीं मिला</h2>
+
+</div>
+
+`;
 
 }
 
+}
+
+// ----------------------
+// Suggestions
+// ----------------------
+
 function showSuggestions(){
 
-let input = document.getElementById("searchInput").value.toLowerCase();
+let input=document.getElementById("searchInput").value.toLowerCase();
 
-let suggestions = document.getElementById("suggestions");
+let box=document.getElementById("suggestions");
 
-suggestions.innerHTML = "";
+box.innerHTML="";
 
-if(input==="") return;
+if(input=="") return;
 
 trees.forEach(tree=>{
 
 if(
-tree.name.toLowerCase().includes(input) ||
+
+tree.name.toLowerCase().includes(input)
+
+||
+
 tree.english.toLowerCase().includes(input)
+
 ){
 
-suggestions.innerHTML +=
-`<div onclick="selectTree('${tree.name}')">${tree.name}</div>`;
+box.innerHTML+=`
+
+<div onclick="selectTree('${tree.name}')">
+
+${tree.name}
+
+</div>
+
+`;
 
 }
 
@@ -82,35 +128,36 @@ suggestions.innerHTML +=
 
 function selectTree(name){
 
-document.getElementById("searchInput").value = name;
+document.getElementById("searchInput").value=name;
 
-document.getElementById("suggestions").innerHTML = "";
+document.getElementById("suggestions").innerHTML="";
 
 searchTree();
 
 }
 
-document.getElementById("searchInput").addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        searchTree();
-    }
-});
+// ----------------------
+// Slider
+// ----------------------
 
-let slideIndex = 0;
 showSlides();
 
-function showSlides() {
+function showSlides(){
 
-let slides = document.getElementsByClassName("slides");
+let slides=document.getElementsByClassName("slides");
 
 for(let i=0;i<slides.length;i++){
+
 slides[i].style.display="none";
+
 }
 
 slideIndex++;
 
 if(slideIndex>slides.length){
+
 slideIndex=1;
+
 }
 
 slides[slideIndex-1].style.display="block";
@@ -118,6 +165,10 @@ slides[slideIndex-1].style.display="block";
 setTimeout(showSlides,4000);
 
 }
+
+// ----------------------
+// Category Filter
+// ----------------------
 
 function filterTrees(category){
 
@@ -127,22 +178,58 @@ result.innerHTML="";
 
 let filtered=trees;
 
-if(category!=="all"){
+if(category!="all"){
 
-filtered=trees.filter(tree=>tree.category===category);
+filtered=trees.filter(tree=>tree.category==category);
 
 }
 
 filtered.forEach(tree=>{
 
 result.innerHTML+=`
+
 <div class="card">
-<img src="${tree.image}" alt="${tree.name}">
+
+<img src="${tree.image}" onerror="this.src='profile.jpg'">
+
 <h2>${tree.name}</h2>
+
 <p>${tree.info}</p>
+
+<button class="fav-btn"
+
+onclick="addFavourite(${tree.id})">
+
+❤️ Favourite
+
+</button>
+
 </div>
+
 `;
 
 });
+
+}
+
+// ----------------------
+// Favourite
+// ----------------------
+
+let favourites=[];
+
+function addFavourite(id){
+
+if(!favourites.includes(id)){
+
+favourites.push(id);
+
+alert("❤️ Favourite Added");
+
+}else{
+
+alert("पहले से Favourite में है");
+
+}
 
 }
