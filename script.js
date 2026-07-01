@@ -73,7 +73,6 @@ function showSlides() {
   setTimeout(showSlides, 4000); // हर 4 सेकंड में फोटो बदलेगी
 }
 function showSuggestions(){
-function showSuggestions(){
 
 let input = document.getElementById("searchInput").value.toLowerCase();
 
