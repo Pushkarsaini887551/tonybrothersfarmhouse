@@ -1,124 +1,153 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tony Brothers Farm House</title>
-
-<link rel="stylesheet" href="style.css">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tony Brothers Farm House - पेड़ों की जानकारी</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .header-banner {
+            background: #27ae60;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .header-banner h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        .search-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        #searchBar {
+            padding: 12px 20px;
+            width: 80%;
+            max-width: 500px;
+            border: 2px solid #27ae60;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .tree-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-top: 5px solid #27ae60;
+            transition: transform 0.2s;
+        }
+        .tree-card:hover {
+            transform: translateY(-5px);
+        }
+        .tree-title {
+            color: #27ae60;
+            margin-top: 0;
+        }
+        .sci-name {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .info-item {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+        .info-item strong {
+            color: #34495e;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+            margin-top: 5px;
+        }
+    </style>
 </head>
-
 <body>
 
-<header>
+    <div class="header-banner">
+        <h1>🌳 Tony Brothers Farm House 🌳</h1>
+        <p>1000+ भारतीय पेड़ों की जानकारी एक ही जगह</p>
+    </div>
+    
+    <div class="search-container">
+        <input type="text" id="searchBar" placeholder="पेड़ या बीमारी का नाम खोजें (जैसे: शुगर, पथरी, तुलसी)..." onkeyup="filterTrees()">
+    </div>
 
-<nav class="navbar">
+    <div class="grid-container" id="treeGrid"></div>
 
-<div class="logo">
+    <footer>
+        <p>© 2026 Tony Brothers Farm House | All Rights Reserved</p>
+    </footer>
 
-<img src="profile.jpg">
+    <script>
+        let treeData = {};
 
-<h2>Tony Brothers Farm House</h2>
+        // JSON फ़ाइल से डेटा लोड करना
+        fetch('trees.json')
+            .then(response => response.json())
+            .then(data => {
+                treeData = data;
+                displayTrees(treeData);
+            })
+            .catch(error => console.error('डेटा लोड करने में एरर:', error));
 
-</div>
+        // स्क्रीन पर कार्ड्स दिखाना
+        function displayTrees(data) {
+            const grid = document.getElementById('treeGrid');
+            grid.innerHTML = '';
 
-<ul>
+            for (let key in data) {
+                const tree = data[key];
+                const card = `
+                    <div class="tree-card">
+                        <h2 class="tree-title">${tree.hindiName}</h2>
+                        <p class="sci-name">🧬 ${tree.scientificName} (${tree.englishName})</p>
+                        <div class="info-item"><strong>📍 कहाँ:</strong> ${tree.location}</div>
+                        <div class="info-item"><strong>💧 पानी:</strong> ${tree.water}</div>
+                        <div class="info-item"><strong>🌸 फूल:</strong> ${tree.flowers}</div>
+                        <div class="info-item"><strong>💊 उपयोग:</strong> ${tree.uses.join(', ')}</div>
+                        <p style="font-size:13px; color:#555; background:#eef9f2; padding:8px; border-radius:5px;">
+                            <strong>विवरण:</strong> ${tree.description}
+                        </p>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            }
+        }
 
-<li><a href="#">Home</a></li>
+        // लाइव सर्च फ़िल्टर
+        function filterTrees() {
+            const text = document.getElementById('searchBar').value.toLowerCase();
+            const filtered = {};
 
-<li><a href="#">Trees</a></li>
-
-<li><a href="#">Medicinal</a></li>
-
-<li><a href="#">Gallery</a></li>
-
-<li><a href="#">About</a></li>
-
-<li><a href="#">Contact</a></li>
-
-</ul>
-
-</nav>
-
-</header>
-
-<section class="slider">
-
-<div class="slides fade">
-<img src="slide1.jpg">
-</div>
-
-<div class="slides fade">
-<img src="slide2.jpg">
-</div>
-
-<div class="slides fade">
-<img src="slide3.jpg">
-</div>
-
-</section>
-
-<section class="hero">
-
-<h1>🌳 भारत के पेड़ों की पूरी जानकारी</h1>
-
-<p>1000+ भारतीय पेड़ों की जानकारी एक ही जगह</p>
-
-<div class="search">
-
-<input
-type="text"
-id="searchInput"
-placeholder="पेड़ का नाम लिखें..."
-onkeyup="showSuggestions()"
-onkeypress="if(event.key==='Enter') searchTree()">
-
-<button onclick="searchTree()" class="btn">
-
-Search
-
-</button>
-
-<div id="suggestions"></div>
-
-</div>
-
-</section>
-
-<section class="categories">
-
-<button onclick="filterTrees('all')">🌳 सभी</button>
-
-<button onclick="filterTrees('फलदार')">🥭 फलदार</button>
-
-<button onclick="filterTrees('औषधीय')">🌿 औषधीय</button>
-
-<button onclick="filterTrees('जंगल')">🌲 जंगल</button>
-
-<button onclick="filterTrees('सजावटी')">🌸 सजावटी</button>
-
-</section>
-
-<div id="result"></div>
-
-<footer>
-
-<h3>🌳 Tony Brothers Farm House</h3>
-
-<p>भारत के पेड़ों की सबसे बड़ी जानकारी वेबसाइट</p>
-
-<p>© 2026 All Rights Reserved</p>
-
-</footer>
-
-<script src="script.js"></script>
-
+            for (let key in treeData) {
+                const tree = treeData[key];
+                if (tree.hindiName.toLowerCase().includes(text) || 
+                    tree.scientificName.toLowerCase().includes(text) || 
+                    tree.uses.join(' ').toLowerCase().includes(text)) {
+                    filtered[key] = tree;
+                }
+            }
+            displayTrees(filtered);
+        }
+    </script>
 </body>
-
 </html>
