@@ -247,9 +247,17 @@
             cursor: pointer;
             padding: 0 20px;
             color: var(--text-secondary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
+        }
+
+        .voice-assist-btn.listening {
+            color: #ef4444;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
         .search-execute-btn {
@@ -571,8 +579,10 @@
 </head>
 <body>
 
+    <!-- 🌌 एम्बिएंट क्वांटम फिजिक्स एनीमेशन लेयर -->
     <canvas id="cosmic-particle-canvas"></canvas>
 
+    <!-- 👑 सुपर-टियर कोर नेविगेशन हब -->
     <div class="os-nav-bar">
         <div class="os-branding">
             <div class="os-logo-icon">🌿</div>
@@ -586,8 +596,10 @@
         <button class="utility-btn" style="border-radius: 50px;" onclick="themeToggleEngine.toggle()">🌓 कॉस्मिक मोड</button>
     </div>
 
+    <!-- 💻 मुख्य सिस्टम व्यूपोर्ट कंटेनर -->
     <div class="os-viewport-container">
         
+        <!-- 📊 लाइव कोर टेलीमेट्री मॉनिटर -->
         <div class="telemetry-dashboard">
             <div class="telemetry-node">
                 <div class="tel-value" id="tel-total-count">3</div>
@@ -603,15 +615,17 @@
             </div>
         </div>
 
+        <!-- ==================== TAB 1: SEARCH CENTER ==================== -->
         <div id="search-tab" class="os-tab-panel active-panel">
             <div class="search-engine-complex">
                 <div class="input-composite-box">
                     <input type="text" id="searchInput" class="input-main-core" placeholder="वनस्पति का नाम दर्ज करें..." oninput="predictiveMatrixEngine.process(this)">
-                    <a href="./voice-search/index.html" id="voiceBtn" class="voice-assist-btn" title="आवाज से खोजें">🎙️</a>
+                    <button id="voiceBtn" class="voice-assist-btn" onclick="speechRecognitionEngine.listen()">🎙️</button>
                     <button class="search-execute-btn" onclick="searchPipelineEngine.execute()">सर्च करें</button>
                 </div>
                 <div class="autosuggest-matrix-panel" id="matrixSuggestBox"></div>
 
+                <!-- क्विक पिल्स -->
                 <div class="filter-capsule-deck">
                     <span class="filter-pill" onclick="searchPipelineEngine.quickTrigger('neem')">नीम (Neem)</span>
                     <span class="filter-pill" onclick="searchPipelineEngine.quickTrigger('tulsi')">तुलसी (Tulsi)</span>
@@ -626,11 +640,14 @@
             </div>
         </div>
 
+        <!-- ==================== TAB 2: EXPLORER BROWSE GRID ==================== -->
         <div id="browse-tab" class="os-tab-panel">
             <div class="browse-grid-wrapper" id="explorerGridContainer">
-                </div>
+                <!-- जावास्क्रिप्ट द्वारा डायनामिक रूप से उत्पन्न कार्ड्स -->
+            </div>
         </div>
 
+        <!-- ==================== TAB 3: FAVORITES HARVEST ==================== -->
         <div id="fav-tab" class="os-tab-panel">
             <div class="browse-grid-wrapper" id="favoritesGridContainer">
                 <div class="status-terminal-board" style="grid-column: 1/-1;">
@@ -645,6 +662,9 @@
         <p>© 2026 Tony Brothers Farm House | Monolithic Scaled Quantum Language Matrix Core Platform</p>
     </footer>
 
+    <!-- ==========================================================================
+         9. MASTER JAVASCRIPT LOGICAL CORE ENGINE
+         ========================================================================== */ -->
     <script>
         // 🔮 FALLBACK MATRIX ARCHITECTURE DATA - सर्वर एरर या डेटा न होने पर भी सिस्टम को 100% चालू रखेगा
         const fallbackDatabaseMatrix = {
@@ -682,7 +702,7 @@
                     "तनाव और मानसिक थकान को कम करने के लिए उत्कृष्ट एडाप्टोजेनिक बूस्टर।",
                     "श्वसन तंत्र (Respiratory System) के संक्रमणों से सुरक्षा प्रदान करना।"
                 ],
-                description: "तुलसी को सनातन धर्म में देवी का रूप माना गया है और आयुर्वेद में इसे 'जड़ी-bूटियों की रानी' कहा जाता है। इसमें एंटी-ऑक्सीडेंट्स की प्रचुर मात्रा होती है जो शरीर के विभिन्न अंगों को डिटॉक्सिफाई करने का काम करती है। इसकी दैनिक पत्तियां चबाने या चाय में उपयोग करने से शरीर की रक्षा प्रणाली मजबूत होती है।"
+                description: "तुलसी को सनातन धर्म में देवी का रूप माना गया है और आयुर्वेद में इसे 'जड़ी-बूटियों की रानी' कहा जाता है। इसमें एंटी-ऑक्सीडेंट्स की प्रचुर मात्रा होती है जो शरीर के विभिन्न अंगों को डिटॉक्सिफाई करने का काम करती है। इसकी दैनिक पत्तियां चबाने या चाय में उपयोग करने से शरीर की रक्षा प्रणाली मजबूत होती है।"
             },
             "ashwagandha": {
                 hindiName: "अश्वगंधा",
@@ -705,7 +725,7 @@
         };
 
         let mainActiveCache = fallbackDatabaseMatrix;
-        let favoriteNodesList = JSON.parse(localStorage.getItem('ton_favs')) || [];
+        let favoriteNodesList = JSON.parse(localStorage.getItem('tony_favs')) || [];
 
         // 🚀 1. TAB SYSTEM CONFIGURATOR
         const tabSwitchEngine = {
@@ -757,13 +777,13 @@
 
                             <div class="hyper-grid-matrix">
                                 <div class="matrix-data-node"><div class="node-tag">English Title</div><div class="node-value">${data.englishName}</div></div>
-                                <div class="matrix-data-node"><div class="node-tag">वानस्पतिक कुल (Family)</div><div class="node-value">${data.family}</div></div>
-                                <div class="matrix-data-node"><div class="node-tag">मानक शारीरिक संरचना</div><div class="node-value">${data.height}</div></div>
-                                <div class="matrix-data-node"><div class="node-tag">मूल भौगोलिक क्षेत्र</div><div class="node-value">${data.location}</div></div>
-                                <div class="matrix-data-node"><div class="node-tag">अनुकूल इको क्लाइमेट</div><div class="node-value">${data.climate}</div></div>
-                                <div class="matrix-data-node"><div class="node-tag">जलापूर्ति सूचकांक</div><div class="node-value">${data.water}</div></div>
-                                <div class="matrix-data-node"><div class="node-tag">पुष्पन का कालचक्र</div><div class="node-value">${data.flowers}</div></div>
-                                <div class="matrix-data-node"><div class="node-tag">फलन का कालचक्र</div><div class="node-value">${data.fruits}</div></div>
+                                <div class="matrix-data-node"><div class="node-tag">वानस्पतिक कुल (Family)</div><div class="matrix-data-node-value">${data.family}</div></div>
+                                <div class="matrix-data-node"><div class="node-tag">मानक शारीरिक संरचना</div><div class="matrix-data-node-value">${data.height}</div></div>
+                                <div class="matrix-data-node"><div class="node-tag">मूल भौगोलिक क्षेत्र</div><div class="matrix-data-node-value">${data.location}</div></div>
+                                <div class="matrix-data-node"><div class="node-tag">अनुकूल इको क्लाइमेट</div><div class="matrix-data-node-value">${data.climate}</div></div>
+                                <div class="matrix-data-node"><div class="node-tag">जलापूर्ति सूचकांक</div><div class="matrix-data-node-value">${data.water}</div></div>
+                                <div class="matrix-data-node"><div class="node-tag">पुष्पन का कालचक्र</div><div class="matrix-data-node-value">${data.flowers}</div></div>
+                                <div class="matrix-data-node"><div class="node-tag">फलन का कालचक्र</div><div class="matrix-data-node-value">${data.fruits}</div></div>
                             </div>
 
                             <div class="block-section-title">🌱 प्रमाणित औषधीय एवं व्यावहारिक उपयोग</div>
@@ -815,7 +835,31 @@
             }
         };
 
-        // 🚀 4. SPEECH SYNTHESIS ENGINE (टेक्स्ट टू स्पीच)
+        // 🚀 4. SPEECH RECOGNITION INTERACTIVE TUNNEL (आवाज से खोजें)
+        const speechRecognitionEngine = {
+            listen: function() {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if(!SpeechRecognition) {
+                    alert("आपके ब्राउज़र में स्पीच रिकग्निशन सपोर्ट नहीं है। कृपया Chrome उपयोग करें।");
+                    return;
+                }
+                const recognition = new SpeechRecognition();
+                recognition.lang = 'hi-IN';
+                const btn = document.getElementById('voiceBtn');
+
+                recognition.onstart = () => btn.classList.add('listening');
+                recognition.onend = () => btn.classList.remove('listening');
+                
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript.toLowerCase().replace(/[.,]/g, "").trim();
+                    document.getElementById('searchInput').value = transcript;
+                    searchPipelineEngine.execute();
+                };
+                recognition.start();
+            }
+        };
+
+        // 🚀 5. SPEECH SYNTHESIS ENGINE (टेक्स्ट टू स्पीच)
         const audioSynthesizerEngine = {
             speak: function() {
                 if(window.speechSynthesis.speaking) {
@@ -829,7 +873,7 @@
             }
         };
 
-        // 🚀 5. EXPLORER GRID GENERATOR PANEL
+        // 🚀 6. EXPLORER GRID GENERATOR PANEL
         const explorerGridEngine = {
             render: function() {
                 const container = document.getElementById('explorerGridContainer');
@@ -851,7 +895,7 @@
             }
         };
 
-        // 🚀 6. BOOKMARKS & LOCAL MEMORY MATRIX SYSTEM
+        // 🚀 7. BOOKMARKS & LOCAL MEMORY MATRIX SYSTEM
         const favoritesEngine = {
             toggle: function(key, element) {
                 if(favoriteNodesList.includes(key)) {
@@ -861,7 +905,7 @@
                     favoriteNodesList.push(key);
                     element.classList.add('is-fav');
                 }
-                localStorage.setItem('ton_favs', JSON.stringify(favoriteNodesList));
+                localStorage.setItem('tony_favs', JSON.stringify(favoriteNodesList));
                 this.updateCounters();
             },
             updateCounters: function() {
@@ -892,7 +936,7 @@
             }
         };
 
-        // 🚀 7. AMBIENT SYSTEM COSMIC PARTICLES PHYSIC LOOP
+        // 🚀 8. AMBIENT SYSTEM COSMIC PARTICLES PHYSIC LOOP
         function initCosmicCoreCanvas() {
             const canvas = document.getElementById('cosmic-particle-canvas');
             const ctx = canvas.getContext('2d');
@@ -938,27 +982,13 @@
             loop();
         }
 
-        // 🚀 8. THEME CONTROLLER ENGINE
+        // 🚀 9. THEME CONTROLLER ENGINE
         const themeToggleEngine = {
             toggle: function() {
                 const current = document.documentElement.getAttribute('data-theme');
                 document.documentElement.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
             }
         };
-
-        // 🚀 9. GLOBAL URL CAPTURE METHOD (वॉयस सर्च डेटा को यहाँ लोड करेगा)
-        function checkIncomingVoiceQuery() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const searchQuery = urlParams.get('search');
-            
-            if (searchQuery) {
-                const searchInput = document.getElementById('searchInput');
-                if (searchInput) {
-                    searchInput.value = searchQuery;
-                    searchPipelineEngine.execute();
-                }
-            }
-        }
 
         // 🚀 10. SYSTEM STARTUP TRIGER INDICES
         window.addEventListener('DOMContentLoaded', async () => {
@@ -971,15 +1001,12 @@
                 if(response.ok) {
                     const dynamicData = await response.json();
                     mainActiveCache = { ...fallbackDatabaseMatrix, ...dynamicData };
+                    document.getElementById('tel-total-count').innerText = Object.keys(mainActiveCache).length;
                 }
             } catch (e) {
                 console.log("External Index offline, running fallback matrix safely.");
+                document.getElementById('tel-total-count').innerText = Object.keys(mainActiveCache).length;
             }
-            
-            document.getElementById('tel-total-count').innerText = Object.keys(mainActiveCache).length;
-            
-            // वॉयस इनपुट चेक करें
-            checkIncomingVoiceQuery();
         });
     </script>
 </body>
