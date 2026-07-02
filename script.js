@@ -1,5 +1,4 @@
 async function searchTree() {
-    // इनपुट बॉक्स से नाम लेना
     const query = document.getElementById('searchInput').value.toLowerCase().trim();
     const resultContainer = document.getElementById('resultContainer');
 
@@ -8,15 +7,12 @@ async function searchTree() {
         return;
     }
 
-    // नाम का पहला अक्षर निकालना (जैसे neem का n)
-    const firstLetter = query.charAt(0);
-
     try {
-        // data फ़ोल्डर से उस अक्षर की फ़ाइल लोड करना
-        const response = await fetch(`./data/${firstLetter}.json`);
+        // अब यह सिर्फ एक ही मुख्य फ़ाइल trees.json से डेटा लोड करेगा
+        const response = await fetch('./trees.json');
         
         if (!response.ok) {
-            throw new Error("File not found");
+            throw new Error("trees.json file not found");
         }
 
         const treesData = await response.json();
@@ -66,6 +62,6 @@ async function searchTree() {
 
     } catch (error) {
         console.error("Error:", error);
-        resultContainer.innerHTML = `<p style="color: red; text-align: center; font-weight: bold; padding: 20px;">इस नाम से कोई पेड़ नहीं मिला।</p>`;
+        resultContainer.innerHTML = `<p style="color: red; text-align: center; font-weight: bold; padding: 20px;">डेटा लोड करने में समस्या आई या फ़ाइल मौजूद नहीं है।</p>`;
     }
 }
