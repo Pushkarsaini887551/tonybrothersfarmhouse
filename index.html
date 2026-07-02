@@ -3,150 +3,464 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tony Brothers Farm House - पेड़ों की जानकारी</title>
+    <title>Tony Brothers Farm House - Premium Tree Directory</title>
     <style>
+        /* रूट वैरिएबल्स - थीम बदलने के लिए */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --text-main: #2c3e50;
+            --text-sub: #7f8c8d;
+            --primary: #1e7e34;
+            --primary-light: #2b9348;
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+            --border-color: rgba(255, 255, 255, 0.18);
+        }
+
+        [data-theme="dark"] {
+            --bg-gradient: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+            --card-bg: rgba(31, 41, 55, 0.85);
+            --text-main: #f9fafb;
+            --text-sub: #9ca3af;
+            --primary: #4ade80;
+            --primary-light: #22c55e;
+            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-gradient);
             margin: 0;
             padding: 0;
-            color: #333;
+            color: var(--text-main);
+            min-height: 100vh;
         }
-        .header-banner {
-            background: #27ae60;
+
+        /* फ्लोटिंग नेविगेशन और डार्क मोड बटन */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+
+        .theme-toggle-btn {
+            background: var(--primary);
             color: white;
-            text-align: center;
-            padding: 40px 20px;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        .header-banner h1 {
+
+        /* महा हेडर बैनर */
+        .hero-section {
+            text-align: center;
+            padding: 60px 20px 40px 20px;
+            background: radial-gradient(circle at top right, rgba(43, 147, 72, 0.1), transparent);
+        }
+
+        .hero-section h1 {
+            font-size: 2.8rem;
             margin: 0;
-            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary), #22c55e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-        .search-container {
+
+        .hero-section p {
+            font-size: 1.2rem;
+            color: var(--text-sub);
+            margin-top: 10px;
+        }
+
+        /* लाइव स्टैटिस्टिक्स डैशबोर्ड */
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto 30px auto;
+            padding: 0 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 15px 30px;
             text-align: center;
-            margin: 30px 0;
+            min-width: 150px;
+            flex: 1;
+            box-shadow: var(--shadow);
         }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            margin-top: 5px;
+        }
+
+        /* सर्च और फ़िल्टर का भव्य कंट्रोल पैनल */
+        .control-panel {
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
         #searchBar {
-            padding: 12px 20px;
-            width: 80%;
-            max-width: 500px;
-            border: 2px solid #27ae60;
-            border-radius: 25px;
-            font-size: 16px;
+            width: 100%;
+            padding: 18px 30px;
+            border-radius: 50px;
+            border: 2px solid transparent;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow);
+            font-size: 1.1rem;
+            color: var(--text-main);
             outline: none;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
         }
+
+        #searchBar:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 25px rgba(43, 147, 72, 0.2);
+        }
+
+        /* फ़िल्टर टैग्स बटन */
+        .filter-tags {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tag-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow);
+        }
+
+        .tag-btn.active, .tag-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* ग्रिड कंटेनर - 100% रिस्पॉन्सिव */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px 60px 20px;
         }
+
+        /* सुपर ग्लासमोर्फिज़्म प्रीमियम कार्ड */
         .tree-card {
-            background: #fff;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            border-top: 5px solid #27ae60;
-            transition: transform 0.2s;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
         }
+
+        .tree-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary), #22c55e);
+        }
+
         .tree-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
+
         .tree-title {
-            color: #27ae60;
-            margin-top: 0;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin: 0 0 5px 0;
         }
+
         .sci-name {
             font-style: italic;
-            color: #7f8c8d;
-            font-size: 14px;
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
         }
-        .info-item {
-            margin: 8px 0;
-            font-size: 14px;
+
+        .info-grid {
+            margin-bottom: 20px;
         }
-        .info-item strong {
-            color: #34495e;
+
+        .info-row {
+            display: flex;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            line-height: 1.4;
         }
+
+        .info-label {
+            font-weight: bold;
+            color: var(--text-main);
+            width: 130px;
+            flex-shrink: 0;
+        }
+
+        .info-value {
+            color: var(--text-sub);
+        }
+
+        .desc-box {
+            background: rgba(34, 197, 94, 0.08);
+            padding: 15px;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            border-left: 4px solid var(--primary);
+        }
+
+        /* डेटा नहीं मिलने पर एरर स्टाइल */
+        .no-data {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: var(--text-sub);
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
         footer {
             text-align: center;
-            padding: 20px;
-            background: #2c3e50;
-            color: white;
-            margin-top: 5px;
+            padding: 30px;
+            background: rgba(0,0,0,0.05);
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-sub);
         }
     </style>
 </head>
 <body>
 
-    <div class="header-banner">
-        <h1>🌳 Tony Brothers Farm House 🌳</h1>
-        <p>1000+ भारतीय पेड़ों की जानकारी एक ही जगह</p>
+    <div class="navbar">
+        <div class="logo">🌿 Tony Brothers</div>
+        <button class="theme-toggle-btn" onclick="toggleTheme()">🌓 थीम बदलें</button>
+    </div>
+
+    <div class="hero-section">
+        <h1>Tony Brothers Farm House</h1>
+        <p>भारत के सबसे बड़े औषधीय और दुर्लभ पौधों का महा-डेटाबेस</p>
+    </div>
+
+    <div class="stats-container">
+        <div class="stat-box">
+            <div class="stat-number" id="totalTrees">0</div>
+            <div class="stat-label">कुल संरक्षित पौधे</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number" id="totalUses">0+</div>
+            <div class="stat-label">रोगों के उपचार</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">आयुर्वेदिक सत्यता</div>
+        </div>
     </div>
     
-    <div class="search-container">
-        <input type="text" id="searchBar" placeholder="पेड़ या बीमारी का नाम खोजें (जैसे: शुगर, पथरी, तुलसी)..." onkeyup="filterTrees()">
+    <div class="control-panel">
+        <input type="text" id="searchBar" placeholder="🔍 कोई भी पेड़, बीमारी या उपयोग टाइप करें (जैसे: शुगर, पथरी, नीम)..." onkeyup="filterData()">
+        <div class="filter-tags">
+            <button class="tag-btn active" onclick="filterCategory('all', this)">सब कुछ देखें</button>
+            <button class="tag-btn" onclick="filterCategory('उपचार', this)">🌿 मुख्य औषधियां</button>
+            <button class="tag-btn" onclick="filterCategory('पहाड़ी', this)">⛰️ पहाड़ी पौधे</button>
+        </div>
     </div>
 
     <div class="grid-container" id="treeGrid"></div>
 
     <footer>
-        <p>© 2026 Tony Brothers Farm House | All Rights Reserved</p>
+        <p>© 2026 Tony Brothers Farm House | Powered by Ultra Max Pro Architecture</p>
     </footer>
 
     <script>
         let treeData = {};
+        let currentCategory = 'all';
 
-        // JSON फ़ाइल से डेटा लोड करना
+        // 1. डेटा लोड करना और स्टैटिक्स अपडेट करना
         fetch('trees.json')
             .then(response => response.json())
             .then(data => {
                 treeData = data;
-                displayTrees(treeData);
+                updateDashboard(data);
+                displayTrees(data);
             })
-            .catch(error => console.error('डेटा लोड करने में एरर:', error));
+            .catch(error => {
+                console.error('डेटा लोड करने में समस्या:', error);
+                document.getElementById('treeGrid').innerHTML = `<div class="no-data">❌ trees.json फ़ाइल लोड नहीं हो पा रही है। कृपया चेक करें कि फ़ाइल सही जगह पर है या नहीं।</div>`;
+            });
 
-        // स्क्रीन पर कार्ड्स दिखाना
+        // डैशबोर्ड की लाइव गणना
+        function updateDashboard(data) {
+            const keys = Object.keys(data);
+            document.getElementById('totalTrees').innerText = keys.length;
+            
+            let uniqueUses = new Set();
+            keys.forEach(key => {
+                if(data[key].uses) {
+                    data[key].uses.forEach(use => uniqueUses.add(use.trim()));
+                }
+            });
+            document.getElementById('totalUses').innerText = uniqueUses.size + "+";
+        }
+
+        // स्क्रीन पर कार्ड्स का रेंडरिंग
         function displayTrees(data) {
             const grid = document.getElementById('treeGrid');
             grid.innerHTML = '';
+
+            const keys = Object.keys(data);
+            if (keys.length === 0) {
+                grid.innerHTML = `<div class="no-data">🔍 क्षमा करें, आपके सर्च से मिलता-जुलता कोई पौधा हमारे डेटाबेस में नहीं मिला!</div>`;
+                return;
+            }
 
             for (let key in data) {
                 const tree = data[key];
                 const card = `
                     <div class="tree-card">
-                        <h2 class="tree-title">${tree.hindiName}</h2>
-                        <p class="sci-name">🧬 ${tree.scientificName} (${tree.englishName})</p>
-                        <div class="info-item"><strong>📍 कहाँ:</strong> ${tree.location}</div>
-                        <div class="info-item"><strong>💧 पानी:</strong> ${tree.water}</div>
-                        <div class="info-item"><strong>🌸 फूल:</strong> ${tree.flowers}</div>
-                        <div class="info-item"><strong>💊 उपयोग:</strong> ${tree.uses.join(', ')}</div>
-                        <p style="font-size:13px; color:#555; background:#eef9f2; padding:8px; border-radius:5px;">
-                            <strong>विवरण:</strong> ${tree.description}
-                        </p>
+                        <div>
+                            <h2 class="tree-title">${tree.hindiName || 'अज्ञात पेड़'}</h2>
+                            <p class="sci-name">🧬 ${tree.scientificName || ''} (${tree.englishName || ''})</p>
+                            
+                            <div class="info-grid">
+                                <div class="info-row">
+                                    <div class="info-label">📍 प्राप्ति स्थान:</div>
+                                    <div class="info-value">${tree.location || 'भारत'}</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">💧 सिंचाई/पानी:</div>
+                                    <div class="info-value">${tree.water || 'सामान्य'}</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">🌸 बौर/फूल का समय:</div>
+                                    <div class="info-value">${tree.flowers || 'उपलब्ध नहीं'}</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">💊 औषधीय लाभ:</div>
+                                    <div class="info-value" style="color: var(--primary); font-weight:600;">
+                                        ${tree.uses ? tree.uses.join(', ') : 'सामान्य लाभ'}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="desc-box">
+                            <strong>🎯 विवरण:</strong> ${tree.description || 'इस पौधे की अधिक जानकारी जल्द ही जोड़ी जाएगी।'}
+                        </div>
                     </div>
                 `;
                 grid.innerHTML += card;
             }
         }
 
-        // लाइव सर्च फ़िल्टर
-        function filterTrees() {
-            const text = document.getElementById('searchBar').value.toLowerCase();
+        // लाइव फ़िल्टर और सर्च कंबाइंड सिस्टम
+        function filterData() {
+            const searchText = document.getElementById('searchBar').value.toLowerCase();
             const filtered = {};
 
             for (let key in treeData) {
                 const tree = treeData[key];
-                if (tree.hindiName.toLowerCase().includes(text) || 
-                    tree.scientificName.toLowerCase().includes(text) || 
-                    tree.uses.join(' ').toLowerCase().includes(text)) {
+                const matchesSearch = (
+                    (tree.hindiName && tree.hindiName.toLowerCase().includes(searchText)) || 
+                    (tree.scientificName && tree.scientificName.toLowerCase().includes(searchText)) || 
+                    (tree.uses && tree.uses.join(' ').toLowerCase().includes(searchText)) ||
+                    (tree.description && tree.description.toLowerCase().includes(searchText))
+                );
+
+                let matchesCategory = true;
+                if (currentCategory !== 'all') {
+                    if (currentCategory === 'उपचार') {
+                        matchesCategory = tree.uses && tree.uses.length > 0;
+                    } else if (currentCategory === 'पहाड़ी') {
+                        matchesCategory = tree.location && (tree.location.includes('हिमालय') || tree.location.includes('पहाड़'));
+                    }
+                }
+
+                if (matchesSearch && matchesCategory) {
                     filtered[key] = tree;
                 }
             }
             displayTrees(filtered);
+        }
+
+        // कैटेगरी बटन फंक्शनलिटी
+        function filterCategory(category, element) {
+            currentCategory = category;
+            
+            // एक्टिव क्लास बदलना
+            document.querySelectorAll('.tag-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            
+            filterData();
+        }
+
+        // डार्क मोड / लाइट मोड स्विचर
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
         }
     </script>
 </body>
