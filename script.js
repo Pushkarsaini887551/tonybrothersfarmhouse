@@ -50,17 +50,7 @@ result.innerHTML=`
 
 <p><b>English :</b> ${found.english}</p>
 
-<p><b>Scientific :</b> ${found.scientific}</p>
-
-<p><b>Family :</b> ${found.family}</p>
-
-<p><b>Category :</b> ${found.category}</p>
-
-<p><b>State :</b> ${found.state}</p>
-
-<p><b>Uses :</b> ${found.uses}</p>
-
-<p>${found.info}</p>
+<p>${found.summary}</p>
 
 <button class="fav-btn" onclick="addFavourite(${found.id})">
 
