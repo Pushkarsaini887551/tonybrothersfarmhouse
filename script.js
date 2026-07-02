@@ -30,12 +30,8 @@ let text=document.getElementById("searchInput").value.trim().toLowerCase();
 
 if(text=="") return;
 
-let found=trees.find(tree=>
-
-tree.name.toLowerCase()==text ||
-
-tree.english.toLowerCase()==text
-
+let found = trees.find(tree =>
+    tree.name.toLowerCase().includes(text)
 );
 
 let result=document.getElementById("result");
