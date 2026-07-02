@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tony Brothers - Voice Search Engine</title>
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --bg-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --text-sub: #666666;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+        }
+        .voice-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        .mic-trigger {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            font-size: 3rem;
+            cursor: pointer;
+            margin: 30px 0;
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.3);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .mic-trigger.listening {
+            background: #d32f2f;
+            animation: pulse 1s infinite;
+            box-shadow: 0 8px 25px rgba(211, 47, 47, 0.4);
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .status-text {
+            font-size: 1.2rem;
+            color: var(--text-sub);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .result-box {
+            margin-top: 20px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            background: #edf7ed;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+        .back-btn {
+            margin-top: 30px;
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="voice-card">
+        <h2 style="color: var(--primary-color); margin: 0;">🎙️ AI वॉयस सर्च असिस्टेंट</h2>
+        <p style="color: var(--text-sub);">नीचे बटन दबाकर किसी भी पौधे का नाम बोलें (जैसे: नीम, तुलसी)</p>
+        
+        <button id="micBtn" class="mic-trigger" onclick="runVoiceEngine()">🎙️</button>
+        <div id="statusLabel" class="status-text">बटन दबाकर बोलना शुरू करें</div>
+        
+        <div id="resultDisplay" class="result-box"></div>
+        
+        <br>
+        <a href="../index.html" class="back-btn">⬅️ मुख्य वेबसाइट पर लौटें</a>
+    </div>
+
+    <script>
+        function runVoiceEngine() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                alert("आपके डिवाइस में वॉयस सर्च सपोर्ट नहीं है। कृपया गूगल क्रोम का उपयोग करें।");
+                return;
+            }
+
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'hi-IN'; 
+            const micBtn = document.getElementById('micBtn');
+            const statusLabel = document.getElementById('statusLabel');
+            const resultDisplay = document.getElementById('resultDisplay');
+
+            recognition.onstart = () => {
+                micBtn.classList.add('listening');
+                statusLabel.innerText = "सुन रहा हूँ... बोलिए...";
+                resultDisplay.style.display = 'none';
+            };
+
+            recognition.onend = () => {
+                micBtn.classList.remove('listening');
+                statusLabel.innerText = "खोज पूरी हुई!";
+            };
+
+            recognition.onresult = (event) => {
+                let textSpoken = event.results[0][0].transcript.toLowerCase().trim().replace(/[.,]/g, "");
+                
+                resultDisplay.innerText = "आपने कहा: " + textSpoken;
+                resultDisplay.style.display = 'block';
+
+                // मुख्य पेज पर सर्च भेजने के लिए रीडायरेक्ट यूआरएल सेट करना
+                let searchKey = textSpoken;
+                if(textSpoken.includes("नीम")) searchKey = "neem";
+                if(textSpoken.includes("तुलसी")) searchKey = "tulsi";
+                if(textSpoken.includes("अश्वगंधा")) searchKey = "ashwagandha";
+
+                // 2 सेकंड बाद यूजर को मुख्य पेज पर सर्च रिजल्ट के साथ भेज देगा
+                setTimeout(() => {
+                    window.location.href = `../index.html?search=${searchKey}`;
+                }, 1500);
+            };
+
+            recognition.start();
+        }
+    </script>
+</body>
+</html>
+
