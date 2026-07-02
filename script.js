@@ -31,7 +31,9 @@ let text=document.getElementById("searchInput").value.trim().toLowerCase();
 if(text=="") return;
 
 let found = trees.find(tree =>
-    tree.name.toLowerCase().includes(text)
+    tree.name.toLowerCase().includes(text) ||
+    tree.english.toLowerCase().includes(text) ||
+    tree.scientific.toLowerCase().includes(text)
 );
 
 let result=document.getElementById("result");
