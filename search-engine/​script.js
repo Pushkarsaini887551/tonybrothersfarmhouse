@@ -2,6 +2,58 @@
 let plantDatabase = [];
 let selectedCategory = 'all';
 
+// CSS को ऑटोमैटिक फिक्स करने के लिए एक स्टाइल ब्लॉक जोड़ना (ताकि ग्रिड सुंदर दिखे)
+const styleNode = document.createElement('style');
+styleNode.innerHTML = `
+    #plantsGrid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+        gap: 20px !important;
+        padding: 15px !important;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .classic-plant-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .classic-plant-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        border-color: #4caf50;
+    }
+    .scientific-name {
+        font-style: italic;
+        color: #718096;
+        margin-bottom: 12px;
+        font-size: 0.9em;
+    }
+    .info-row {
+        margin: 6px 0;
+        font-size: 0.9em;
+    }
+    .info-label {
+        font-weight: bold;
+        color: #4a5568;
+    }
+    .description-box {
+        margin-top: 12px;
+        background: #f7fafc;
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 0.88em;
+        color: #4a5568;
+    }
+`;
+document.head.appendChild(styleNode);
+
 // कार्ड्स रेंडरिंग इंजन
 function renderDatabaseGrid(dataset) {
     const container = document.getElementById('plantsGrid');
@@ -14,8 +66,13 @@ function renderDatabaseGrid(dataset) {
     }
 
     dataset.forEach(plant => {
-        // उपयोग (uses) की लिस्ट को कॉमा से अलग करके सुंदर टेक्स्ट बनाएँ
-        const usesText = Array.isArray(plant.uses) ? plant.uses.join(', ') : (plant.uses || 'N/A');
+        // उपयोग (uses) या लाभ (benefits) की लिस्ट को व्यवस्थित करना
+        let benefitsText = 'N/A';
+        if (plant.benefits) {
+            benefitsText = plant.benefits;
+        } else if (plant.uses) {
+            benefitsText = Array.isArray(plant.uses) ? plant.uses.join(', ') : plant.uses;
+        }
 
         const card = document.createElement('div');
         card.className = 'classic-plant-card';
@@ -24,7 +81,7 @@ function renderDatabaseGrid(dataset) {
             <div class="scientific-name">🧬 ${plant.scientificName || 'N/A'}</div>
             <div class="info-row"><span class="info-label">📍 स्थान:</span> <span>${plant.location || 'N/A'}</span></div>
             <div class="info-row"><span class="info-label">💧 सिंचाई:</span> <span>${plant.water || 'N/A'}</span></div>
-            <div class="info-row"><span class="info-label">💊 लाभ:</span> <span style="color:var(--primary-green); font-weight:bold;">${usesText}</span></div>
+            <div class="info-row"><span class="info-label">💊 लाभ:</span> <span style="color:#2e7d32; font-weight:bold;">${benefitsText}</span></div>
             <div class="description-box">🎯 <strong>विवरण:</strong> ${plant.description || 'कोई विवरण उपलब्ध नहीं है।'}</div>
         `;
         container.appendChild(card);
@@ -35,8 +92,8 @@ function renderDatabaseGrid(dataset) {
 const searchEngine = {
     executeFilter: function() {
         const val = document.getElementById('classicSearch').value.toLowerCase().trim();
-        const suggBox = document.getElementById('suggestionBox');
-        if(suggBox) suggBox.style.display = 'none';
+        const maggBox = document.getElementById('suggestionBox');
+        if(maggBox) maggBox.style.display = 'none';
 
         const results = plantDatabase.filter(plant => {
             const hindiName = plant.hindiName ? plant.hindiName.toLowerCase() : '';
@@ -120,28 +177,25 @@ const voiceSearchEngine = {
 
 // पेज लोड होते ही plants-data.json से लाइव सारा डेटा खींचने का सिस्टम
 window.addEventListener('DOMContentLoaded', () => {
-    // यहाँ अपनी JSON फाइल का सही रास्ता (Path) दिया गया है
     fetch('../plants-data.json')
         .then(response => {
             if (!response.ok) throw new Error('JSON फाइल लोड करने में समस्या आई');
             return response.json();
         })
         .then(data => {
-            // JSON ऑब्जेक्ट को एरे (Array) में बदलकर plantDatabase में सेव करना
             plantDatabase = Object.keys(data).map(key => {
                 return {
                     id: key,
                     ...data[key]
                 };
             });
-            // ग्रिड में सारे पौधों को एक साथ दिखाना
             renderDatabaseGrid(plantDatabase);
         })
         .catch(error => {
             console.error('Error fetching data:', error);
             const container = document.getElementById('plantsGrid');
             if(container) {
-                container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:30px; color:red; font-weight:bold;">⚠️ plants-data.json फाइल लोड नहीं हो सकी। कृपया फाइल चेक करें।</div>`;
+                container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:30px; color:red; font-weight:bold;">⚠️ plants-data.json फाइल लोड नहीं हो सकी।</div>`;
             }
         });
 });
