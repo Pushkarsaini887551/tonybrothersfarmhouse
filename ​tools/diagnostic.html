@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>प्लांट हेल्थ डायग्नोस्टिक - Tony Brothers</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f5; padding: 20px; color: #2d3748; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+        h1 { color: #2e7d32; text-align: center; }
+        select, button { width: 100%; padding: 15px; margin-top: 15px; border-radius: 8px; border: 1px solid #ddd; font-size: 1rem; }
+        button { background: #2e7d32; color: white; border: none; cursor: pointer; font-weight: bold; }
+        #result { margin-top: 25px; padding: 20px; border-radius: 8px; background: #e8f5e9; display: none; border-left: 5px solid #2e7d32; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🩺 प्लांट डायग्नोस्टिक टूल</h1>
+    <p>अपने पौधे की समस्या चुनें, और समाधान पाएँ:</p>
+    
+    <select id="symptomSelect">
+        <option value="">-- समस्या चुनें --</option>
+        <option value="pili_patti">पत्तियों का पीला पड़ना</option>
+        <option value="keede">पत्तियों पर छोटे कीड़े या जाले</option>
+        <option value="sookhna">पौधा सूख रहा है (मुरझाया हुआ)</option>
+        <option value="growth_ruk">पौधे की बढ़त रुकी हुई है</option>
+    </select>
+    
+    <button onclick="diagnosePlant()">समाधान दिखाएं</button>
+
+    <div id="result"></div>
+    <br>
+    <button style="background: #718096;" onclick="location.href='index.html'">⬅️ वापस टूल्स पर जाएं</button>
+</div>
+
+<script>
+    function diagnosePlant() {
+        const symptom = document.getElementById('symptomSelect').value;
+        const resultDiv = document.getElementById('result');
+        let solution = "";
+
+        if (symptom === "pili_patti") {
+            solution = "<strong>समाधान:</strong> शायद पानी ज्यादा हो रहा है या नाइट्रोजन की कमी है। मिट्टी को सूखने दें और थोड़ा जैविक खाद डालें।";
+        } else if (symptom === "keede") {
+            solution = "<strong>समाधान:</strong> नीम के तेल (Neem Oil) का स्प्रे करें। यह कीड़ों के लिए सबसे प्रभावी और सुरक्षित है।";
+        } else if (symptom === "sookhna") {
+            solution = "<strong>समाधान:</strong> पौधे को पर्याप्त पानी नहीं मिल रहा है। इसे छाया में रखें और जड़ों में पानी डालें।";
+        } else if (symptom === "growth_ruk") {
+            solution = "<strong>समाधान:</strong> पौधे को बड़े गमले की जरूरत हो सकती है या धूप की कमी है। इसे थोड़ी अधिक रोशनी में रखें।";
+        } else {
+            solution = "<strong>कृपया कोई समस्या चुनें!</strong>";
+        }
+
+        resultDiv.innerHTML = solution;
+        resultDiv.style.display = "block";
+    }
+</script>
+</body>
+</html>
+
