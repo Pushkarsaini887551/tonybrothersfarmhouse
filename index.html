@@ -627,6 +627,7 @@
 </head>
 <body>
 
+    <!-- 👑 क्लासिक ग्रीन टॉप हेडर एवं मुख्य नेविगेशन -->
     <div class="header-bar">
         <div class="brand-logo">🌿 Tony Brothers Farm</div>
         
@@ -640,19 +641,56 @@
         <button class="theme-btn" onclick="themeEngine.toggle()">🌓 डार्क/लाइट</button>
     </div>
 
+    <!-- 📢 NEW FEATURE: एडवांस्ड चलती हुई सूचना पट्टी (Premium Dynamic Ticker) -->
     <div class="tony-ticker-container">
         <div class="tony-ticker-wrapper">
             <span>🚀 यह डिजिटल प्लेटफार्म विशेष रूप से <span class="ticker-highlight">टोनी स्टार (पुष्कर सैनी)</span> द्वारा डिज़ाइन और निर्मित किया गया है। इस एडवांस साइट पर आपको विभिन्न प्रकार के पेड़-पौधों, दुर्लभ जड़ी-बूटियों एवं जैविक कृषि के बारे में सर्वश्रेष्ठ और अमूल्य जानकारी मिलती है। प्रकृति से जुड़ें, स्वस्थ रहें! 🌿</span>
         </div>
     </div>
 
+    <!-- ==================== TAB 1: HOME PAGE ==================== -->
     <div id="home-tab" class="os-viewport-panel active-panel">
         <div class="hero-banner">
             <h1>टोनी ब्रदर्स फार्म हाउस में आपका स्वागत है</h1>
             <p>प्राकृतिक शुद्धता, जैविक कृषि संवर्धन और दुर्लभ जड़ी-बूटियों के संरक्षण का एक अनोखा डिजिटल कॉरिडॉर। हमारे वनस्पति खजाने को एक्सप्लोर करें।</p>
         </div>
 
-        <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary-green); margin-top: 20px;">🚜 हमारी मुख्य विशेषताएं</div>
+        <!-- लाइव एनालिटिक्स डैशबोर्ड (होम पेज पर शिफ्ट किया गया) -->
+        <div class="analytics-dashboard">
+            <div class="metric-node">
+                <div class="metric-val" id="totalCountNode">0</div>
+                <div class="metric-lbl">कुल पौधे दर्ज</div>
+            </div>
+            <div class="metric-node" style="border-left-color: var(--accent-green);">
+                <div class="metric-val" id="matchCountNode">0</div>
+                <div class="metric-lbl">मैचिंग परिणाम</div>
+            </div>
+        </div>
+
+        <!-- एडवांस सर्च कॉरिडोर (अब होम पेज पर "हमारी मुख्य विशेषताएं" के ठीक ऊपर) -->
+        <div class="search-container">
+            <div class="search-box-wrapper">
+                <input type="text" id="classicSearch" class="search-input" placeholder="पौधा, बीमारी, कुल या कोई भी उपयोग टाइप करें..." oninput="suggestionEngine.trigger(this)">
+                <button id="micBtn" class="mic-btn" onclick="voiceSearchEngine.listen()" title="बोलकर सर्च करें">🎙️</button>
+                <button class="search-btn" onclick="searchEngine.executeFilter()">सर्च</button>
+                <button class="clear-btn" onclick="searchEngine.resetAll()">रीसेट</button>
+            </div>
+
+            <!-- सजेशन ड्रॉपडाउन मैट्रिक्स -->
+            <div class="suggestion-panel" id="suggestionBox"></div>
+
+            <!-- क्लासिक फ़िल्टर स्विचर -->
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="searchEngine.filterCategory('all', this)">🌱 सब कुछ देखें</button>
+                <button class="filter-btn" onclick="searchEngine.filterCategory('medicinal', this)">🩺 मुख्य औषधियां</button>
+                <button class="filter-btn" onclick="searchEngine.filterCategory('fruit', this)">🍎 फलदार पौधे</button>
+            </div>
+        </div>
+
+        <!-- सर्च करने पर पौधों का ग्रिड व्यू यहाँ खुलेगा -->
+        <div class="cards-grid" id="plantsGrid"></div>
+
+        <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary-green); margin-top: 40px;">🚜 हमारी मुख्य विशेषताएं</div>
         <div class="feature-showcase-grid">
             <div class="feature-card">
                 <span class="feature-icon">🌿</span>
@@ -672,38 +710,16 @@
         </div>
     </div>
 
+    <!-- ==================== TAB 2: EXPLORER / SEARCH CENTER ==================== -->
     <div id="search-tab" class="os-viewport-panel">
-        <div class="analytics-dashboard">
-            <div class="metric-node">
-                <div class="metric-val" id="totalCountNode">0</div>
-                <div class="metric-lbl">कुल पौधे दर्ज</div>
-            </div>
-            <div class="metric-node" style="border-left-color: var(--accent-green);">
-                <div class="metric-val" id="matchCountNode">0</div>
-                <div class="metric-lbl">मैचिंग परिणाम</div>
-            </div>
+        <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+            <h2>🌿 वनस्पति खजाना अब होम पेज (🏠 होम) पर ही उपलब्ध है!</h2>
+            <p style="margin-top: 10px;">आप सीधे होम टैब पर जाकर किसी भी पौधे की जानकारी सर्च कर सकते हैं।</p>
+            <button class="form-submit-btn" style="margin-top: 20px;" onclick="document.querySelectorAll('.nav-tab-btn')[0].click()">🏠 होम पेज पर जाएं</button>
         </div>
-
-        <div class="search-container">
-            <div class="search-box-wrapper">
-                <input type="text" id="classicSearch" class="search-input" placeholder="पौधा, बीमारी, कुल या कोई भी उपयोग टाइप करें..." oninput="suggestionEngine.trigger(this)">
-                <button id="micBtn" class="mic-btn" onclick="voiceSearchEngine.listen()" title="बोलकर सर्च करें">🎙️</button>
-                <button class="search-btn" onclick="searchEngine.executeFilter()">सर्च</button>
-                <button class="clear-btn" onclick="searchEngine.resetAll()">रीसेट</button>
-            </div>
-
-            <div class="suggestion-panel" id="suggestionBox"></div>
-
-            <div class="filter-buttons">
-                <button class="filter-btn active" onclick="searchEngine.filterCategory('all', this)">🌱 सब कुछ देखें</button>
-                <button class="filter-btn" onclick="searchEngine.filterCategory('medicinal', this)">🩺 मुख्य औषधियां</button>
-                <button class="filter-btn" onclick="searchEngine.filterCategory('fruit', this)">🍎 फलदार पौधे</button>
-            </div>
-        </div>
-
-        <div class="cards-grid" id="plantsGrid"></div>
     </div>
 
+    <!-- ==================== TAB 3: ABOUT US PANEL ==================== -->
     <div id="about-tab" class="os-viewport-panel">
         <div class="prose-content-block">
             <h2>📖 हमारे बारे में (Our Story)</h2>
@@ -721,12 +737,14 @@
         </div>
     </div>
 
+    <!-- ==================== TAB 4: CONTACT US PANEL ==================== -->
     <div id="contact-tab" class="os-viewport-panel">
         <div class="prose-content-block">
             <h2>📞 हमसे संपर्क करें (Contact Us)</h2>
             <p style="color: var(--text-secondary); margin-bottom: 30px;">यदि आपके पास कोई प्रश्न है, या आप पौधों की बुकिंग या फार्म विजिट करना चाहते हैं, तो हमें नीचे संदेश भेजें।</p>
             
             <div class="contact-form-grid">
+                <!-- फॉर्म एलिमेंट -->
                 <form id="farmContactForm" onsubmit="utilityEngine.handleFormSubmit(event)">
                     <div class="form-group">
                         <label>आपका नाम (Full Name)</label>
@@ -743,6 +761,7 @@
                     <button type="submit" class="form-submit-btn">📨 संदेश भेजें</button>
                 </form>
 
+                <!-- सीधे पते की जानकारी -->
                 <div style="background: var(--light-green); padding: 30px; border-radius: var(--radius-main); border-left: 6px solid var(--primary-green);">
                     <h3 style="color: var(--primary-green); margin-bottom: 20px; font-size: 1.4rem;">📍 फार्म हाउस संपर्क केंद्र</h3>
                     <p style="margin-bottom: 15px; font-size: 1.1rem;"><strong>🏢 पता:</strong> टोनी ब्रदर्स फार्म हाउस, राजस्थान, भारत</p>
@@ -760,6 +779,9 @@
         <p>© 2026 Tony Brothers Farm House | Automated Botanical Ecosystem Core</p>
     </footer>
 
+    <!-- ==========================================================================
+         8. CORE JAVASCRIPT ARCHITECTURE ENGINE
+         ========================================================================== */ -->
     <script>
         // 🌿 पौधों का विस्तारित मास्टर डेटाबेस (Expanded for larger codebase)
         const plantDatabase = [
@@ -826,8 +848,8 @@
                 location: "उष्णकटिबंधीय क्षेत्र, दक्षिण एवं उत्तर भारत के मैदानी भाग",
                 water: "नियमित लेकिन जलभराव रहित सिंचाई",
                 season: "वर्ष भर फल देने वाला पौधा",
-                benefits: "प्लेटलेट्स बढ़ाने में पत्ते उपयोगी, विटामिन ए से भरपूर, पाचन तंत्र को तीव्र और मजबूत बनाने में सहायक फल।",
-                description: "पपीता बहुत तेजी से बढ़ने वाला पौधा है। इसके कच्चे फल से सब्जी और पका फल सीधे खाया जाता है। डेंगू बुखार में इसके पत्तों का रस प्लेटलेट्स की संख्या को जादुई गति से बढ़ाने के लिए जाना जाता है।"
+                benefits: "प्लेटлетов बढ़ाने में पत्ते उपयोगी, विटामिन ए से भरपूर, पाचन तंत्र को तीव्र और मजबूत बनाने में सहायक फल।",
+                description: "पपीता बहुत तेजी से बढ़ने वाला पौधा है। इसके कच्चे फल से सब्जी और पका फल सीधे खाया जाता है। डेंगू बुखार में इसके पत्तों का रस प्लेटлетов की संख्या को जादुई गति से बढ़ाने के लिए जाना जाता है।"
             }
         ];
 
