@@ -173,7 +173,7 @@ function fetchWeatherData() {
 // 🧪 बीमारी के आधार पर फ़िल्टर
 function filterBySymptom(symptom) {
     selectedSymptom = symptom;
-    searchEngine.executeFilter();
+    window.searchEngine.executeFilter();
 }
 
 // 📅 सीजन फ़िल्टर
