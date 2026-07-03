@@ -4,11 +4,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tony Brothers - Advanced Search Engine</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ==========================================================================
+           CORE THEME & GREEN PALETTE VARIABLES 
+           ========================================================================== */
+        :root {
+            --bg-canvas: #f4f7f5;
+            --card-bg: #ffffff;
+            --text-primary: #2d3748;
+            --text-secondary: #718096;
+            --primary-green: #2e7d32;
+            --light-green: #e8f5e9;
+            --accent-green: #4caf50;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+            --radius-main: 16px;
+        }
+
+        [data-theme="dark"] {
+            --bg-canvas: #121814;
+            --card-bg: #1e2521;
+            --text-primary: #f7fafc;
+            --text-secondary: #a0aec0;
+            --primary-green: #4caf50;
+            --light-green: #1b2e24;
+            --accent-green: #81c784;
+            --border-color: #2d3748;
+            --shadow-sm: 0 4px 6px rgba(0,0,0,0.2);
+            --shadow-md: 0 10px 15px rgba(0,0,0,0.3);
+        }
+
+        body {
+            background: var(--bg-canvas);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .back-nav {
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--light-green);
+            color: var(--primary-green);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 700;
+        }
+
+        .back-btn:hover {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .search-container {
+            max-width: 800px;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        .search-header h1 {
+            color: var(--primary-green);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .search-box-wrapper {
+            display: flex;
+            background: var(--card-bg);
+            border: 2.5px solid var(--primary-green);
+            border-radius: 50px;
+            padding: 6px 15px;
+            box-shadow: var(--shadow-md);
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 12px 15px;
+            font-size: 1.15rem;
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .search-btn {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .plant-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-main);
+            padding: 25px;
+            box-shadow: var(--shadow-sm);
+            border-top: 5px solid var(--primary-green);
+            text-align: left;
+        }
+
+        .plant-card h3 {
+            color: var(--primary-green);
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- वापस मुख्य होमपेज पर जाने का बटन -->
     <div class="back-nav">
         <a href="../index.html" class="back-btn">← मुख्य होम पेज पर वापस जाएं</a>
     </div>
@@ -16,36 +136,53 @@
     <div class="search-container">
         <div class="search-header">
             <h1>🌿 वनस्पति अनुसंधान इंजन</h1>
-            <p>किसी भी पौधे का नाम, बीमारी या उपयोग टाइप करके लाइव सर्च करें</p>
+            <p>किसी भी पौधे का नाम या बीमारी टाइप करके लाइव सर्च करें</p>
         </div>
 
-        <!-- प्रीमियम ग्लोइंग सर्च बार -->
-        <div class="premium-search-wrapper">
-            <div class="search-glowing-box">
-                <input type="text" id="classicSearch" class="premium-search-input" placeholder="यहाँ लिखना शुरू करें..." oninput="suggestionEngine.trigger(this)">
-                <button id="micBtn" class="mic-premium-btn" onclick="voiceSearchEngine.listen()" title="बोलकर सर्च करें">🎙️</button>
-                <button class="premium-action-btn" onclick="searchEngine.executeFilter()">खोजें</button>
-                <button class="premium-reset-btn" onclick="searchEngine.resetAll()">रीसेट</button>
-            </div>
-            <!-- सजेशन ड्रॉपडाउन -->
-            <div class="suggestion-panel" id="suggestionBox"></div>
+        <div class="search-box-wrapper">
+            <input type="text" id="engineSearch" class="search-input" placeholder="यहाँ लिखना शुरू करें..." oninput="liveSearch()">
+            <button class="search-btn">खोजें</button>
         </div>
 
-        <!-- कैटेगरी फ़िल्टर -->
-        <div class="filter-buttons">
-            <button class="filter-btn active" onclick="searchEngine.filterCategory('all', this)">🌱 कुल पौधे</button>
-            <button class="filter-btn" onclick="searchEngine.filterCategory('medicinal', this)">🩺 मुख्य औषधियां</button>
-            <button class="filter-btn" onclick="searchEngine.filterCategory('fruit', this)">🍎 फलदार पौधे</button>
-        </div>
-
-        <!-- लाइव रिजल्ट ग्रिड -->
-        <div class="cards-grid" id="plantsGrid"></div>
+        <div class="cards-grid" id="engineGrid"></div>
     </div>
 
-    <footer>
-        <p>© 2026 Tony Brothers Farm House | Powered by Search Engine Module</p>
-    </footer>
+    <script>
+        const searchDatabase = [
+            { name: "नीम", sci: "Azadirachta indica", use: "रक्त शुद्धि, एंटी-बैक्टीरियल, त्वचा रोग निवारण।" },
+            { name: "तुलसी", sci: "Ocimum sanctum", use: "इम्युनिटी बूस्टर, सर्दी-खांसी, श्वास रोग।" },
+            { name: "अश्वगंधा", sci: "Withania somnifera", use: "तनाव मुक्ति, शारीरिक शक्ति वर्धन, अनिद्रा।" },
+            { name: "एलोवेरा", sci: "Aloe barbadensis", use: "त्वचा विकार, पाचन तंत्र, बालों की मजबूती।" }
+        ];
 
-    <script src="script.js"></script>
+        function renderGrid(data) {
+            const grid = document.getElementById('engineGrid');
+            grid.innerHTML = '';
+            if(data.length === 0) {
+                grid.innerHTML = '<p style="grid-column:1/-1; color:gray;">कोई परिणाम नहीं मिला।</p>';
+                return;
+            }
+            data.forEach(p => {
+                grid.innerHTML += `
+                    <div class="plant-card">
+                        <h3>🌳 ${p.name}</h3>
+                        <p style="font-style:italic; color:gray; font-size:0.9rem; margin-bottom:10px;">🧬 ${p.sci}</p>
+                        <p><strong>💊 उपयोग:</strong> ${p.use}</p>
+                    </div>
+                `;
+            });
+        }
+
+        function liveSearch() {
+            const val = document.getElementById('engineSearch').value.toLowerCase().trim();
+            const filtered = searchDatabase.filter(p => 
+                p.name.toLowerCase().includes(val) || p.use.toLowerCase().includes(val)
+            );
+            renderGrid(filtered);
+        }
+
+        // लोड होने पर पूरा डेटा दिखाएं
+        window.addEventListener('DOMContentLoaded', () => renderGrid(searchDatabase));
+    </script>
 </body>
 </html>
