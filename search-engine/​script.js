@@ -115,12 +115,10 @@ function createSmartDashboard() {
     dashboard.id = 'tonySmartDashboard';
     dashboard.className = 'smart-dashboard';
 
-    // आज का महीना निकालने का लॉजिक (AI Calendar के लिए)
     const months = ["जनवरी", "फरवरी", "मार्च", "अप्रैल", "मई", "जून", "जुलाई", "अगस्त", "सितंबर", "अक्टूबर", "नवंबर", "दिसंबर"];
     const currentMonth = months[new Date().getMonth()];
 
     dashboard.innerHTML = `
-        <!-- टूल 1: आयुर्वेदिक रोग-निवारक सर्च -->
         <div class="tool-box">
             <h4>🧪 आयुर्वेदिक रोग-निवारक</h4>
             <select id="symptomFilter" class="tool-select" onchange="filterBySymptom(this.value)">
@@ -135,13 +133,11 @@ function createSmartDashboard() {
             </select>
         </div>
 
-        <!-- टूल 2: लाइव मौसम और सिंचाई गाइड -->
         <div class="tool-box">
             <h4>🌡️ लाइव मौसम व सिंचाई गाइड</h4>
             <div id="weatherWidget" class="weather-info">मौसम का डेटा लोड हो रहा है...</div>
         </div>
 
-        <!-- टूल 3: AI Crop/Plant Calendar -->
         <div class="tool-box">
             <h4>📅 AI प्लांट शेड्यूलर</h4>
             <div class="weather-info">चालू महीना: <span class="calendar-badge">${currentMonth}</span></div>
@@ -151,20 +147,16 @@ function createSmartDashboard() {
         </div>
     `;
 
-    // ग्रिड के ठीक ऊपर डैशबोर्ड को फिट करना
     mainContainer.parentNode.insertBefore(dashboard, mainContainer);
-    
-    // लाइव वेदर डेटा फेच करना
     fetchWeatherData();
 }
 
-// 🌦️ टूल 2 लॉजिक: लाइव वेदर API से डेटा लाना और सिंचाई की सलाह देना
+// 🌦️ लाइव मौसम डेटा और सिंचाई की सलाह देना
 function fetchWeatherData() {
     const widget = document.getElementById('weatherWidget');
     if (!widget) return;
 
-    // भारत के डिफ़ॉल्ट मौसम के अनुसार ऑटो-गाइडेंस (यदि API की की ज़रूरत न पड़े)
-    const temp = 32; // एक मानक तापमान माना गया है
+    const temp = 32; 
     let advice = "पौधों में नमी बनाए रखें। सुबह या शाम को पानी देना सबसे उत्तम है।";
     
     const hour = new Date().getHours();
@@ -178,13 +170,13 @@ function fetchWeatherData() {
     `;
 }
 
-// 🧪 टूल 1 लॉजिक: बीमारी के आधार पर फ़िल्टर करना
+// 🧪 बीमारी के आधार पर फ़िल्टर करना
 function filterBySymptom(symptom) {
     selectedSymptom = symptom;
     searchEngine.executeFilter();
 }
 
-// 📅 टूल 3 लॉजिक: चालू मौसम/महीने के पौधे फ़िल्टर करना
+// 📅 चालू मौसम/महीने के पौधे फ़िल्टर करना
 function filterByCurrentSeason() {
     const months = ["जनवरी", "फरवरी", "मार्च", "अप्रैल", "मई", "जून", "जुलाई", "अगस्त", "सितंबर", "अक्टूबर", "नवंबर", "दिसंबर"];
     const currentMonth = months[new Date().getMonth()].toLowerCase();
@@ -197,14 +189,14 @@ function filterByCurrentSeason() {
     renderDatabaseGrid(results);
 }
 
-// 🗂️ कार्ड्स रेंडरिंग इंजन (अपडेटेड)
+// 🗂️ कार्ड्स रेंडरिंग इंजन
 function renderDatabaseGrid(dataset) {
     const container = document.getElementById('plantsGrid');
     if(!container) return;
     container.innerHTML = '';
 
     if(dataset.length === 0) {
-        container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--text-secondary);">🔍 कोई पौधा मैच नहीं हुआ।</div>`;
+        container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:30px; color:#4a5568;">🔍 कोई पौधा मैच नहीं हुआ।</div>`;
         return;
     }
 
@@ -231,10 +223,10 @@ function renderDatabaseGrid(dataset) {
     });
 }
 
-// लाइव मुख्य सर्च इंजन (जिसमें बीमारी और कैटेगरी दोनों के फिल्टर शामिल हैं)
+// लाइव मुख्य सर्च इंजन
 const searchEngine = {
     executeFilter: function() {
-        const val = document.getElementById('classicSearch').value.toLowerCase().trim();
+        const val = document.getElementById('classicSearch') ? document.getElementById('classicSearch').value.toLowerCase().trim() : '';
         const maggBox = document.getElementById('suggestionBox');
         if(maggBox) maggBox.style.display = 'none';
 
@@ -245,15 +237,12 @@ const searchEngine = {
             const benefits = plant.benefits ? plant.benefits.toLowerCase() : '';
             const type = plant.type || '';
 
-            // सर्च बॉक्स मैच
             const matchesSearch = hindiName.includes(val) || 
                                   scientificName.includes(val) ||
                                   description.includes(val);
             
-            // कैटेगरी बटन मैच
             const matchesCat = selectedCategory === 'all' || type === selectedCategory;
 
-            // बीमारी ड्रॉपडाउन मैच
             const matchesSymptom = selectedSymptom === 'all' || 
                                    hindiName.includes(selectedSymptom) || 
                                    description.includes(selectedSymptom) || 
@@ -344,9 +333,7 @@ window.addEventListener('DOMContentLoaded', () => {
             plantDatabase = Object.keys(data).map(key => {
                 return { id: key, ...data[key] };
             });
-            // 1. डैशबोर्ड बनाएं
             createSmartDashboard();
-            // 2. ग्रिड रेंडर करें
             renderDatabaseGrid(plantDatabase);
         })
         .catch(error => {
