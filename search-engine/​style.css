@@ -1,1 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f9f4;
+    color: #333;
+    padding: 20px;
+}
+
+.search-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+h1 {
+    color: #2e7d32;
+}
+
+.search-box input {
+    width: 80%;
+    max-width: 500px;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: 2px solid #2e7d32;
+    border-radius: 25px;
+    outline: none;
+}
+
+.results-container {
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.tree-card {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-left: 5px solid #2e7d32;
+}
+
+.tree-card h3 {
+    margin-top: 0;
+    color: #1b5e20;
+}
+
+.no-result {
+    text-align: center;
+    color: #888;
+}
 
