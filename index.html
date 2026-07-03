@@ -274,10 +274,6 @@
             color: var(--primary-green);
         }
 
-        .metric-node .metric-val {
-            font-size: 2rem;
-        }
-
         .metric-lbl {
             font-size: 0.9rem;
             color: var(--text-secondary);
@@ -743,8 +739,9 @@
 
         <div class="search-container">
             <div class="search-box-wrapper">
-                <input type="text" id="classicSearch" class="search-input" placeholder="पौधा, बीमारी, कुल या कोई भी उपयोग टाइप करें..." oninput="suggestionEngine.trigger(this)">
-                <button class="search-btn" onclick="searchEngine.executeFilter()">सर्च</button>
+                <!-- यहाँ input की id को आपके पुराने 'searchInput' से सिंक कर दिया है -->
+                <input type="text" id="searchInput" class="search-input" placeholder="पौधा, बीमारी, कुल या कोई भी उपयोग टाइप करें..." oninput="suggestionEngine.trigger(this)">
+                <button class="search-btn" onclick="searchTree()">सर्च</button>
                 <button class="clear-btn" onclick="searchEngine.resetAll()">रीसेट</button>
             </div>
 
@@ -778,7 +775,7 @@
             </div>
 
             <div class="tool-box">
-                <h4>📅 AI प्लांट शेड्यूलर</h4>
+                <h4>📅 AI PLANT SHEड्यूलर</h4>
                 <div class="weather-info">चालू महीना: <span class="calendar-badge" id="currentMonthBadge">जुलाई</span></div>
                 <button class="tool-select" style="margin-top:8px; background:var(--primary-green); color:white; font-weight:bold; cursor:pointer; border:none;" onclick="searchEngine.filterByCurrentSeason()">
                     इस महीने के पौधे देखें
@@ -786,26 +783,9 @@
             </div>
         </div>
 
-        <div class="cards-grid" id="plantsGrid"></div>
+        <!-- आपका रिजल्ट कंटेनर जहाँ पेड़ की पूरी डिटेल्स लोड होगी -->
+        <div id="resultContainer" class="cards-grid"></div>
 
-        <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary-green); margin-top: 40px;">🚜 हमारी मुख्य विशेषताएं</div>
-        <div class="feature-showcase-grid">
-            <div class="feature-card">
-                <span class="feature-icon">🌿</span>
-                <h3>100% जैविक पौधे</h3>
-                <p>हमारे यहाँ उत्पादित सभी औषधीय व फलदार पौधे पूर्णतः रसायनिक कीटनाशकों से मुक्त और जैविक खाद निर्मित हैं।</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-icon">🔬</span>
-                <h3>आयुर्वेदिक अनुसंधान</h3>
-                <p>पारंपरिक औषधियों के वैज्ञानिक नामों और उनके वास्तविक प्राचीन लाभों का सटीक व डिजिटल डेटाबेस संग्रह।</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-icon">💧</span>
-                <h3>स्मार्ट जल संरक्षण</h3>
-                <p>ड्रिप इरिगेशन और वैज्ञानिक तरीकों से पानी की बचत करते हुए उच्चतम गुणवत्ता वाले पौधों का विकास।</p>
-            </div>
-        </div>
     </div>
 
     <div id="search-tab" class="os-viewport-panel">
@@ -823,7 +803,7 @@
                 टोनी ब्रदर्स फार्म हाउस की नींव कृषि नवाचार और पारंपरिक भारतीय आयुर्वेद को एक साथ एक ही मंच पर लाने के विज़न के साथ रखी गई है। हमारा उद्देश्य है कि हर व्यक्ति को प्रकृति के अद्भुत पौधों, उनकी वास्तविक वैज्ञानिक पहचान और उनके स्वास्थ्य लाभों का सटीक ज्ञान आसानी से मिल सके। 
             </p>
             <p style="font-size: 1.15rem; text-align: justify; margin-bottom: 30px;">
-                हम आधुनिक तकनीकों का उपयोग करके औषधीय पौधों जैसे नीम, तुलसी, अश्वगंधा और विभिन्न प्रकार के उन्नत फलदार पेड़ों का संवर्धन करते हैं। हमारी यह डिजिटल प्रणाली सीधे कृषि क्षेत्र से डेटा को प्रोसेस करके विद्यार्थियों, शोधकर्ताओं and प्रकृति प्रेमियों तक पहुंचाती है।
+                हम आधुनिक तकनीकों का उपयोग करके औषधीय पौधों जैसे नीम, तुलसी, अश्वगंधा और विभिन्न प्रकार के उन्नत फलदार पेड़ों का संवर्धन करते हैं। हमारी यह डिजिटल प्रणाली सीधे कृषि क्षेत्र से डेटा को प्रोसेस करके विद्यार्थियों, शोधकर्ताओं और प्रकृति प्रेमियों तक पहुंचाती है।
             </p>
             
             <h3 style="color: var(--primary-green); margin-bottom: 15px; font-size: 1.4rem;">🎯 हमारा लक्ष्य</h3>
@@ -860,9 +840,6 @@
                     <p style="margin-bottom: 15px; font-size: 1.1rem;"><strong>🏢 पता:</strong> टोनी ब्रदर्स फार्म हाउस, राजस्थान, भारत</p>
                     <p style="margin-bottom: 15px; font-size: 1.1rem;"><strong>📧 ईमेल:</strong> info@tonybrothersfarmhouse.io</p>
                     <p style="margin-bottom: 15px; font-size: 1.1rem;"><strong>🕒 समय:</strong> सुबह 09:00 बजे से शाम 06:00 बजे तक (रविवार अवकाश)</p>
-                    <div style="margin-top: 30px; font-size: 2rem; display: flex; gap: 15px; color: var(--primary-green);">
-                        <span>🌾</span> <span>🚜</span> <span>🏡</span> <span>☀️</span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -880,21 +857,29 @@
     </footer>
 
     <script>
-        // 🌿 पौधों का लाइव डायनेमिक डेटाबेस (plants-data.json से सिंक)
+        // 🌿 पौधों का लाइव डायनेमिक डेटाबेस (अब आपके trees.json से सिंक होगा)
         let plantDatabase = [];
+        let rawTreesObject = {}; // आपके पुराने फॉर्मेट को स्टोर करने के लिए
         let selectedCategory = 'all';
         let selectedSymptom = 'all';
 
-        // 🚀 plants-data.json लोड करने का फंक्शन
+        // 🚀 `trees.json` लोड करने का मुख्य फंक्शन
         async function loadDataFromJson() {
             try {
-                const response = await fetch('plants-data.json');
-                const rawData = await response.json();
+                // यहाँ हमने फ़ाइल पाथ सेट कर दिया है
+                const response = await fetch('./trees.json');
+                if (!response.ok) {
+                    throw new Error("trees.json file not found");
+                }
                 
-                plantDatabase = Object.keys(rawData).map(key => {
-                    return { id: key, ...rawData[key] };
+                rawTreesObject = await response.json();
+                
+                // आपके ऑब्जेक्ट डेटाबेस को ऐरे (Array) में बदलना ताकि पूरा सिस्टम ग्रिड रेंडर कर सके
+                plantDatabase = Object.keys(rawTreesObject).map(key => {
+                    return { id: key, ...rawTreesObject[key] };
                 });
 
+                // काउंटर्स सेट करना
                 document.getElementById('totalCountNode').innerText = plantDatabase.length;
                 document.getElementById('matchCountNode').innerText = plantDatabase.length;
                 
@@ -908,11 +893,87 @@
                 renderDatabaseGrid(plantDatabase);
             } catch (error) {
                 console.error("JSON लोड करने में एरर आई:", error);
-                document.getElementById('plantsGrid').innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:red;">⚠️ plants-data.json फ़ाइल लोड नहीं हो सकी।</div>`;
+                document.getElementById('resultContainer').innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:red;">⚠️ ./trees.json फ़ाइल लोड नहीं हो सकी। कृपया चेक करें।</div>`;
             }
         }
 
-        // 🌦️ मौसम सलाह लॉजिक
+        // 🛠️ आपका मूल 'searchTree' फंक्शन - बिना छोटा किए, एडवांस लेआउट के अनुकूल सुधारा हुआ
+        async function searchTree() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const resultContainer = document.getElementById('resultContainer');
+
+            if (!query) {
+                resultContainer.innerHTML = `<div style="grid-column: 1/-1;"><p style="color: red; text-align: center; font-weight: bold; padding: 20px;">कृपया पेड़ का नाम दर्ज करें।</p></div>`;
+                return;
+            }
+
+            try {
+                const response = await fetch('./trees.json');
+                if (!response.ok) {
+                    throw new Error("trees.json file not found");
+                }
+
+                const treesData = await response.json();
+
+                if (treesData[query]) {
+                    const tree = treesData[query];
+                    document.getElementById('matchCountNode').innerText = 1;
+                    
+                    let usesList = '';
+                    if (Array.isArray(tree.uses)) {
+                        tree.uses.forEach(use => {
+                            usesList += `<li>${use}</li>`;
+                        });
+                    } else {
+                        usesList = `<li>${tree.uses || 'N/A'}</li>`;
+                    }
+
+                    // आपके कार्ड का डिज़ाइन जिसे क्लासिक ग्रीन लुक दिया गया है
+                    resultContainer.innerHTML = `
+                        <div class="classic-plant-card open" style="grid-column: 1/-1; max-width: 700px; margin: 0 auto; width:100%;">
+                            <div class="card-header-trigger" style="background: var(--light-green);">
+                                <div class="card-title">
+                                    <h3>🌳 ${tree.hindiName} (${query.charAt(0).toUpperCase() + query.slice(1)})</h3>
+                                    <div class="scientific-name">🔬 <i>${tree.scientificName || 'N/A'}</i></div>
+                                </div>
+                            </div>
+                            <div class="card-collapsible-body" style="max-height: 2000px; padding: 25px;">
+                                <div class="info-row"><span class="info-label">🌍 English Name:</span> <span>${tree.englishName || 'N/A'}</span></div>
+                                <div class="info-row"><span class="info-label">🌿 Family:</span> <span>${tree.family || 'N/A'}</span></div>
+                                <div class="info-row"><span class="info-label">🌳 ऊँचाई:</span> <span>${tree.height || 'N/A'}</span></div>
+                                <div class="info-row"><span class="info-label">📍 प्राप्ति स्थान:</span> <span>${tree.location || 'N/A'}</span></div>
+                                <div class="info-row"><span class="info-label">☀️ जलवायु:</span> <span>${tree.climate || 'N/A'}</span></div>
+                                <div class="info-row"><span class="info-label">💧 पानी की आवश्यकता:</span> <span>${tree.water || 'N/A'}</span></div>
+                                <div class="info-row"><span class="info-label">🌸 फूल आने का समय:</span> <span>${tree.flowers || 'N/A'}</span></div>
+                                <div class="info-row"><span class="info-label">🍎 फल आने का समय:</span> <span>${tree.fruits || 'N/A'}</span></div>
+                                
+                                <div class="description-box" style="margin-top:20px;">
+                                    <h3>🌱 प्रमुख उपयोग</h3>
+                                    <ul style="margin-left: 20px; margin-top: 10px;">${usesList}</ul>
+                                </div>
+                                <div class="description-box" style="margin-top:20px; background:transparent; border-left-color:var(--accent-green);">
+                                    <h3>📖 पूरा विवरण</h3>
+                                    <p style="margin-top:10px; text-align:justify;">${tree.description || 'विवरण उपलब्ध नहीं है।'}</p>
+                                </div>
+                                <div class="action-button-deck">
+                                    <button class="action-mini-btn" onclick="utilityEngine.shareWhatsApp('${tree.hindiName}', '${Array.isArray(tree.uses)?tree.uses.join(', '):tree.uses}')">📱 व्हाट्सएप शेयर</button>
+                                    <button class="action-mini-btn" onclick="window.print()">🖨️ प्रिंट</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('matchCountNode').innerText = 0;
+                    resultContainer.innerHTML = `<div style="grid-column: 1/-1;"><p style="color: orange; text-align: center; font-weight: bold; padding: 20px;">क्षма करें! इस पेड़ की जानकारी अभी डेटाबेस में नहीं है।</p></div>`;
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+                resultContainer.innerHTML = `<div style="grid-column: 1/-1;"><p style="color: red; text-align: center; font-weight: bold; padding: 20px;">डेटा लोड करने में समस्या आई या फ़ाइल मौजूद नहीं है।</p></div>`;
+            }
+        }
+
+        // 🌦️ लाइव वेदर सिमुलेशन गाइड
         function fetchWeatherData() {
             const widget = document.getElementById('weatherWidget');
             if (!widget) return;
@@ -925,18 +986,17 @@
             widget.innerHTML = `<b>अनुमानित तापमान:</b> ${temp}°C<br><b>💧 सिंचाई सलाह:</b> ${advice}`;
         }
 
-        // 🚀 1. टैब स्विचिंग इंजन
+        // 🚀 टैब स्विचिंग इंजन
         const tabEngine = {
             switch: function(tabId, btnElement) {
                 document.querySelectorAll('.os-viewport-panel').forEach(panel => panel.classList.remove('active-panel'));
                 document.querySelectorAll('.nav-tab-btn').forEach(btn => btn.classList.remove('active-tab'));
-                
                 document.getElementById(tabId).classList.add('active-panel');
                 btnElement.classList.add('active-tab');
             }
         };
 
-        // 🚀 2. थीम इंजन
+        // 🚀 थीम इंजन
         const themeEngine = {
             toggle: function() {
                 const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -945,9 +1005,9 @@
             }
         };
 
-        // 🚀 3. कार्ड्स रेंडरिंग इंजन
+        // 🚀 पूरे डेटाबेस को होमग्रिड पर रेंडर करने वाला इंजन
         function renderDatabaseGrid(dataset) {
-            const container = document.getElementById('plantsGrid');
+            const container = document.getElementById('resultContainer');
             if(!container) return;
             container.innerHTML = '';
             
@@ -963,7 +1023,7 @@
                 card.className = 'classic-plant-card';
                 card.id = `card-${plant.id}`;
 
-                const usesText = Array.isArray(plant.uses) ? plant.uses.join(', ') : (plant.uses || 'उपलब्ध नहीं');
+                const usesText = Array.isArray(plant.uses) ? plant.uses.join(', ') : (plant.uses || 'N/A');
 
                 card.innerHTML = `
                     <div class="card-header-trigger" onclick="cardToggleEngine.execute('${plant.id}')">
@@ -975,29 +1035,14 @@
                     </div>
 
                     <div class="card-collapsible-body">
-                        <div class="info-row">
-                            <span class="info-label">📍 प्राप्ति स्थान:</span>
-                            <span>${plant.location || 'N/A'}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">💧 सिंचाई/पानी:</span>
-                            <span>${plant.water || 'N/A'}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">🌾 कुल (Family):</span>
-                            <span>${plant.family || 'N/A'}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">📅 सीजन:</span>
-                            <span>${plant.season || 'वर्ष भर'}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">💊 मुख्य उपयोग:</span>
-                            <span class="highlight-text">${usesText}</span>
-                        </div>
+                        <div class="info-row"><span class="info-label">📍 प्राप्ति स्थान:</span><span>${plant.location || 'N/A'}</span></div>
+                        <div class="info-row"><span class="info-label">💧 पानी/सिंचाई:</span><span>${plant.water || 'N/A'}</span></div>
+                        <div class="info-row"><span class="info-label">🌾 कुल (Family):</span><span>${plant.family || 'N/A'}</span></div>
+                        <div class="info-row"><span class="info-label">🌳 ऊँचाई:</span><span>${plant.height || 'N/A'}</span></div>
+                        <div class="info-row"><span class="info-label">💊 मुख्य उपयोग:</span><span class="highlight-text">${usesText}</span></div>
                         
                         <div class="description-box">
-                            🎯 <strong>पूर्ण वृत्तांत:</strong> ${plant.description || 'कोई विवरण उपलब्ध नहीं।'}
+                            🎯 <strong>पूर्ण विवरण:</strong> ${plant.description || 'कोई विवरण उपलब्ध नहीं।'}
                         </div>
 
                         <div class="action-button-deck">
@@ -1011,7 +1056,7 @@
             });
         }
 
-        // 🚀 4. Accordion इंजन
+        // 🚀 एक्सीलेंस एकॉर्डियन ट्रिगर
         const cardToggleEngine = {
             execute: function(id) {
                 const targetCard = document.getElementById(`card-${id}`);
@@ -1022,12 +1067,11 @@
             }
         };
 
-        // 🚀 5. लाइव सर्च इंजन
+        // 🚀 एडवांस कस्टमाइज्ड फ़िल्टर सिस्टम
         const searchEngine = {
             executeFilter: function() {
-                const val = document.getElementById('classicSearch').value.toLowerCase().trim();
-                document.getElementById('suggestionBox').style.display = 'none';
-
+                const val = document.getElementById('searchInput').value.toLowerCase().trim();
+                
                 const results = plantDatabase.filter(plant => {
                     const hName = (plant.hindiName || '').toLowerCase();
                     const sName = (plant.scientificName || '').toLowerCase();
@@ -1036,8 +1080,7 @@
                     const usesText = Array.isArray(plant.uses) ? plant.uses.join(' ').toLowerCase() : (plant.uses || '').toLowerCase();
 
                     const matchesSearch = hName.includes(val) || sName.includes(val) || eName.includes(val) || desc.includes(val) || usesText.includes(val);
-                    const matchesCat = selectedCategory === 'all' || plant.type === selectedCategory;
-                    
+                    const matchesCat = selectedCategory === 'all' || (plant.type && plant.type === selectedCategory);
                     const matchesSymptom = selectedSymptom === 'all' || hName.includes(selectedSymptom) || desc.includes(selectedSymptom) || usesText.includes(selectedSymptom);
 
                     return matchesSearch && matchesCat && matchesSymptom;
@@ -1060,11 +1103,94 @@
                 const currentMonth = months[new Date().getMonth()].toLowerCase();
 
                 const results = plantDatabase.filter(plant => {
-                    const season = plant.season ? plant.season.toLowerCase() : '';
-                    return season.includes(currentMonth) || season.includes('वर्ष भर') || season.includes('सदाबहार');
+                    const clm = plant.climate ? plant.climate.toLowerCase() : '';
+                    const desc = plant.description ? plant.description.toLowerCase() : '';
+                    return clm.includes(currentMonth) || desc.includes(currentMonth) || clm.includes('सामान्य') || clm.includes('गर्म');
                 });
 
                 renderDatabaseGrid(results);
             },
-            resetAll
+            resetAll: function() {
+                document.getElementById('searchInput').value = '';
+                selectedCategory = 'all';
+                selectedSymptom = 'all';
+                if(document.getElementById('symptomFilter')) document.getElementById('symptomFilter').value = 'all';
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                if(document.querySelectorAll('.filter-btn')[0]) document.querySelectorAll('.filter-btn')[0].classList.add('active');
+                renderDatabaseGrid(plantDatabase);
+            }
+        };
 
+        // 🚀 लाइव सजेशन पैनल लॉजिक
+        const suggestionEngine = {
+            trigger: function(input) {
+                const val = input.value.toLowerCase().trim();
+                const box = document.getElementById('suggestionBox');
+                if(!val) { box.style.display = 'none'; return; }
+
+                box.innerHTML = '';
+                let counter = 0;
+
+                plantDatabase.forEach(plant => {
+                    const name = (plant.hindiName || plant.id).toLowerCase();
+                    if(name.includes(val)) {
+                        const item = document.createElement('div');
+                        item.className = 'suggest-item';
+                        item.innerHTML = `<span>🌳 ${plant.hindiName || plant.id}</span>`;
+                        item.onclick = () => {
+                            input.value = plant.id; 
+                            box.style.display = 'none';
+                            searchTree(); // सीधे आपके मुख्य फंक्शन को कॉल करेगा
+                        };
+                        box.appendChild(item);
+                        counter++;
+                    }
+                });
+
+                box.style.display = counter > 0 ? 'block' : 'none';
+            }
+        };
+
+        // 🚀 यूटिलिटी इंजन
+        const utilityEngine = {
+            shareWhatsApp: function(name, uses) {
+                const text = `🌱 *${name}* की जानकारी -\n📋 *मुख्य उपयोग:* ${uses}\nअधिक जानकारी के लिए विजिट करें टोनी ब्रदर्स फार्म हाउस!`;
+                window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+            },
+            handleFormSubmit: function(e) {
+                e.preventDefault();
+                alert('📨 आपका संदेश सुरक्षित भेज दिया गया है! टोनी ब्रदर्स फार्म टीम जल्द ही आपसे संपर्क करेगी।');
+                document.getElementById('farmContactForm').reset();
+            }
+        };
+
+        // 🚀 ऑल व्यू मोडल डेटाबेस इंजेक्टर
+        function openAllViewModal(id) {
+            const plant = plantDatabase.find(p => p.id === id);
+            if(!plant) return;
+            const usesText = Array.isArray(plant.uses) ? plant.uses.join(', ') : (plant.uses || 'N/A');
+            
+            document.getElementById('allViewContent').innerHTML = `
+                <h2 style="color:var(--primary-green); margin-bottom:15px;">🌳 ${plant.hindiName || plant.id}</h2>
+                <p><b>🌍 English Name:</b> ${plant.englishName || 'N/A'}</p>
+                <p><b>🔬 वैज्ञानिक नाम:</b> <i>${plant.scientificName || 'N/A'}</i></p>
+                <p><b>🌿 Family:</b> ${plant.family || 'N/A'}</p>
+                <p><b>🌳 ऊँचाई:</b> ${plant.height || 'N/A'}</p>
+                <p><b>📍 प्राप्ति स्थान:</b> ${plant.location || 'N/A'}</p>
+                <p><b>☀️ जलवायु:</b> ${plant.climate || 'N/A'}</p>
+                <p><b>💧 पानी की आवश्यकता:</b> ${plant.water || 'N/A'}</p>
+                <p><b>🌸 फूल आने का समय:</b> ${plant.flowers || 'N/A'}</p>
+                <p><b>🍎 फल आने का समय:</b> ${plant.fruits || 'N/A'}</p>
+                <div style="background:var(--light-green); padding:15px; border-radius:8px; margin-top:15px;">
+                    <b>💊 मुख्य उपयोग:</b> ${usesText}<br><br>
+                    <b>🎯 पूर्ण विवरण:</b> ${plant.description || 'कोई विवरण नहीं।'}
+                </div>
+            `;
+            document.getElementById('allViewOverlay').classList.add('show');
+        }
+
+        // विंडो लोड इवेंट ट्रिगर
+        window.onload = loadDataFromJson;
+    </script>
+</body>
+</html>
