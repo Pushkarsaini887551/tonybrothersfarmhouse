@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>QR जेनरेटर - Tony Brothers</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f7f5; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { color: #2e7d32; text-align: center; }
+        input { width: 100%; padding: 12px; margin-top: 10px; border-radius: 8px; border: 1px solid #ddd; }
+        button { width: 100%; padding: 15px; margin-top: 15px; background: #2e7d32; color: white; border: none; border-radius: 8px; cursor: pointer; }
+        #qrCode { margin-top: 20px; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📲 QR जेनरेटर</h1>
+    <p>अपने पौधे के लिंक को QR में बदलें:</p>
+    <input type="text" id="linkInput" placeholder="पेज का लिंक डालें (उदा: https://tonybrothers.github.io/plant1)">
+    <button onclick="generateQR()">QR कोड देखें</button>
+
+    <div id="qrCode"></div>
+    <br>
+    <button style="background: #718096;" onclick="location.href='index.html'">⬅️ वापस टूल्स पर जाएं</button>
+</div>
+
+<script>
+    function generateQR() {
+        const link = document.getElementById('linkInput').value;
+        if (!link) return alert("कृपया लिंक डालें!");
+        
+        // हमने यहाँ Google Charts API का उपयोग किया है जो फ्री है
+        const qrUrl = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodeURIComponent(link)}`;
+        document.getElementById('qrCode').innerHTML = `<img src="${qrUrl}" alt="QR Code">`;
+    }
+</script>
+</body>
+</html>
+
