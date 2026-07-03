@@ -3,313 +3,383 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tony Brothers - Ultra Galactic Botanical Operating System v9.9</title>
+    <title>Tony Brothers - Advanced Botanical Operating System v12.5</title>
     <style>
         /* ==========================================================================
-           1. CORE DESIGN TOKENS & NEUMORPHIC / GLASSMORPHISM FUSION VARIABLES
+           1. CORE THEME & GREEN PALETTE VARIABLES (Classic Tony Design)
            ========================================================================== */
         :root {
-            --bg-canvas: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%);
-            --glass-surface: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.5);
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --color-emerald: #059669;
-            --color-sky: #0284c7;
-            --color-amber: #d97706;
-            --grad-primary: linear-gradient(135deg, #059669 0%, #10b981 100%);
-            --grad-accent: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
-            --shadow-dense: 0 30px 60px -15px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255,255,255,0.8);
-            --radius-xl: 30px;
+            --bg-canvas: #f4f7f5;
+            --card-bg: #ffffff;
+            --text-primary: #2d3748;
+            --text-secondary: #718096;
+            --primary-green: #2e7d32;
+            --light-green: #e8f5e9;
+            --accent-green: #4caf50;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+            --radius-main: 16px;
+            --ticker-bg: #1b5e20;
+            --ticker-text: #ffffff;
         }
 
         [data-theme="dark"] {
-            --bg-canvas: linear-gradient(135deg, #020617 0%, #0f172a 100%);
-            --glass-surface: rgba(15, 23, 42, 0.8);
-            --glass-border: rgba(255, 255, 255, 0.03);
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --color-emerald: #34d399;
-            --color-sky: #38bdf8;
-            --color-amber: #fbbf24;
-            --grad-primary: linear-gradient(135deg, #065f46 0%, #059669 100%);
-            --grad-accent: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
-            --shadow-dense: 0 40px 80px -20px rgba(0, 0, 0, 0.7);
+            --bg-canvas: #121814;
+            --card-bg: #1e2521;
+            --text-primary: #f7fafc;
+            --text-secondary: #a0aec0;
+            --primary-green: #4caf50;
+            --light-green: #1b2e24;
+            --accent-green: #81c784;
+            --border-color: #2d3748;
+            --shadow-sm: 0 4px 6px rgba(0,0,0,0.2);
+            --shadow-md: 0 10px 15px rgba(0,0,0,0.3);
+            --ticker-bg: #0d2310;
+            --ticker-text: #a5d6a7;
         }
 
         /* ==========================================================================
-           2. GLOBAL RESET & BASE ARCHITECTURE
+           2. GLOBAL BASE STYLE & SCROLLBAR
            ========================================================================== */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            transition: background 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.2s ease;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
         }
 
         body {
             background: var(--bg-canvas);
             color: var(--text-primary);
-            min-height: 100vh;
-            overflow-x: hidden;
             padding-bottom: 120px;
         }
 
-        #cosmic-particle-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-            opacity: 0.5;
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-canvas);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-green);
+            border-radius: 10px;
         }
 
-        /* ==========================================================================
-           3. TOP LOGICAL NAVIGATION PANEL
-           ========================================================================== */
-        .os-nav-bar {
+        /* Top Header Navigation */
+        .header-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 5%;
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-bottom: 1px solid var(--glass-border);
+            padding: 15px 5%;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
             position: sticky;
             top: 0;
             z-index: 1000;
-        }
-
-        .os-branding {
-            display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             gap: 15px;
         }
 
-        .os-logo-icon {
-            background: var(--grad-primary);
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
+        .brand-logo {
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 900;
-            font-size: 1.3rem;
-            box-shadow: 0 8px 20px rgba(5, 150, 105, 0.3);
-        }
-
-        .os-title {
+            gap: 12px;
             font-size: 1.6rem;
-            font-weight: 900;
-            letter-spacing: 1px;
-            background: linear-gradient(90deg, var(--color-emerald), var(--color-sky));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            color: var(--primary-green);
+            letter-spacing: 0.5px;
         }
 
-        .tab-engine-controls {
+        /* Premium Running Text Ticker */
+        .tony-ticker-container {
+            background: var(--ticker-bg);
+            color: var(--ticker-text);
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 12px 0;
+            box-shadow: var(--shadow-sm);
+            border-bottom: 3px solid var(--accent-green);
+            font-size: 1.05rem;
+            font-weight: 600;
             display: flex;
-            background: rgba(0,0,0,0.05);
-            padding: 5px;
-            border-radius: 50px;
-            gap: 5px;
+            align-items: center;
         }
 
-        .tab-trigger {
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            padding: 10px 24px;
-            border-radius: 50px;
-            font-weight: 700;
+        .tony-ticker-wrapper {
+            display: inline-block;
+            padding-left: 100%;
+            animation: tonyTicker 28s linear infinite;
+        }
+
+        .tony-ticker-wrapper:hover {
+            animation-play-state: paused;
             cursor: pointer;
         }
 
-        .tab-trigger.active-tab {
-            background: var(--glass-surface);
-            color: var(--text-primary);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        @keyframes tonyTicker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
         }
 
-        /* ==========================================================================
-           4. LAYOUT CONTROLLER MODULE
-           ========================================================================== */
-        .os-viewport-container {
-            max-width: 1300px;
-            margin: 40px auto;
-            padding: 0 25px;
+        .ticker-highlight {
+            color: #fffb00;
+            font-weight: 800;
+            background: rgba(255,255,255,0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
         }
 
-        .os-tab-panel {
+        /* Tab Controls Engine */
+        .nav-menu {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            border: none;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .nav-tab-btn:hover, .nav-tab-btn.active-tab {
+            background: var(--light-green);
+            color: var(--primary-green);
+        }
+
+        .theme-btn {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Viewport Container for switching contents */
+        .os-viewport-panel {
             display: none;
-            animation: panelFadeIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            animation: tabFadeIn 0.4s ease-in-out forwards;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
-        .os-tab-panel.active-panel {
+        .os-viewport-panel.active-panel {
             display: block;
         }
 
-        @keyframes panelFadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes tabFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         /* ==========================================================================
-           5. DASHBOARD STATS TELEMETRY GRID
+           3. HOME TAB EXCLUSIVE STYLES
            ========================================================================== */
-        .telemetry-dashboard {
+        .hero-banner {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+            color: white;
+            border-radius: var(--radius-main);
+            padding: 50px 30px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .hero-banner h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .hero-banner p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .feature-showcase-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
-            margin-bottom: 45px;
+            margin-top: 30px;
         }
 
-        .telemetry-node {
-            background: var(--glass-surface);
-            border: 1px solid var(--glass-border);
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             padding: 30px;
-            border-radius: 24px;
-            box-shadow: var(--shadow-dense);
-            position: relative;
-            overflow: hidden;
+            border-radius: var(--radius-main);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
         }
 
-        .telemetry-node::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            height: 4px;
-            width: 100%;
-            background: var(--grad-primary);
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: inline-block;
         }
 
-        .telemetry-node.accent-node::after {
-            background: var(--grad-accent);
-        }
-
-        .tel-value {
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--text-primary);
-            line-height: 1;
-        }
-
-        .tel-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 10px;
+        .feature-card h3 {
+            color: var(--primary-green);
+            margin-bottom: 10px;
+            font-size: 1.4rem;
         }
 
         /* ==========================================================================
-           6. MASTER SEARCH CORRIDOR PIPELINE
+           4. LIVE TELEMETRY / ANALYTICS COUNTER
            ========================================================================== */
-        .search-engine-complex {
-            position: relative;
-            max-width: 950px;
-            margin: 0 auto 50px auto;
+        .analytics-dashboard {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        .input-composite-box {
+        .metric-node {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 15px 30px;
+            border-radius: var(--radius-main);
+            box-shadow: var(--shadow-sm);
             display: flex;
-            background: var(--glass-surface);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 100px;
-            padding: 10px;
-            box-shadow: 0 35px 70px rgba(0,0,0,0.06);
+            align-items: center;
+            gap: 15px;
+            border-left: 5px solid var(--primary-green);
+        }
+
+        .metric-val {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-green);
+        }
+
+        .metric-lbl {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        /* ==========================================================================
+           5. SEARCH COMPLEX & AUTO-SUGGESTION SYSTEM
+           ========================================================================== */
+        .search-container {
+            max-width: 850px;
+            margin: 0 auto 10px auto;
+            position: relative;
+        }
+
+        .search-box-wrapper {
+            display: flex;
+            background: var(--card-bg);
+            border: 2.5px solid var(--primary-green);
+            border-radius: 50px;
+            padding: 6px 15px;
+            box-shadow: var(--shadow-md);
             align-items: center;
         }
 
-        .input-main-core {
+        .search-input {
             flex: 1;
             border: none;
             background: transparent;
-            padding: 15px 25px;
-            font-size: 1.3rem;
+            padding: 12px 15px;
+            font-size: 1.15rem;
             color: var(--text-primary);
             outline: none;
         }
 
-        .voice-assist-btn {
+        .mic-btn {
             background: transparent;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             cursor: pointer;
-            padding: 0 20px;
+            padding: 0 12px;
             color: var(--text-secondary);
         }
 
-        .voice-assist-btn.listening {
+        .mic-btn.listening {
             color: #ef4444;
-            animation: pulse 1s infinite;
+            animation: voicePulse 1.2s infinite;
         }
 
-        @keyframes pulse {
+        @keyframes voicePulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.15); }
             100% { transform: scale(1); }
         }
 
-        .search-execute-btn {
-            background: var(--grad-primary);
+        .search-btn {
+            background: var(--primary-green);
             color: white;
             border: none;
-            padding: 18px 45px;
-            border-radius: 100px;
-            font-size: 1.2rem;
-            font-weight: 800;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(5, 150, 105, 0.3);
+            margin-left: 5px;
         }
 
-        .search-execute-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(5, 150, 105, 0.5);
+        .clear-btn {
+            background: var(--border-color);
+            color: var(--text-primary);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 5px;
         }
 
-        /* Suggestion Matrix */
-        .autosuggest-matrix-panel {
+        /* स्मार्ट सजेशन पैनल */
+        .suggestion-panel {
             position: absolute;
             top: 105%;
-            left: 30px;
-            width: calc(100% - 60px);
-            background: var(--glass-surface);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            box-shadow: var(--shadow-dense);
+            left: 40px;
+            width: calc(100% - 80px);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
             z-index: 999;
-            max-height: 320px;
+            max-height: 250px;
             overflow-y: auto;
             display: none;
         }
 
-        .matrix-row-item {
-            padding: 16px 30px;
+        .suggest-item {
+            padding: 14px 20px;
             cursor: pointer;
             font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
-            border-bottom: 1px solid rgba(0,0,0,0.03);
         }
 
-        .matrix-row-item:hover {
-            background: var(--grad-primary);
-            color: white;
+        .suggest-item:hover {
+            background: var(--light-green);
+            color: var(--primary-green);
         }
 
-        /* Filter Pills Grid */
-        .filter-capsule-deck {
+        .filter-buttons {
             display: flex;
             gap: 12px;
             justify-content: center;
@@ -317,696 +387,682 @@
             flex-wrap: wrap;
         }
 
-        .filter-pill {
-            background: var(--glass-surface);
-            border: 1px solid var(--glass-border);
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            cursor: pointer;
+        .filter-btn {
+            background: var(--card-bg);
             color: var(--text-secondary);
+            border: 1.5px solid var(--border-color);
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
         }
 
-        .filter-pill:hover, .filter-pill.active-pill {
-            background: var(--grad-accent);
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary-green);
             color: white;
             border-color: transparent;
+            box-shadow: var(--shadow-sm);
         }
 
         /* ==========================================================================
-           7. DATA CORE PRESENTATION VIEWPORT (THE LIVING CARD)
+           6. CLASSIC GREEN CARDS ARCHITECTURE
            ========================================================================== */
-        .dynamic-output-viewport {
-            max-width: 1000px;
-            margin: 0 auto;
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
         }
 
-        .monolithic-data-card {
-            background: var(--glass-surface);
-            backdrop-filter: blur(40px);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-xl);
-            padding: 55px;
-            box-shadow: var(--shadow-dense);
-            animation: cardEmerge 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
+        .classic-plant-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-main);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border-top: 6px solid var(--primary-green);
+            display: flex;
+            flex-direction: column;
         }
 
-        @keyframes cardEmerge {
-            from { opacity: 0; transform: scale(0.96) translateY(30px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+        .classic-plant-card:hover {
+            transform: translateY(-4px);
         }
 
-        .card-identity-header {
+        /* मुख्य हेडर ट्रिगर */
+        .card-header-trigger {
+            padding: 25px;
+            cursor: pointer;
+            user-select: none;
+            background: linear-gradient(to bottom, var(--light-green), transparent 50%);
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            border-bottom: 2px dashed var(--glass-border);
-            padding-bottom: 35px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .title-block h2 {
-            font-size: 3.2rem;
-            font-weight: 900;
-            color: var(--text-primary);
-            letter-spacing: -1px;
-        }
-
-        .scientific-tag {
-            background: var(--grad-accent);
-            color: white;
-            padding: 6px 20px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 700;
-            display: inline-block;
-            margin-top: 8px;
-        }
-
-        .favorite-toggle-btn {
-            background: transparent;
-            border: 2px solid var(--glass-border);
-            font-size: 1.5rem;
-            width: 55px;
-            height: 55px;
-            border-radius: 50px;
-            cursor: pointer;
-            display: flex;
             align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
         }
 
-        .favorite-toggle-btn.is-fav {
-            background: #ef4444;
-            color: white;
-            border-color: transparent;
-        }
-
-        /* Multi-Column High Density Grid */
-        .hyper-grid-matrix {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 45px;
-        }
-
-        .matrix-data-node {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--glass-border);
-            padding: 22px;
-            border-radius: 20px;
-            box-shadow: inset 1px 1px 3px rgba(255,255,255,0.1);
-        }
-
-        .node-tag {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
+        .card-title h3 {
+            font-size: 1.9rem;
+            color: var(--primary-green);
             font-weight: 800;
-            letter-spacing: 1px;
             margin-bottom: 6px;
         }
 
-        .node-value {
-            font-size: 1.25rem;
+        .scientific-name {
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.98rem;
+            font-weight: 500;
+        }
+
+        .arrow-icon {
+            font-size: 1.3rem;
+            color: var(--primary-green);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .classic-plant-card.open .arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        /* कोलैप्सिबल बॉडी */
+        .card-collapsible-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+            padding: 0 25px;
+        }
+
+        .classic-plant-card.open .card-collapsible-body {
+            max-height: 1500px;
+            padding: 10px 25px 25px 25px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .info-row {
+            margin: 16px 0;
+            font-size: 1.08rem;
+            line-height: 1.6;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .info-label {
             font-weight: 700;
             color: var(--text-primary);
+            width: 150px;
+            flex-shrink: 0;
         }
 
-        .block-section-title {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin: 40px 0 20px 0;
-            border-left: 6px solid var(--color-emerald);
-            padding-left: 15px;
+        .highlight-text {
+            color: var(--primary-green);
+            font-weight: 700;
         }
 
-        .bullet-medical-list {
-            list-style: none;
-            margin-bottom: 40px;
-        }
-
-        .bullet-medical-list li {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            margin-bottom: 14px;
-            padding-left: 30px;
-            position: relative;
-        }
-
-        .bullet-medical-list li::before {
-            content: '❖';
-            position: absolute;
-            left: 0;
-            color: var(--color-emerald);
-            font-weight: 900;
-        }
-
-        .narrative-prose-container {
-            font-size: 1.25rem;
-            line-height: 2;
-            color: var(--text-primary);
-            background: rgba(5, 150, 105, 0.03);
-            padding: 35px;
-            border-radius: 24px;
-            border: 1px dashed var(--color-emerald);
+        .description-box {
+            background: var(--light-green);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border-left: 5px solid var(--primary-green);
+            font-size: 1.05rem;
+            line-height: 1.7;
             text-align: justify;
         }
 
-        .card-action-footer-deck {
+        .action-button-deck {
             display: flex;
+            gap: 10px;
+            margin-top: 20px;
             justify-content: flex-end;
-            gap: 20px;
-            margin-top: 45px;
+            flex-wrap: wrap;
         }
 
-        .utility-btn {
-            background: var(--glass-surface);
-            border: 1px solid var(--glass-border);
-            color: var(--text-primary);
-            padding: 14px 30px;
-            border-radius: 50px;
+        .action-mini-btn {
+            background: var(--bg-canvas);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
+            color: var(--text-primary);
         }
 
-        .utility-btn:hover {
-            transform: translateY(-2px);
-            background: var(--text-primary);
-            color: var(--bg-canvas);
-        }
-
-        /* Message Board System Static States */
-        .status-terminal-board {
-            text-align: center;
-            padding: 90px 40px;
-            background: var(--glass-surface);
-            border-radius: var(--radius-xl);
-            border: 1px solid var(--glass-border);
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-secondary);
-            box-shadow: var(--shadow-dense);
+        .action-mini-btn:hover {
+            background: var(--primary-green);
+            color: white;
+            border-color: transparent;
         }
 
         /* ==========================================================================
-           8. ALL TREES BROWSE GRID ARCHITECTURE
+           7. ABOUT & CONTACT MODULE EXCLUSIVES
            ========================================================================== */
-        .browse-grid-wrapper {
+        .prose-content-block {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-main);
+            padding: 40px;
+            box-shadow: var(--shadow-md);
+            line-height: 1.8;
+        }
+
+        .prose-content-block h2 {
+            color: var(--primary-green);
+            margin-bottom: 20px;
+            font-size: 2rem;
+            border-bottom: 2px solid var(--light-green);
+            padding-bottom: 10px;
+        }
+
+        .contact-form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 20px;
         }
 
-        .mini-matrix-card {
-            background: var(--glass-surface);
-            border: 1px solid var(--glass-border);
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: var(--shadow-dense);
-            cursor: pointer;
+        @media (max-width: 768px) {
+            .contact-form-grid { grid-template-columns: 1fr; }
         }
 
-        .mini-matrix-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            border-color: var(--color-emerald);
+        .form-group {
+            margin-bottom: 20px;
         }
 
-        .mini-title {
-            font-size: 1.4rem;
-            font-weight: 800;
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
             color: var(--text-primary);
         }
 
-        .mini-sub {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            font-style: italic;
-            margin-bottom: 15px;
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-canvas);
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
         }
 
-        /* Footer Fixed Position Architecture */
+        .form-control:focus {
+            border-color: var(--primary-green);
+        }
+
+        .form-submit-btn {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .form-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Footer */
         footer {
             text-align: center;
-            padding: 30px;
-            background: rgba(0,0,0,0.02);
-            border-top: 1px solid var(--glass-border);
-            font-size: 0.95rem;
+            padding: 25px;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
             color: var(--text-secondary);
+            font-size: 0.95rem;
             position: fixed;
             bottom: 0;
             width: 100%;
-            left: 0;
-            backdrop-filter: blur(20px);
-            z-index: 999;
-        }
-
-        @media print {
-            .os-nav-bar, .telemetry-dashboard, .search-engine-complex, .card-action-footer-deck, footer { display: none !important; }
-            body { background: white; color: black; }
-            .monolithic-data-card { border: none; box-shadow: none; padding: 0; }
+            z-index: 998;
         }
     </style>
 </head>
 <body>
 
-    <!-- 🌌 एम्बिएंट क्वांटम फिजिक्स एनीमेशन लेयर -->
-    <canvas id="cosmic-particle-canvas"></canvas>
+    <!-- 👑 क्लासिक ग्रीन टॉप हेडर एवं मुख्य नेविगेशन -->
+    <div class="header-bar">
+        <div class="brand-logo">🌿 Tony Brothers Farm</div>
+        
+        <div class="nav-menu">
+            <button class="nav-tab-btn active-tab" onclick="tabEngine.switch('home-tab', this)">🏠 होम</button>
+            <button class="nav-tab-btn" onclick="tabEngine.switch('search-tab', this)">🔍 वनस्पति खजाना</button>
+            <button class="nav-tab-btn" onclick="tabEngine.switch('about-tab', this)">📖 हमारे बारे में</button>
+            <button class="nav-tab-btn" onclick="tabEngine.switch('contact-tab', this)">📞 संपर्क करें</button>
+        </div>
 
-    <!-- 👑 सुपर-टियर कोर नेविगेशन हब -->
-    <div class="os-nav-bar">
-        <div class="os-branding">
-            <div class="os-logo-icon">🌿</div>
-            <div class="os-title">TONY OS BOTANICAL ENGINE</div>
-        </div>
-        <div class="tab-engine-controls">
-            <button class="tab-trigger active-tab" onclick="tabSwitchEngine.switch('search-tab', this)">🔍 खोज कंसोल</button>
-            <button class="tab-trigger" onclick="tabSwitchEngine.switch('browse-tab', this)">📂 एक्सप्लोरर ग्रिड</button>
-            <button class="tab-trigger" onclick="tabSwitchEngine.switch('fav-tab', this)">❤️ पसंदीदा संरक्षित</button>
-        </div>
-        <button class="utility-btn" style="border-radius: 50px;" onclick="themeToggleEngine.toggle()">🌓 कॉस्मिक मोड</button>
+        <button class="theme-btn" onclick="themeEngine.toggle()">🌓 डार्क/लाइट</button>
     </div>
 
-    <!-- 💻 मुख्य सिस्टम व्यूपोर्ट कंटेनर -->
-    <div class="os-viewport-container">
-        
-        <!-- 📊 लाइव कोर टेलीमेट्री मॉनिटर -->
-        <div class="telemetry-dashboard">
-            <div class="telemetry-node">
-                <div class="tel-value" id="tel-total-count">3</div>
-                <div class="tel-label">कुल डेटाबेस नोड्स</div>
+    <!-- 📢 NEW FEATURE: एडवांस्ड चलती हुई सूचना पट्टी (Premium Dynamic Ticker) -->
+    <div class="tony-ticker-container">
+        <div class="tony-ticker-wrapper">
+            <span>🚀 यह डिजिटल प्लेटफार्म विशेष रूप से <span class="ticker-highlight">टोनी स्टार (पुष्कर सैनी)</span> द्वारा डिज़ाइन और निर्मित किया गया है। इस एडवांस साइट पर आपको विभिन्न प्रकार के पेड़-पौधों, दुर्लभ जड़ी-बूटियों एवं जैविक कृषि के बारे में सर्वश्रेष्ठ और अमूल्य जानकारी मिलती है। प्रकृति से जुड़ें, स्वस्थ रहें! 🌿</span>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 1: HOME PAGE ==================== -->
+    <div id="home-tab" class="os-viewport-panel active-panel">
+        <div class="hero-banner">
+            <h1>टोनी ब्रदर्स फार्म हाउस में आपका स्वागत है</h1>
+            <p>प्राकृतिक शुद्धता, जैविक कृषि संवर्धन और दुर्लभ जड़ी-बूटियों के संरक्षण का एक अनोखा डिजिटल कॉरिडॉर। हमारे वनस्पति खजाने को एक्सप्लोर करें।</p>
+        </div>
+
+        <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary-green); margin-top: 20px;">🚜 हमारी मुख्य विशेषताएं</div>
+        <div class="feature-showcase-grid">
+            <div class="feature-card">
+                <span class="feature-icon">🌿</span>
+                <h3>100% जैविक पौधे</h3>
+                <p>हमारे यहाँ उत्पादित सभी औषधीय व फलदार पौधे पूर्णतः रसायनिक कीटनाशकों से मुक्त और जैविक खाद निर्मित हैं।</p>
             </div>
-            <div class="telemetry-node accent-node">
-                <div class="tel-value" id="tel-fav-count">0</div>
-                <div class="tel-label">बुकमार्क की गई प्रजातियां</div>
+            <div class="feature-card">
+                <span class="feature-icon">🔬</span>
+                <h3>आयुर्वेदिक अनुसंधान</h3>
+                <p>पारंपरिक औषधियों के वैज्ञानिक नामों और उनके वास्तविक प्राचीन लाभों का सटीक व डिजिटल डेटाबेस संग्रह।</p>
             </div>
-            <div class="telemetry-node">
-                <div class="tel-value">0.00ms</div>
-                <div class="tel-label">सर्च पाइपलाइन लेटेंसी</div>
+            <div class="feature-card">
+                <span class="feature-icon">💧</span>
+                <h3>स्मार्ट जल संरक्षण</h3>
+                <p>ड्रिप इरिगेशन और वैज्ञानिक तरीकों से पानी की बचत करते हुए उच्चतम गुणवत्ता वाले पौधों का विकास।</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 2: EXPLORER / SEARCH CENTER ==================== -->
+    <div id="search-tab" class="os-viewport-panel">
+        <!-- लाइव एनालिटिक्स डैशबोर्ड -->
+        <div class="analytics-dashboard">
+            <div class="metric-node">
+                <div class="metric-val" id="totalCountNode">0</div>
+                <div class="metric-lbl">कुल पौधे दर्ज</div>
+            </div>
+            <div class="metric-node" style="border-left-color: var(--accent-green);">
+                <div class="metric-val" id="matchCountNode">0</div>
+                <div class="metric-lbl">मैचिंग परिणाम</div>
             </div>
         </div>
 
-        <!-- ==================== TAB 1: SEARCH CENTER ==================== -->
-        <div id="search-tab" class="os-tab-panel active-panel">
-            <div class="search-engine-complex">
-                <div class="input-composite-box">
-                    <input type="text" id="searchInput" class="input-main-core" placeholder="वनस्पति का नाम दर्ज करें..." oninput="predictiveMatrixEngine.process(this)">
-                    <button id="voiceBtn" class="voice-assist-btn" onclick="speechRecognitionEngine.listen()">🎙️</button>
-                    <button class="search-execute-btn" onclick="searchPipelineEngine.execute()">सर्च करें</button>
-                </div>
-                <div class="autosuggest-matrix-panel" id="matrixSuggestBox"></div>
-
-                <!-- क्विक पिल्स -->
-                <div class="filter-capsule-deck">
-                    <span class="filter-pill" onclick="searchPipelineEngine.quickTrigger('neem')">नीम (Neem)</span>
-                    <span class="filter-pill" onclick="searchPipelineEngine.quickTrigger('tulsi')">तुलसी (Tulsi)</span>
-                    <span class="filter-pill" onclick="searchPipelineEngine.quickTrigger('ashwagandha')">अश्वगंधा (Ashwagandha)</span>
-                </div>
+        <!-- एडवांस सर्च कॉरिडोर -->
+        <div class="search-container">
+            <div class="search-box-wrapper">
+                <input type="text" id="classicSearch" class="search-input" placeholder="पौधा, बीमारी, कुल या कोई भी उपयोग टाइप करें..." oninput="suggestionEngine.trigger(this)">
+                <button id="micBtn" class="mic-btn" onclick="voiceSearchEngine.listen()" title="बोलकर सर्च करें">🎙️</button>
+                <button class="search-btn" onclick="searchEngine.executeFilter()">सर्च</button>
+                <button class="clear-btn" onclick="searchEngine.resetAll()">रीसेट</button>
             </div>
 
-            <div class="dynamic-output-viewport" id="masterResultViewport">
-                <div class="status-terminal-board">
-                    🌐 सिस्टम ऑनलाइन। कृपया ऊपर सर्च बार का उपयोग करके आर्किटेक्चर क्वेरी शुरू करें।
-                </div>
+            <!-- सजेशन ड्रॉपडाउन मैट्रिक्स -->
+            <div class="suggestion-panel" id="suggestionBox"></div>
+
+            <!-- क्लासिक फ़िल्टर स्विचर -->
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="searchEngine.filterCategory('all', this)">🌱 सब कुछ देखें</button>
+                <button class="filter-btn" onclick="searchEngine.filterCategory('medicinal', this)">🩺 मुख्य औषधियां</button>
+                <button class="filter-btn" onclick="searchEngine.filterCategory('fruit', this)">🍎 फलदार पौधे</button>
             </div>
         </div>
 
-        <!-- ==================== TAB 2: EXPLORER BROWSE GRID ==================== -->
-        <div id="browse-tab" class="os-tab-panel">
-            <div class="browse-grid-wrapper" id="explorerGridContainer">
-                <!-- जावास्क्रिप्ट द्वारा डायनामिक रूप से उत्पन्न कार्ड्स -->
-            </div>
-        </div>
+        <!-- पौधों का कोर ग्रिड व्यू -->
+        <div class="cards-grid" id="plantsGrid"></div>
+    </div>
 
-        <!-- ==================== TAB 3: FAVORITES HARVEST ==================== -->
-        <div id="fav-tab" class="os-tab-panel">
-            <div class="browse-grid-wrapper" id="favoritesGridContainer">
-                <div class="status-terminal-board" style="grid-column: 1/-1;">
-                    ❤️ कोई पसंदीदा वनस्पति बुकमार्क नहीं की गई है।
+    <!-- ==================== TAB 3: ABOUT US PANEL ==================== -->
+    <div id="about-tab" class="os-viewport-panel">
+        <div class="prose-content-block">
+            <h2>📖 हमारे बारे में (Our Story)</h2>
+            <p style="font-size: 1.15rem; margin-bottom: 20px; text-align: justify;">
+                टोनी ब्रदर्स फार्म हाउस की नींव कृषि नवाचार और पारंपरिक भारतीय आयुर्वेद को एक साथ एक ही मंच पर लाने के विज़न के साथ रखी गई है। हमारा उद्देश्य है कि हर व्यक्ति को प्रकृति के अद्भुत पौधों, उनकी वास्तविक वैज्ञानिक पहचान और उनके स्वास्थ्य लाभों का सटीक ज्ञान आसानी से मिल सके। 
+            </p>
+            <p style="font-size: 1.15rem; text-align: justify; margin-bottom: 30px;">
+                हम आधुनिक तकनीकों का उपयोग करके औषधीय पौधों जैसे नीम, तुलसी, अश्वगंधा और विभिन्न प्रकार के उन्नत फलदार पेड़ों का संवर्धन करते हैं। हमारी यह डिजिटल प्रणाली सीधे कृषि क्षेत्र से डेटा को प्रोसेस करके विद्यार्थियों, शोधकर्ताओं और प्रकृति प्रेमियों तक पहुंचाती है।
+            </p>
+            
+            <h3 style="color: var(--primary-green); margin-bottom: 15px; font-size: 1.4rem;">🎯 हमारा लक्ष्य</h3>
+            <p style="font-size: 1.1rem; margin-bottom: 15px;">✔ आने वाली पीढ़ी को पेड़-पौधों के महत्व और जैविक खेती के फायदों से अवगत कराना।</p>
+            <p style="font-size: 1.1rem; margin-bottom: 15px;">✔ औषधीय पौधों के डेटाबेस को पूरी तरह डिजिटल और ओपन-सोर्स बनाना।</p>
+            <p style="font-size: 1.1rem;">✔ पानी की न्यूनतम खपत वाले और पर्यावरण के अनुकूल पौधों की तकनीकों को बढ़ाना।</p>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 4: CONTACT US PANEL ==================== -->
+    <div id="contact-tab" class="os-viewport-panel">
+        <div class="prose-content-block">
+            <h2>📞 हमसे संपर्क करें (Contact Us)</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 30px;">यदि आपके पास कोई प्रश्न है, या आप पौधों की बुकिंग या फार्म विजिट करना चाहते हैं, तो हमें नीचे संदेश भेजें।</p>
+            
+            <div class="contact-form-grid">
+                <!-- फॉर्म एलिमेंट -->
+                <form id="farmContactForm" onsubmit="utilityEngine.handleFormSubmit(event)">
+                    <div class="form-group">
+                        <label>आपका नाम (Full Name)</label>
+                        <input type="text" class="form-control" id="formName" required placeholder="अपना पूरा नाम दर्ज करें">
+                    </div>
+                    <div class="form-group">
+                        <label>ईमेल एड्रेस (Email Address)</label>
+                        <input type="email" class="form-control" id="formEmail" required placeholder="name@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>संदेश / संदेश का विवरण (Your Message)</label>
+                        <textarea class="form-control" id="formMessage" rows="5" required placeholder="अपना संदेश यहाँ लिखें..."></textarea>
+                    </div>
+                    <button type="submit" class="form-submit-btn">📨 संदेश भेजें</button>
+                </form>
+
+                <!-- सीधे पते की जानकारी -->
+                <div style="background: var(--light-green); padding: 30px; border-radius: var(--radius-main); border-left: 6px solid var(--primary-green);">
+                    <h3 style="color: var(--primary-green); margin-bottom: 20px; font-size: 1.4rem;">📍 फार्म हाउस संपर्क केंद्र</h3>
+                    <p style="margin-bottom: 15px; font-size: 1.1rem;"><strong>🏢 पता:</strong> टोनी ब्रदर्स फार्म हाउस, राजस्थान, भारत</p>
+                    <p style="margin-bottom: 15px; font-size: 1.1rem;"><strong>📧 ईमेल:</strong> info@tonybrothersfarmhouse.io</p>
+                    <p style="margin-bottom: 15px; font-size: 1.1rem;"><strong>🕒 समय:</strong> सुबह 09:00 बजे से शाम 06:00 बजे तक (रविवार अवकाश)</p>
+                    <div style="margin-top: 30px; font-size: 2rem; display: flex; gap: 15px; color: var(--primary-green);">
+                        <span>🌾</span> <span>🚜</span> <span>🏡</span> <span>☀️</span>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 
     <footer>
-        <p>© 2026 Tony Brothers Farm House | Monolithic Scaled Quantum Language Matrix Core Platform</p>
+        <p>© 2026 Tony Brothers Farm House | Automated Botanical Ecosystem Core</p>
     </footer>
 
     <!-- ==========================================================================
-         9. MASTER JAVASCRIPT LOGICAL CORE ENGINE
+         8. CORE JAVASCRIPT ARCHITECTURE ENGINE
          ========================================================================== */ -->
     <script>
-        // 🔮 FALLBACK MATRIX ARCHITECTURE DATA - सर्वर एरर या डेटा न होने पर भी सिस्टम को 100% चालू रखेगा
-        const fallbackDatabaseMatrix = {
-            "neem": {
+        // 🌿 पौधों का विस्तारित मास्टर डेटाबेस (Expanded for larger codebase)
+        const plantDatabase = [
+            {
+                id: "neem",
                 hindiName: "नीम",
-                scientificName: "Azadirachta indica",
-                englishName: "Neem / Margosa Tree",
-                family: "Meliaceae",
-                height: "15-20 मीटर",
-                location: "संपूर्ण भारतीय उपमहाद्वीप",
-                climate: "उष्णकटिबंधीय एवं उपोष्णकटिबंधीय शुष्क जलवायु",
-                water: "कम पानी (अत्यंत सूखा सहनशील)",
-                flowers: "मार्च से मई (सफेद सुगंधित फूल)",
-                fruits: "जून से अगस्त (निंबोली)",
-                uses: [
-                    "रक्त शोधन और त्वचा विकारों (एक्जिमा, मुंहासे) का अचूक इलाज।",
-                    "प्राकृतिक एंटी-बैक्टीरियल, एंटी-फंगल और एंटी-वायरल कीटनाशक।",
-                    "दांतों की मजबूती और मसूड़ों की सुरक्षा के लिए दातून का उपयोग।"
-                ],
-                description: "नीम भारतीय संस्कृति और आयुर्वेद का एक अत्यंत महत्वपूर्ण स्तंभ है। इसे 'गांव का औषधालय' भी कहा जाता है। इसके पेड़ का हर एक हिस्सा—पत्ती, छाल, फल, बीज और जड़—किसी न किसी औषधीय अनुप्रयोग में काम आता है। यह पर्यावरण को शुद्ध करने और ऑक्सीजन का स्तर बढ़ाने में बेहद मददगार है।"
+                scientificName: "Azadirachta indica (Margosa, Neem tree)",
+                type: "medicinal",
+                location: "पूरे भारत के मैदानी एवं शुष्क इलाकों में",
+                water: "बहुत कम (सूखा सहनशील वृक्ष)",
+                season: "मार्च - मई (सफेद सुगंधित फूल)",
+                benefits: "रक्त साफ करने, एंटी-बैक्टीरियल सुरक्षा, त्वचा रोग और बेहतरीन प्राकृतिक कीटनाशक निर्माण में उपयोगी।",
+                description: "नीम आयुर्वेद और ग्रामीण चिकित्सा का मुख्य आधार स्तंभ है। इसके पत्ते, फल (निंबोली) और छाल अत्यधिक कड़वे होते हैं, लेकिन उतने ही चमत्कारी औषधीय गुणों से समृद्ध होते हैं। यह पर्यावरण को अत्यधिक शुद्ध रखता है।"
             },
-            "tulsi": {
+            {
+                id: "mango",
+                hindiName: "आम",
+                scientificName: "Mangifera indica (Mango Tree)",
+                type: "fruit",
+                location: "उत्तर प्रदेश, बिहार, आंध्र प्रदेश और संपूर्ण भारत",
+                water: "मध्यम से नियमित सिंचाई",
+                season: "जनवरी - मार्च (मंजरियों का आगमन)",
+                benefits: "फलों के राजा के रूप में प्रसिद्ध, विटामिन ए और सी का स्रोत, धार्मिक अनुष्ठानों में पत्तों का विशेष महत्व।",
+                description: "आम भारत का राष्ट्रीय फल है। इसका विशालकाय पेड़ गर्मियों के दिनों में मीठे और रसीले फल देता है। इसकी लकड़ी और पत्तियों का उपयोग भारतीय रीति-रिवाजों और मांगलिक कार्यों में सदियों से किया जा रहा है।"
+            },
+            {
+                id: "tulsi",
                 hindiName: "तुलसी",
-                scientificName: "Ocimum sanctum",
-                englishName: "Holy Basil",
-                family: "Lamiaceae",
-                height: "30-60 सेंटीमीटर",
-                location: "लगभग हर भारतीय घर और आंगन",
-                climate: "उष्णकटिबंधीय नम और गर्म जलवायु",
-                water: "नियमित मध्यम सिंचाई आवश्यक",
-                flowers: "वर्ष भर (मंजरियां)",
-                fruits: "मंजरियों के भीतर छोटे काले बीज",
-                uses: [
-                    "प्रतिरोधक क्षमता (Immunity) को बढ़ाने और सर्दी-खांसी से तुरंत राहत देने में सहायक।",
-                    "तनाव और मानसिक थकान को कम करने के लिए उत्कृष्ट एडाप्टोजेनिक बूस्टर।",
-                    "श्वसन तंत्र (Respiratory System) के संक्रमणों से सुरक्षा प्रदान करना।"
-                ],
-                description: "तुलसी को सनातन धर्म में देवी का रूप माना गया है और आयुर्वेद में इसे 'जड़ी-बूटियों की रानी' कहा जाता है। इसमें एंटी-ऑक्सीडेंट्स की प्रचुर मात्रा होती है जो शरीर के विभिन्न अंगों को डिटॉक्सिफाई करने का काम करती है। इसकी दैनिक पत्तियां चबाने या चाय में उपयोग करने से शरीर की रक्षा प्रणाली मजबूत होती है।"
+                scientificName: "Ocimum sanctum (Holy Basil)",
+                type: "medicinal",
+                location: "लगभग प्रत्येक भारतीय घर के पवित्र आंगन में",
+                water: "नियमित सिंचाई (मध्यम पानी)",
+                season: "वर्ष भर (सदाबहार औषधीय पौधा)",
+                benefits: "इम्युनिटी बढ़ाने, सर्दी, खांसी, जुकाम और श्वास रोगों को जड़ से मिटाने में अत्यंत असरदार संजीवनी बूटी।",
+                description: "तुलसी को 'जड़ी-बूटियों की रानी' कहा जाता है। इसमें प्रचुर मात्रा में एंटी-ऑक्सीडेंट पाए जाते हैं जो मानसिक तनाव को दूर करते हैं और वातावरण में पर्याप्त ऑक्सीजन प्रवाहित करते हैं।"
             },
-            "ashwagandha": {
+            {
+                id: "ashwagandha",
                 hindiName: "अश्वगंधा",
-                scientificName: "Withania somnifera",
-                englishName: "Indian Ginseng",
-                family: "Solanaceae",
-                height: "35-75 सेंटीमीटर",
-                location: "भारत के शुष्क और अर्ध-शुष्क मैदानी क्षेत्र",
-                climate: "अर्ध-शुष्क और मध्यम गर्म वातावरण",
-                water: "न्यूनतम जल सिंचाई आवश्यकता",
-                flowers: "हरे-पीले छोटे फूल",
-                fruits: "छोटे लाल-नारंगी गोल बेरी फल",
-                uses: [
-                    "कोर्टिसोल (Cortisol) के स्तर को घटाकर तनाव और अत्यधिक एंग्जायटी को जड़ से खत्म करना।",
-                    "शारीरिक शक्ति, स्टैमिना, मांसपेशियों की रिकवरी और टेस्टोस्टेरोन को बढ़ावा देना।",
-                    "मस्तिष्क की कार्यप्रणाली, याददाश्त और गहरी नींद लाने में अविश्वसनीय रूप से प्रभावी।"
-                ],
-                description: "अश्वगंधा नाम इसके जड़ों से आने वाली विशिष्ट घोड़े जैसी गंध (Ashwa) और शरीर को घोड़े जैसी ताकत (Gandha) प्रदान करने की क्षमता के कारण पड़ा है। यह आयुर्वेद की सबसे शक्तिशाली 'रसायन' औषधियों में से एक है जो उम्र बढ़ने की प्रक्रिया को धीमा करती है और नर्वस सिस्टम को नवजीवन देती है।"
+                scientificName: "Withania somnifera (Indian Ginseng)",
+                type: "medicinal",
+                location: "मध्य प्रदेश, राजस्थान और शुष्क भारतीय भागों में",
+                water: "न्यूनतम जल आवश्यकता",
+                season: "अक्टूबर - नवंबर",
+                benefits: "मानसिक तनाव दूर करने, शारीरिक ताकत बढ़ाने और अनिद्रा की समस्या को खत्म करने में अचूक औषधि।",
+                description: "अश्वगंधा की जड़ों से विशिष्ट अश्व (घोड़े) जैसी महक आती है, जिसके सेवन से शरीर को अपार ऊर्जा और स्फूर्ति प्राप्त होती है। यह नर्वस सिस्टम को मजबूत करने वाली सर्वश्रेष्ठ रसायन औषधि है।"
+            },
+            {
+                id: "aloevera",
+                hindiName: "एलोवेरा (घृतकुमारी)",
+                scientificName: "Aloe barbadensis miller",
+                type: "medicinal",
+                location: "शुष्क जलवायु, मरुस्थलीय और घरेलू बगीचों में",
+                water: "कम पानी (सक्यूलेंट वैरायटी)",
+                season: "सदाबहार (सर्दियों में पीले फूल)",
+                benefits: "त्वचा को चमकाने, पाचन क्रिया दुरुस्त करने, बालों को मजबूत बनाने और जले-कटे घावों को तेजी से भरने में गुणकारी।",
+                description: "एलोवेरा एक चमत्कारी पौधा है जिसके गूदे (Gel) में विटामिन, खनिज और एंटी-ऑक्सीडेंट्स का खजाना होता है। कॉस्मेटिक और फार्मास्युटिकल इंडस्ट्री में इसका उपयोग अरबों रुपये के स्तर पर किया जाता है।"
+            },
+            {
+                id: "papaya",
+                hindiName: "पपीता",
+                scientificName: "Carica papaya (Papaya)",
+                type: "fruit",
+                location: "उष्णकटिबंधीय क्षेत्र, दक्षिण एवं उत्तर भारत के मैदानी भाग",
+                water: "नियमित लेकिन जलभराव रहित सिंचाई",
+                season: "वर्ष भर फल देने वाला पौधा",
+                benefits: "प्लेटलेट्स बढ़ाने में पत्ते उपयोगी, विटामिन ए से भरपूर, पाचन तंत्र को तीव्र और मजबूत बनाने में सहायक फल।",
+                description: "पपीता बहुत तेजी से बढ़ने वाला पौधा है। इसके कच्चे फल से सब्जी और पका फल सीधे खाया जाता है। डेंगू बुखार में इसके पत्तों का रस प्लेटलेट्स की संख्या को जादुई गति से बढ़ाने के लिए जाना जाता है।"
             }
-        };
+        ];
 
-        let mainActiveCache = fallbackDatabaseMatrix;
-        let favoriteNodesList = JSON.parse(localStorage.getItem('tony_favs')) || [];
+        let selectedCategory = 'all';
 
-        // 🚀 1. TAB SYSTEM CONFIGURATOR
-        const tabSwitchEngine = {
-            switch: function(tabId, buttonElement) {
-                document.querySelectorAll('.os-tab-panel').forEach(p => p.classList.remove('active-panel'));
-                document.querySelectorAll('.tab-trigger').forEach(b => b.classList.remove('active-tab'));
+        // 🚀 1. टैब स्विचिंग इंजन (Tab System Router)
+        const tabEngine = {
+            switch: function(tabId, btnElement) {
+                document.querySelectorAll('.os-viewport-panel').forEach(panel => panel.classList.remove('active-panel'));
+                document.querySelectorAll('.nav-tab-btn').forEach(btn => btn.classList.remove('active-tab'));
                 
                 document.getElementById(tabId).classList.add('active-panel');
-                buttonElement.classList.add('active-tab');
-
-                if (tabId === 'browse-tab') explorerGridEngine.render();
-                if (tabId === 'fav-tab') favoritesEngine.render();
+                btnElement.classList.add('active-tab');
             }
         };
 
-        // 🚀 2. SEARCH PROCESSING PIPELINE ENGINE
-        const searchPipelineEngine = {
-            quickTrigger: function(key) {
-                document.getElementById('searchInput').value = key;
-                this.execute();
-            },
-            execute: function() {
-                const start = performance.now();
-                const query = document.getElementById('searchInput').value.toLowerCase().trim();
-                const viewport = document.getElementById('masterResultViewport');
-                document.getElementById('matrixSuggestBox').style.display = 'none';
+        // 🚀 2. कार्ड्स रेंडरिंग इंजन
+        function renderDatabaseGrid(dataset) {
+            const container = document.getElementById('plantsGrid');
+            container.innerHTML = '';
+            
+            document.getElementById('matchCountNode').innerText = dataset.length;
 
-                if(!query) {
-                    viewport.innerHTML = `<div class="status-terminal-board" style="color:#ef4444;">⚠️ इनपुट ब्लॉक रिक्त है। वैध नाम खोजें।</div>`;
-                    return;
-                }
+            if(dataset.length === 0) {
+                container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; font-size:1.3rem; color:var(--text-secondary);">🔍 डेटाबेस में कोई नोड मैच नहीं हुआ। कृपया पुनः प्रयास करें।</div>`;
+                return;
+            }
 
-                const data = mainActiveCache[query];
+            dataset.forEach(plant => {
+                const card = document.createElement('div');
+                card.className = 'classic-plant-card';
+                card.id = `card-${plant.id}`;
 
-                if(data) {
-                    let usesList = '';
-                    data.uses.forEach(u => usesList += `<li>${u}</li>`);
-                    const isFav = favoriteNodesList.includes(query) ? 'is-fav' : '';
-
-                    viewport.innerHTML = `
-                        <div class="monolithic-data-card">
-                            <div class="card-identity-header">
-                                <div class="title-block">
-                                    <h2>🌳 ${data.hindiName}</h2>
-                                    <span class="scientific-tag">🔬 ${data.scientificName}</span>
-                                </div>
-                                <button class="favorite-toggle-btn ${isFav}" onclick="favoritesEngine.toggle('${query}', this)">❤️</button>
-                            </div>
-
-                            <div class="hyper-grid-matrix">
-                                <div class="matrix-data-node"><div class="node-tag">English Title</div><div class="node-value">${data.englishName}</div></div>
-                                <div class="matrix-data-node"><div class="node-tag">वानस्पतिक कुल (Family)</div><div class="matrix-data-node-value">${data.family}</div></div>
-                                <div class="matrix-data-node"><div class="node-tag">मानक शारीरिक संरचना</div><div class="matrix-data-node-value">${data.height}</div></div>
-                                <div class="matrix-data-node"><div class="node-tag">मूल भौगोलिक क्षेत्र</div><div class="matrix-data-node-value">${data.location}</div></div>
-                                <div class="matrix-data-node"><div class="node-tag">अनुकूल इको क्लाइमेट</div><div class="matrix-data-node-value">${data.climate}</div></div>
-                                <div class="matrix-data-node"><div class="node-tag">जलापूर्ति सूचकांक</div><div class="matrix-data-node-value">${data.water}</div></div>
-                                <div class="matrix-data-node"><div class="node-tag">पुष्पन का कालचक्र</div><div class="matrix-data-node-value">${data.flowers}</div></div>
-                                <div class="matrix-data-node"><div class="node-tag">फलन का कालचक्र</div><div class="matrix-data-node-value">${data.fruits}</div></div>
-                            </div>
-
-                            <div class="block-section-title">🌱 प्रमाणित औषधीय एवं व्यावहारिक उपयोग</div>
-                            <ul class="bullet-medical-list">${usesList}</ul>
-
-                            <div class="block-section-title">📖 पूर्ण वैज्ञानिक एवं आयुर्वेदिक वृत्तांत</div>
-                            <div class="narrative-prose-container" id="textToSpeechPayload">${data.description}</div>
-
-                            <div class="card-action-footer-deck">
-                                <button class="utility-btn" style="background:var(--grad-accent); color:white; border:none;" onclick="audioSynthesizerEngine.speak()">🔊 AI वाचन चालू करें</button>
-                                <button class="utility-btn" onclick="window.print()">🖨️ प्रिंट / PDF एक्सपोर्ट</button>
-                            </div>
+                card.innerHTML = `
+                    <div class="card-header-trigger" onclick="cardToggleEngine.execute('${plant.id}')" title="विवरण देखने के लिए क्लिक करें">
+                        <div class="card-title">
+                            <h3>🌳 ${plant.hindiName}</h3>
+                            <div class="scientific-name">🧬 ${plant.scientificName}</div>
                         </div>
-                    `;
-                } else {
-                    viewport.innerHTML = `<div class="status-terminal-board" style="color:#f97316;">🔍 नोड अपंजीकृत है: "${query}" कोर डेटाबेस इंडेक्स में उपलब्ध नहीं है।</div>`;
-                }
+                        <div class="arrow-icon">▼</div>
+                    </div>
 
-                const end = performance.now();
-                document.querySelectorAll('.tel-value')[2].innerText = (end - start).toFixed(2) + "ms";
+                    <div class="card-collapsible-body">
+                        <div class="info-row">
+                            <span class="info-label">📍 प्राप्ति स्थान:</span>
+                            <span>${plant.location}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">💧 सिंचाई/पानी:</span>
+                            <span>${plant.water}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">🌸 बौर/फूल समय:</span>
+                            <span>${plant.season}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">💊 औषधीय लाभ:</span>
+                            <span class="highlight-text">${plant.benefits}</span>
+                        </div>
+                        
+                        <div class="description-box" id="desc-text-${plant.id}">
+                            🎯 <strong>पूर्ण वृत्तांत:</strong> ${plant.description}
+                        </div>
+
+                        <div class="action-button-deck">
+                            <button class="action-mini-btn" style="background:var(--light-green); color:var(--primary-green);" onclick="audioEngine.speak('${plant.id}')">🔊 AI वाचन</button>
+                            <button class="action-mini-btn" onclick="utilityEngine.shareWhatsApp('${plant.hindiName}', '${plant.benefits}')">📱 व्हाट्सएप शेयर</button>
+                            <button class="action-mini-btn" onclick="window.print()">🖨️ प्रिंट रिपोर्ट</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // 🚀 3. Accordion कोलैप्स/एक्सपैंड इंजन
+        const cardToggleEngine = {
+            execute: function(id) {
+                const targetCard = document.getElementById(`card-${id}`);
+                const isOpen = targetCard.classList.contains('open');
+                document.querySelectorAll('.classic-plant-card').forEach(c => c.classList.remove('open'));
+                if(!isOpen) {
+                    targetCard.classList.add('open');
+                }
             }
         };
 
-        // 🚀 3. PREDICTIVE KEYWORD MATCHING ENGINE
-        const predictiveMatrixEngine = {
-            process: function(inputElement) {
-                const val = inputElement.value.toLowerCase().trim();
-                const box = document.getElementById('matrixSuggestBox');
-                if(!val) { box.style.display = 'none'; return; }
+        // 🚀 4. लाइव सर्च एवं फ़िल्टर इंजन
+        const searchEngine = {
+            executeFilter: function() {
+                const val = document.getElementById('classicSearch').value.toLowerCase().trim();
+                document.getElementById('suggestionBox').style.display = 'none';
+
+                const results = plantDatabase.filter(plant => {
+                    const matchesSearch = plant.hindiName.toLowerCase().includes(val) || 
+                                          plant.scientificName.toLowerCase().includes(val) ||
+                                          plant.benefits.toLowerCase().includes(val) ||
+                                          plant.description.toLowerCase().includes(val);
+                    const matchesCat = selectedCategory === 'all' || plant.type === selectedCategory;
+                    return matchesSearch && matchesCat;
+                });
+
+                renderDatabaseGrid(results);
+            },
+            filterCategory: function(cat, element) {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                element.classList.add('active');
+                selectedCategory = cat;
+                this.executeFilter();
+            },
+            resetAll: function() {
+                document.getElementById('classicSearch').value = '';
+                selectedCategory = 'all';
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.filter-btn')[0].classList.add('active');
+                this.executeFilter();
+            }
+        };
+
+        // 🚀 5. ऑटो-सजेशन बॉक्स इंजन
+        const suggestionEngine = {
+            trigger: function(input) {
+                const val = input.value.toLowerCase().trim();
+                const box = document.getElementById('suggestionBox');
+                if(!val) { box.style.display = 'none'; searchEngine.executeFilter(); return; }
 
                 box.innerHTML = '';
-                let matchCount = 0;
+                let counter = 0;
 
-                for(let key in mainActiveCache) {
-                    if(key.includes(val) || mainActiveCache[key].hindiName.includes(val)) {
-                        const row = document.createElement('div');
-                        row.className = 'matrix-row-item';
-                        row.innerHTML = `<span>${mainActiveCache[key].hindiName}</span><span style="opacity:0.5;">${key}</span>`;
-                        row.onclick = () => {
-                            inputElement.value = key;
+                plantDatabase.forEach(plant => {
+                    if(plant.hindiName.toLowerCase().includes(val) || plant.scientificName.toLowerCase().includes(val)) {
+                        const item = document.createElement('div');
+                        item.className = 'suggest-item';
+                        item.innerHTML = `<span>🌳 ${plant.hindiName}</span><span style="opacity:0.5; font-size:0.85rem;">${plant.type}</span>`;
+                        item.onclick = () => {
+                            input.value = plant.hindiName;
                             box.style.display = 'none';
-                            searchPipelineEngine.execute();
+                            searchEngine.executeFilter();
+                            cardToggleEngine.execute(plant.id);
                         };
-                        box.appendChild(row);
-                        matchCount++;
+                        box.appendChild(item);
+                        counter++;
                     }
-                }
-                box.style.display = matchCount > 0 ? 'block' : 'none';
+                });
+
+                box.style.display = counter > 0 ? 'block' : 'none';
+                searchEngine.executeFilter();
             }
         };
 
-        // 🚀 4. SPEECH RECOGNITION INTERACTIVE TUNNEL (आवाज से खोजें)
-        const speechRecognitionEngine = {
+        // 🚀 6. AI वॉइस सर्च इंजन
+        const voiceSearchEngine = {
             listen: function() {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                if(!SpeechRecognition) {
-                    alert("आपके ब्राउज़र में स्पीच रिकग्निशन सपोर्ट नहीं है। कृपया Chrome उपयोग करें।");
-                    return;
-                }
-                const recognition = new SpeechRecognition();
-                recognition.lang = 'hi-IN';
-                const btn = document.getElementById('voiceBtn');
+                const SpeechReq = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if(!SpeechReq) { alert("आपका ब्राउज़र वॉइस इनपुट सपोर्ट नहीं करता।"); return; }
 
-                recognition.onstart = () => btn.classList.add('listening');
-                recognition.onend = () => btn.classList.remove('listening');
-                
-                recognition.onresult = (event) => {
-                    const transcript = event.results[0][0].transcript.toLowerCase().replace(/[.,]/g, "").trim();
-                    document.getElementById('searchInput').value = transcript;
-                    searchPipelineEngine.execute();
+                const rec = new SpeechReq();
+                rec.lang = 'hi-IN';
+                const btn = document.getElementById('micBtn');
+
+                rec.onstart = () => { btn.classList.add('listening'); btn.innerText = "🛑"; };
+                rec.onend = () => { btn.classList.remove('listening'); btn.innerText = "🎙️"; };
+                rec.onresult = (e) => {
+                    let text = e.results[0][0].transcript.toLowerCase().replace(/[.]/g, "").trim();
+                    if(text.includes("नीम") || text.includes("neem")) text = "नीम";
+                    if(text.includes("तुलसी") || text.includes("tulsi")) text = "तुलसी";
+                    if(text.includes("आम") || text.includes("mango")) text = "आम";
+                    if(text.includes("अश्वगंधा") || text.includes("ashwagandha")) text = "अश्वगंधा";
+                    if(text.includes("एलोवेरा") || text.includes("aloe")) text = "एलोवेरा (घृतकुमारी)";
+                    if(text.includes("पपीता") || text.includes("papaya")) text = "पपीता";
+
+                    document.getElementById('classicSearch').value = text;
+                    searchEngine.executeFilter();
                 };
-                recognition.start();
+                rec.start();
             }
         };
 
-        // 🚀 5. SPEECH SYNTHESIS ENGINE (टेक्स्ट टू स्पीच)
-        const audioSynthesizerEngine = {
-            speak: function() {
+        // 🚀 7. AI टेक्स्ट-टू-स्पीच वाचन इंजन
+        const audioEngine = {
+            speak: function(id) {
                 if(window.speechSynthesis.speaking) {
                     window.speechSynthesis.cancel();
                     return;
                 }
-                const txt = document.getElementById('textToSpeechPayload').innerText;
-                const utter = new SpeechSynthesisUtterance(txt);
+                const text = document.getElementById(`desc-text-${id}`).innerText;
+                const utter = new SpeechSynthesisUtterance(text);
                 utter.lang = 'hi-IN';
                 window.speechSynthesis.speak(utter);
             }
         };
 
-        // 🚀 6. EXPLORER GRID GENERATOR PANEL
-        const explorerGridEngine = {
-            render: function() {
-                const container = document.getElementById('explorerGridContainer');
-                container.innerHTML = '';
-                for(let key in mainActiveCache) {
-                    const card = document.createElement('div');
-                    card.className = 'mini-matrix-card';
-                    card.innerHTML = `
-                        <div class="mini-title">🌳 ${mainActiveCache[key].hindiName}</div>
-                        <div class="mini-sub">${mainActiveCache[key].scientificName}</div>
-                        <p style="font-size:0.95rem; color:var(--text-secondary); line-height:1.5;">${mainActiveCache[key].description.substring(0, 85)}...</p>
-                    `;
-                    card.onclick = () => {
-                        tabSwitchEngine.switch('search-tab', document.querySelectorAll('.tab-trigger')[0]);
-                        searchPipelineEngine.quickTrigger(key);
-                    };
-                    container.appendChild(card);
-                }
+        // 🚀 8. संपर्क फॉर्म हैंडलर एवं व्हाट्सएप शेयर यूटिलिटी
+        const utilityEngine = {
+            shareWhatsApp: function(name, benefits) {
+                const text = `*वनस्पति रिपोर्ट:* 🌳 *${name}*\n\n💊 *औषधीय लाभ:* ${benefits}\n\nअधिक जानकारी के लिए टोनी ब्रदर्स फार्म हाउस विजिट करें।`;
+                const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+                window.open(url, '_blank');
+            },
+            handleFormSubmit: function(event) {
+                event.preventDefault();
+                const name = document.getElementById('formName').value;
+                alert(`धन्यवाद ${name}! आपका संदेश टोनी ब्रदर्स फार्म हाउस सर्वर पर सफलतापूर्वक सुरक्षित कर लिया गया है। हम जल्द ही आपसे संपर्क करेंगे।`);
+                document.getElementById('farmContactForm').reset();
             }
         };
 
-        // 🚀 7. BOOKMARKS & LOCAL MEMORY MATRIX SYSTEM
-        const favoritesEngine = {
-            toggle: function(key, element) {
-                if(favoriteNodesList.includes(key)) {
-                    favoriteNodesList = favoriteNodesList.filter(i => i !== key);
-                    element.classList.remove('is-fav');
-                } else {
-                    favoriteNodesList.push(key);
-                    element.classList.add('is-fav');
-                }
-                localStorage.setItem('tony_favs', JSON.stringify(favoriteNodesList));
-                this.updateCounters();
-            },
-            updateCounters: function() {
-                document.getElementById('tel-fav-count').innerText = favoriteNodesList.length;
-            },
-            render: function() {
-                const container = document.getElementById('favoritesGridContainer');
-                container.innerHTML = '';
-                if(favoriteNodesList.length === 0) {
-                    container.innerHTML = `<div class="status-terminal-board" style="grid-column: 1/-1;">❤️ कोई पसंदीदा वनस्पति बुकमार्क नहीं की गई है।</div>`;
-                    return;
-                }
-                favoriteNodesList.forEach(key => {
-                    if(mainActiveCache[key]) {
-                        const card = document.createElement('div');
-                        card.className = 'mini-matrix-card';
-                        card.innerHTML = `
-                            <div class="mini-title">🌳 ${mainActiveCache[key].hindiName}</div>
-                            <div class="mini-sub">${mainActiveCache[key].scientificName}</div>
-                        `;
-                        card.onclick = () => {
-                            tabSwitchEngine.switch('search-tab', document.querySelectorAll('.tab-trigger')[0]);
-                            searchPipelineEngine.quickTrigger(key);
-                        };
-                        container.appendChild(card);
-                    }
-                });
-            }
-        };
-
-        // 🚀 8. AMBIENT SYSTEM COSMIC PARTICLES PHYSIC LOOP
-        function initCosmicCoreCanvas() {
-            const canvas = document.getElementById('cosmic-particle-canvas');
-            const ctx = canvas.getContext('2d');
-            let partArray = [];
-
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            window.addEventListener('resize', () => {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            });
-
-            class Particle {
-                constructor() {
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height;
-                    this.r = Math.random() * 2 + 1;
-                    this.speedX = Math.random() * 0.3 - 0.15;
-                    this.speedY = Math.random() * 0.3 - 0.15;
-                }
-                move() {
-                    this.x += this.speedX;
-                    this.y += this.speedY;
-                    if(this.x > canvas.width || this.x < 0) this.speedX *= -1;
-                    if(this.y > canvas.height || this.y < 0) this.speedY *= -1;
-                }
-                draw() {
-                    ctx.fillStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(52, 211, 153, 0.2)' : 'rgba(2, 132, 199, 0.12)';
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-
-            for(let i=0; i<60; i++) partArray.push(new Particle());
-
-            function loop() {
-                ctx.clearRect(0,0,canvas.width,canvas.height);
-                partArray.forEach(p => { p.move(); p.draw(); });
-                requestAnimationFrame(loop);
-            }
-            loop();
-        }
-
-        // 🚀 9. THEME CONTROLLER ENGINE
-        const themeToggleEngine = {
+        // 🚀 9. लाइट/डार्क थीम इंजन
+        const themeEngine = {
             toggle: function() {
-                const current = document.documentElement.getAttribute('data-theme');
-                document.documentElement.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+                const curr = document.documentElement.getAttribute('data-theme');
+                document.documentElement.setAttribute('data-theme', curr === 'dark' ? 'light' : 'dark');
             }
         };
 
-        // 🚀 10. SYSTEM STARTUP TRIGER INDICES
-        window.addEventListener('DOMContentLoaded', async () => {
-            initCosmicCoreCanvas();
-            favoritesEngine.updateCounters();
-            
-            // बाहरी trees.json डेटा लोड करने का प्रयास
-            try {
-                const response = await fetch('./data/trees.json');
-                if(response.ok) {
-                    const dynamicData = await response.json();
-                    mainActiveCache = { ...fallbackDatabaseMatrix, ...dynamicData };
-                    document.getElementById('tel-total-count').innerText = Object.keys(mainActiveCache).length;
-                }
-            } catch (e) {
-                console.log("External Index offline, running fallback matrix safely.");
-                document.getElementById('tel-total-count').innerText = Object.keys(mainActiveCache).length;
-            }
+        // स्टार्टअप लोड इवेंट
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('totalCountNode').innerText = plantDatabase.length;
+            renderDatabaseGrid(plantDatabase);
         });
     </script>
 </body>
