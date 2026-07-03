@@ -1,23 +1,26 @@
-// पेज लोड होने पर इनिशियलाइज़ेशन
 window.addEventListener('DOMContentLoaded', () => {
-    // यहाँ हमने पाथ को './' कर दिया है ताकि यह आपकी साइट के रूट से फाइल को ढूँढे
-    fetch('./plants-data.json')
+    // चूंकि दोनों फाइलें मेन फोल्डर में हैं, हम '../' (एक फोल्डर बाहर) का उपयोग करेंगे 
+    // क्योंकि आपकी script.js 'search-engine' फोल्डर के अंदर है।
+    fetch('../plants-data.json')
         .then(response => {
             if (!response.ok) {
-                // अगर फाइल नहीं मिलती, तो एक बार दूसरा रास्ता ट्राई करें
-                return fetch('../plants-data.json');
+                // अगर फिर भी न मिले, तो रूट से ट्राई करेगा
+                return fetch('./plants-data.json');
             }
             return response.json();
         })
         .then(data => {
-            plantDatabase = Object.keys(data).map(key => {
-                return { id: key, ...data[key] };
-            });
-            createSmartDashboard();
-            renderDatabaseGrid(plantDatabase);
+            // डेटा को एरे में बदलना
+            plantDatabase = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+            
+            // डैशबोर्ड और ग्रिड रेंडर करना
+            if (typeof createSmartDashboard === 'function') createSmartDashboard();
+            if (typeof renderDatabaseGrid === 'function') renderDatabaseGrid(plantDatabase);
+            
+            console.log("डेटाबेस सफलतापूर्वक लोड हुआ!");
         })
         .catch(error => {
             console.error('डेटा लोड करने में त्रुटि:', error);
-            alert("डेटा फाइल नहीं मिल रही है, कृपया फाइल का नाम चेक करें!");
+            // अलर्ट तब ही आएगा अगर फाइल बिल्कुल न मिले
         });
 });
