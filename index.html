@@ -536,6 +536,47 @@
             border-color: transparent;
         }
 
+        /* डायनामिक इंजेक्टेड ऑल व्यू बटन स्टाइल्स */
+        .action-mini-btn.all-view-btn {
+            background: #1b5e20 !important;
+            color: #ffffff !important;
+            border-color: transparent !important;
+        }
+        .action-mini-btn.all-view-btn:hover {
+            background: #2e7d32 !important;
+            transform: scale(1.05);
+        }
+
+        /* ऑल व्यू फुल स्क्रीन ओवरले स्टाइल्स */
+        .all-view-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .all-view-overlay.show { opacity: 1; pointer-events: auto; }
+        .all-view-modal {
+            background: var(--card-bg, #ffffff);
+            color: var(--text-primary, #2d3748);
+            width: 90%; max-width: 650px;
+            border-radius: 16px; padding: 30px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+            position: relative;
+            border-top: 8px solid #2e7d32;
+            transform: translateY(20px); transition: transform 0.3s ease;
+        }
+        .all-view-overlay.show .all-view-modal { transform: translateY(0); }
+        .close-modal-btn {
+            position: absolute; top: 15px; right: 15px;
+            background: #ef4444; color: white; border: none;
+            width: 32px; height: 32px; border-radius: 50%;
+            font-weight: bold; cursor: pointer; font-size: 1.1rem;
+            display: flex; align-items: center; justify-content: center;
+        }
+
         /* ==========================================================================
            7. ABOUT & CONTACT MODULE EXCLUSIVES
            ========================================================================== */
@@ -627,7 +668,6 @@
 </head>
 <body>
 
-    <!-- 👑 क्लासिक ग्रीन टॉप हेडर एवं मुख्य नेविगेशन -->
     <div class="header-bar">
         <div class="brand-logo">🌿 Tony Brothers Farm</div>
         
@@ -641,21 +681,18 @@
         <button class="theme-btn" onclick="themeEngine.toggle()">🌓 डार्क/लाइट</button>
     </div>
 
-    <!-- 📢 NEW FEATURE: एडवांस्ड चलती हुई सूचना पट्टी (Premium Dynamic Ticker) -->
     <div class="tony-ticker-container">
         <div class="tony-ticker-wrapper">
             <span>🚀 यह डिजिटल प्लेटफार्म विशेष रूप से <span class="ticker-highlight">टोनी स्टार (पुष्कर सैनी)</span> द्वारा डिज़ाइन और निर्मित किया गया है। इस एडवांस साइट पर आपको विभिन्न प्रकार के पेड़-पौधों, दुर्लभ जड़ी-बूटियों एवं जैविक कृषि के बारे में सर्वश्रेष्ठ और अमूल्य जानकारी मिलती है। प्रकृति से जुड़ें, स्वस्थ रहें! 🌿</span>
         </div>
     </div>
 
-    <!-- ==================== TAB 1: HOME PAGE ==================== -->
     <div id="home-tab" class="os-viewport-panel active-panel">
         <div class="hero-banner">
             <h1>टोनी ब्रदर्स फार्म हाउस में आपका स्वागत है</h1>
             <p>प्राकृतिक शुद्धता, जैविक कृषि संवर्धन और दुर्लभ जड़ी-बूटियों के संरक्षण का एक अनोखा डिजिटल कॉरिडॉर। हमारे वनस्पति खजाने को एक्सप्लोर करें।</p>
         </div>
 
-        <!-- लाइव एनालिटिक्स डैशबोर्ड (होम पेज पर शिफ्ट किया गया) -->
         <div class="analytics-dashboard">
             <div class="metric-node">
                 <div class="metric-val" id="totalCountNode">0</div>
@@ -667,7 +704,6 @@
             </div>
         </div>
 
-        <!-- एडवांस सर्च कॉरिडोर (अब होम पेज पर "हमारी मुख्य विशेषताएं" के ठीक ऊपर) -->
         <div class="search-container">
             <div class="search-box-wrapper">
                 <input type="text" id="classicSearch" class="search-input" placeholder="पौधा, बीमारी, कुल या कोई भी उपयोग टाइप करें..." oninput="suggestionEngine.trigger(this)">
@@ -676,10 +712,8 @@
                 <button class="clear-btn" onclick="searchEngine.resetAll()">रीसेट</button>
             </div>
 
-            <!-- सजेशन ड्रॉपडाउन मैट्रिक्स -->
             <div class="suggestion-panel" id="suggestionBox"></div>
 
-            <!-- क्लासिक फ़िल्टर स्विचर -->
             <div class="filter-buttons">
                 <button class="filter-btn active" onclick="searchEngine.filterCategory('all', this)">🌱 सब कुछ देखें</button>
                 <button class="filter-btn" onclick="searchEngine.filterCategory('medicinal', this)">🩺 मुख्य औषधियां</button>
@@ -687,7 +721,6 @@
             </div>
         </div>
 
-        <!-- सर्च करने पर पौधों का ग्रिड व्यू यहाँ खुलेगा -->
         <div class="cards-grid" id="plantsGrid"></div>
 
         <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary-green); margin-top: 40px;">🚜 हमारी मुख्य विशेषताएं</div>
@@ -710,7 +743,6 @@
         </div>
     </div>
 
-    <!-- ==================== TAB 2: EXPLORER / SEARCH CENTER ==================== -->
     <div id="search-tab" class="os-viewport-panel">
         <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
             <h2>🌿 वनस्पति खजाना अब होम पेज (🏠 होम) पर ही उपलब्ध है!</h2>
@@ -719,7 +751,6 @@
         </div>
     </div>
 
-    <!-- ==================== TAB 3: ABOUT US PANEL ==================== -->
     <div id="about-tab" class="os-viewport-panel">
         <div class="prose-content-block">
             <h2>📖 हमारे बारे में (Our Story)</h2>
@@ -737,14 +768,12 @@
         </div>
     </div>
 
-    <!-- ==================== TAB 4: CONTACT US PANEL ==================== -->
     <div id="contact-tab" class="os-viewport-panel">
         <div class="prose-content-block">
             <h2>📞 हमसे संपर्क करें (Contact Us)</h2>
             <p style="color: var(--text-secondary); margin-bottom: 30px;">यदि आपके पास कोई प्रश्न है, या आप पौधों की बुकिंग या फार्म विजिट करना चाहते हैं, तो हमें नीचे संदेश भेजें।</p>
             
             <div class="contact-form-grid">
-                <!-- फॉर्म एलिमेंट -->
                 <form id="farmContactForm" onsubmit="utilityEngine.handleFormSubmit(event)">
                     <div class="form-group">
                         <label>आपका नाम (Full Name)</label>
@@ -761,7 +790,6 @@
                     <button type="submit" class="form-submit-btn">📨 संदेश भेजें</button>
                 </form>
 
-                <!-- सीधे पते की जानकारी -->
                 <div style="background: var(--light-green); padding: 30px; border-radius: var(--radius-main); border-left: 6px solid var(--primary-green);">
                     <h3 style="color: var(--primary-green); margin-bottom: 20px; font-size: 1.4rem;">📍 फार्म हाउस संपर्क केंद्र</h3>
                     <p style="margin-bottom: 15px; font-size: 1.1rem;"><strong>🏢 पता:</strong> टोनी ब्रदर्स फार्म हाउस, राजस्थान, भारत</p>
@@ -775,13 +803,17 @@
         </div>
     </div>
 
+    <div class="all-view-overlay" id="allViewOverlay">
+        <div class="all-view-modal">
+            <button class="close-modal-btn" onclick="document.getElementById('allViewOverlay').classList.remove('show')">✕</button>
+            <div id="allViewContent"></div>
+        </div>
+    </div>
+
     <footer>
         <p>© 2026 Tony Brothers Farm House | Automated Botanical Ecosystem Core</p>
     </footer>
 
-    <!-- ==========================================================================
-         8. CORE JAVASCRIPT ARCHITECTURE ENGINE
-         ========================================================================== */ -->
     <script>
         // 🌿 पौधों का विस्तारित मास्टर डेटाबेस (Expanded for larger codebase)
         const plantDatabase = [
@@ -866,7 +898,7 @@
             }
         };
 
-        // 🚀 2. कार्ड्स रेंडरिंग इंजन
+        // 🚀 2. कार्ड्स रेंडरिंग इंजन (इसमें '👁️ All View' बटन को शामिल कर दिया गया है)
         function renderDatabaseGrid(dataset) {
             const container = document.getElementById('plantsGrid');
             container.innerHTML = '';
@@ -915,6 +947,7 @@
                         </div>
 
                         <div class="action-button-deck">
+                            <button class="action-mini-btn all-view-btn" onclick="openAllViewModal('${plant.id}')">👁️ All View</button>
                             <button class="action-mini-btn" style="background:var(--light-green); color:var(--primary-green);" onclick="audioEngine.speak('${plant.id}')">🔊 AI वाचन</button>
                             <button class="action-mini-btn" onclick="utilityEngine.shareWhatsApp('${plant.hindiName}', '${plant.benefits}')">📱 व्हाट्सएप शेयर</button>
                             <button class="action-mini-btn" onclick="window.print()">🖨️ प्रिंट रिपोर्ट</button>
@@ -1062,6 +1095,29 @@
             toggle: function() {
                 const curr = document.documentElement.getAttribute('data-theme');
                 document.documentElement.setAttribute('data-theme', curr === 'dark' ? 'light' : 'dark');
+            }
+        };
+
+        // 🚀 10. ऑल व्यू मॉडल डेटा हैंडलर
+        window.openAllViewModal = function(plantId) {
+            const plant = plantDatabase.find(p => p.id === plantId);
+            if (plant) {
+                const content = document.getElementById('allViewContent');
+                content.innerHTML = `
+                    <h2 style="color:#2e7d32; margin-bottom:15px; font-size:2rem;">🌳 ${plant.hindiName}</h2>
+                    <p style="font-style:italic; color:gray; margin-bottom:20px;">🧬 ${plant.scientificName}</p>
+                    <hr style="border:0; border-top:1px dashed #e2e8f0; margin-bottom:15px;">
+                    <div style="font-size:1.1rem; line-height:1.8;">
+                        <p style="margin-bottom:10px;"><strong>📍 प्राप्ति स्थान:</strong> ${plant.location}</p>
+                        <p style="margin-bottom:10px;"><strong>💧 सिंचाई/पानी:</strong> ${plant.water}</p>
+                        <p style="margin-bottom:10px;"><strong>🌸 बौर/फूल समय:</strong> ${plant.season}</p>
+                        <p style="margin-bottom:15px; color:#2e7d32;"><strong>💊 औषधीय लाभ:</strong> ${plant.benefits}</p>
+                        <div style="background:var(--light-green); padding:15px; border-radius:8px; border-left:5px solid #2e7d32; color:var(--text-primary);">
+                            <strong>🎯 पूर्ण वृत्तांत:</strong> ${plant.description}
+                        </div>
+                    </div>
+                `;
+                document.getElementById('allViewOverlay').classList.add('show');
             }
         };
 
