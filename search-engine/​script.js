@@ -151,7 +151,7 @@ function createSmartDashboard() {
     fetchWeatherData();
 }
 
-// 🌦️ लाइव मौसम डेटा और सिंचाई की सलाह देना
+// 🌦️ सिंचाई सलाह लॉजिक
 function fetchWeatherData() {
     const widget = document.getElementById('weatherWidget');
     if (!widget) return;
@@ -170,13 +170,13 @@ function fetchWeatherData() {
     `;
 }
 
-// 🧪 बीमारी के आधार पर फ़िल्टर करना
+// 🧪 बीमारी के आधार पर फ़िल्टर
 function filterBySymptom(symptom) {
     selectedSymptom = symptom;
     searchEngine.executeFilter();
 }
 
-// 📅 चालू मौसम/महीने के पौधे फ़िल्टर करना
+// 📅 सीजन फ़िल्टर
 function filterByCurrentSeason() {
     const months = ["जनवरी", "फरवरी", "मार्च", "अप्रैल", "मई", "जून", "जुलाई", "अगस्त", "सितंबर", "अक्टूबर", "नवंबर", "दिसंबर"];
     const currentMonth = months[new Date().getMonth()].toLowerCase();
@@ -223,10 +223,11 @@ function renderDatabaseGrid(dataset) {
     });
 }
 
-// लाइव मुख्य सर्च इंजन
-const searchEngine = {
+// लाइव मुख्य सर्च इंजन ऑब्जेक्ट (ग्लोबल स्कोप)
+window.searchEngine = {
     executeFilter: function() {
-        const val = document.getElementById('classicSearch') ? document.getElementById('classicSearch').value.toLowerCase().trim() : '';
+        const searchInput = document.getElementById('classicSearch');
+        const val = searchInput ? searchInput.value.toLowerCase().trim() : '';
         const maggBox = document.getElementById('suggestionBox');
         if(maggBox) maggBox.style.display = 'none';
 
@@ -273,13 +274,13 @@ const searchEngine = {
     }
 };
 
-// ऑटो-सजेशन इंजन
-const suggestionEngine = {
+// ऑटो-सजेशन इंजन (ग्लोबल स्कोप)
+window.suggestionEngine = {
     trigger: function(input) {
         const val = input.value.toLowerCase().trim();
         const box = document.getElementById('suggestionBox');
         if(!box) return;
-        if(!val) { box.style.display = 'none'; searchEngine.executeFilter(); return; }
+        if(!val) { box.style.display = 'none'; window.searchEngine.executeFilter(); return; }
 
         box.innerHTML = '';
         let counter = 0;
@@ -293,19 +294,19 @@ const suggestionEngine = {
                 item.onclick = () => {
                     input.value = hindiName;
                     box.style.display = 'none';
-                    searchEngine.executeFilter();
+                    window.searchEngine.executeFilter();
                 };
                 box.appendChild(item);
                 counter++;
             }
         });
         box.style.display = counter > 0 ? 'block' : 'none';
-        searchEngine.executeFilter();
+        window.searchEngine.executeFilter();
     }
 };
 
-// वॉइस सर्च इंजन
-const voiceSearchEngine = {
+// वॉइस सर्च इंजन (ग्लोबल स्कोप)
+window.voiceSearchEngine = {
     listen: function() {
         const SpeechReq = window.SpeechRecognition || window.webkitSpeechRecognition;
         if(!SpeechReq) { alert("ब्राउज़र वॉइस सपोर्ट नहीं करता।"); return; }
@@ -316,13 +317,13 @@ const voiceSearchEngine = {
             const searchInput = document.getElementById('classicSearch');
             if(searchInput) {
                 searchInput.value = e.results[0][0].transcript;
-                searchEngine.executeFilter();
+                window.searchEngine.executeFilter();
             }
         };
     }
 };
 
-// पेज लोड होते ही डेटाबेस लोड करना और डैशबोर्ड बनाना
+// पेज लोड होने पर इनिशियलाइज़ेशन
 window.addEventListener('DOMContentLoaded', () => {
     fetch('../plants-data.json')
         .then(response => {
