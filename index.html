@@ -274,6 +274,10 @@
             color: var(--primary-green);
         }
 
+        .metric-node .metric-val {
+            font-size: 2rem;
+        }
+
         .metric-lbl {
             font-size: 0.9rem;
             color: var(--text-secondary);
@@ -819,12 +823,12 @@
                 टोनी ब्रदर्स फार्म हाउस की नींव कृषि नवाचार और पारंपरिक भारतीय आयुर्वेद को एक साथ एक ही मंच पर लाने के विज़न के साथ रखी गई है। हमारा उद्देश्य है कि हर व्यक्ति को प्रकृति के अद्भुत पौधों, उनकी वास्तविक वैज्ञानिक पहचान और उनके स्वास्थ्य लाभों का सटीक ज्ञान आसानी से मिल सके। 
             </p>
             <p style="font-size: 1.15rem; text-align: justify; margin-bottom: 30px;">
-                हम आधुनिक तकनीकों का उपयोग करके औषधीय पौधों जैसे नीम, तुलसी, अश्वगंधा और विभिन्न प्रकार के उन्नत फलदार पेड़ों का संवर्धन करते हैं। हमारी यह डिजिटल प्रणाली सीधे कृषि क्षेत्र से डेटा को प्रोसेस करके विद्यार्थियों, शोधकर्ताओं और प्रकृति प्रेमियों तक पहुंचाती है।
+                हम आधुनिक तकनीकों का उपयोग करके औषधीय पौधों जैसे नीम, तुलसी, अश्वगंधा और विभिन्न प्रकार के उन्नत फलदार पेड़ों का संवर्धन करते हैं। हमारी यह डिजिटल प्रणाली सीधे कृषि क्षेत्र से डेटा को प्रोसेस करके विद्यार्थियों, शोधकर्ताओं and प्रकृति प्रेमियों तक पहुंचाती है।
             </p>
             
             <h3 style="color: var(--primary-green); margin-bottom: 15px; font-size: 1.4rem;">🎯 हमारा लक्ष्य</h3>
             <p style="font-size: 1.1rem; margin-bottom: 15px;">✔ आने वाली पीढ़ी को पेड़-पौधों के महत्व और जैविक खेती के फायदों से अवगत कराना।</p>
-            <p style="font-size: 1.1rem; margin-bottom: 15px;">✔ औषधीय पौधों के डेटाबेस को पूरी तरह डिजिटल and ओपन-सोर्स बनाना।</p>
+            <p style="font-size: 1.1rem; margin-bottom: 15px;">✔ औषधीय पौधों के डेटाबेस को पूरी तरह डिजिटल और ओपन-सोर्स बनाना।</p>
             <p style="font-size: 1.1rem;">✔ पानी की न्यूनतम खपत वाले और पर्यावरण के अनुकूल पौधों की तकनीकों को बढ़ाना।</p>
         </div>
     </div>
@@ -876,27 +880,24 @@
     </footer>
 
     <script>
-        // 🌿 पौधों का लाइव डायनेमिक डेटाबेस (अब सीधे plants-data.json से सिंक होगा)
+        // 🌿 पौधों का लाइव डायनेमिक डेटाबेस (plants-data.json से सिंक)
         let plantDatabase = [];
         let selectedCategory = 'all';
         let selectedSymptom = 'all';
 
-        // 🚀 plants-data.json को होम पेज पर फ़ेच करने का मास्टर फंक्शन
+        // 🚀 plants-data.json लोड करने का फंक्शन
         async function loadDataFromJson() {
             try {
                 const response = await fetch('plants-data.json');
                 const rawData = await response.json();
                 
-                // ऑब्जेक्ट फॉर्मेट को सर्च-फ्रेंडली एरे फॉर्मेट में कंवर्ट करना
                 plantDatabase = Object.keys(rawData).map(key => {
                     return { id: key, ...rawData[key] };
                 });
 
-                // डैशबोर्ड काउंटर्स को रियल-टाइम अपडेट करना
                 document.getElementById('totalCountNode').innerText = plantDatabase.length;
                 document.getElementById('matchCountNode').innerText = plantDatabase.length;
                 
-                // चालू महीना सेट करना
                 const months = ["जनवरी", "फरवरी", "मार्च", "अप्रैल", "मई", "जून", "जुलाई", "अगस्त", "सितंबर", "अक्टूबर", "नवंबर", "दिसंबर"];
                 const currentMonth = months[new Date().getMonth()];
                 if(document.getElementById('currentMonthBadge')) {
@@ -907,11 +908,11 @@
                 renderDatabaseGrid(plantDatabase);
             } catch (error) {
                 console.error("JSON लोड करने में एरर आई:", error);
-                document.getElementById('plantsGrid').innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:red;">⚠️ plants-data.json फ़ाइल लोड नहीं हो सकी। कृपया सुनिश्चित करें कि फ़ाइल सही जगह पर है।</div>`;
+                document.getElementById('plantsGrid').innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:red;">⚠️ plants-data.json फ़ाइल लोड नहीं हो सकी।</div>`;
             }
         }
 
-        // 🌦️ मौसम और सिंचाई सलाह लॉजिक
+        // 🌦️ मौसम सलाह लॉजिक
         function fetchWeatherData() {
             const widget = document.getElementById('weatherWidget');
             if (!widget) return;
@@ -919,12 +920,12 @@
             let advice = "पौधों में नमी बनाए रखें। सुबह या शाम को पानी देना सबसे उत्तम है।";
             const hour = new Date().getHours();
             if (hour >= 10 && hour <= 16) {
-                advice = "☀️ इस समय तेज धूप है, पौधों को सीधे पानी देने से बचें। शाम को पानी दें।";
+                advice = "☀️ इस समय तेज धूप है, शाम को पानी दें।";
             }
             widget.innerHTML = `<b>अनुमानित तापमान:</b> ${temp}°C<br><b>💧 सिंचाई सलाह:</b> ${advice}`;
         }
 
-        // 🚀 1. टैब स्विचिंग इंजन (Tab System Router)
+        // 🚀 1. टैब स्विचिंग इंजन
         const tabEngine = {
             switch: function(tabId, btnElement) {
                 document.querySelectorAll('.os-viewport-panel').forEach(panel => panel.classList.remove('active-panel'));
@@ -935,7 +936,16 @@
             }
         };
 
-        // 🚀 2. कार्ड्स रेंडरिंग इंजन
+        // 🚀 2. थीम इंजन
+        const themeEngine = {
+            toggle: function() {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+            }
+        };
+
+        // 🚀 3. कार्ड्स रेंडरिंग इंजन
         function renderDatabaseGrid(dataset) {
             const container = document.getElementById('plantsGrid');
             if(!container) return;
@@ -944,21 +954,19 @@
             document.getElementById('matchCountNode').innerText = dataset.length;
 
             if(dataset.length === 0) {
-                container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; font-size:1.3rem; color:var(--text-secondary);">🔍 डेटाबेस में कोई नोड मैच नहीं हुआ। कृपया पुनः प्रयास करें।</div>`;
+                container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; font-size:1.3rem; color:var(--text-secondary);">🔍 कोई परिणाम नहीं मिला।</div>`;
                 return;
             }
 
-            const visibleData = dataset.slice(0, 100);
-
-            visibleData.forEach(plant => {
+            dataset.forEach(plant => {
                 const card = document.createElement('div');
                 card.className = 'classic-plant-card';
                 card.id = `card-${plant.id}`;
 
-                const usesText = Array.isArray(plant.uses) ? plant.uses.join(', ') : (plant.uses || plant.benefits || 'उपलब्ध नहीं');
+                const usesText = Array.isArray(plant.uses) ? plant.uses.join(', ') : (plant.uses || 'उपलब्ध नहीं');
 
                 card.innerHTML = `
-                    <div class="card-header-trigger" onclick="cardToggleEngine.execute('${plant.id}')" title="विवरण देखने के लिए क्लिक करें">
+                    <div class="card-header-trigger" onclick="cardToggleEngine.execute('${plant.id}')">
                         <div class="card-title">
                             <h3>🌳 ${plant.hindiName || plant.id}</h3>
                             <div class="scientific-name">🧬 ${plant.scientificName || ''} (${plant.englishName || ''})</div>
@@ -988,14 +996,14 @@
                             <span class="highlight-text">${usesText}</span>
                         </div>
                         
-                        <div class="description-box" id="desc-text-${plant.id}">
+                        <div class="description-box">
                             🎯 <strong>पूर्ण वृत्तांत:</strong> ${plant.description || 'कोई विवरण उपलब्ध नहीं।'}
                         </div>
 
                         <div class="action-button-deck">
                             <button class="action-mini-btn all-view-btn" onclick="openAllViewModal('${plant.id}')">👁️ All View</button>
                             <button class="action-mini-btn" onclick="utilityEngine.shareWhatsApp('${plant.hindiName || plant.id}', '${usesText}')">📱 व्हाट्सएप शेयर</button>
-                            <button class="action-mini-btn" onclick="window.print()">🖨️ प्रिंट रिपोर्ट</button>
+                            <button class="action-mini-btn" onclick="window.print()">🖨️ प्रिंट</button>
                         </div>
                     </div>
                 `;
@@ -1003,20 +1011,18 @@
             });
         }
 
-        // 🚀 3. Accordion कोलैप्स/एक्सपैंड इंजन
+        // 🚀 4. Accordion इंजन
         const cardToggleEngine = {
             execute: function(id) {
                 const targetCard = document.getElementById(`card-${id}`);
                 if(!targetCard) return;
                 const isOpen = targetCard.classList.contains('open');
                 document.querySelectorAll('.classic-plant-card').forEach(c => c.classList.remove('open'));
-                if(!isOpen) {
-                    targetCard.classList.add('open');
-                }
+                if(!isOpen) targetCard.classList.add('open');
             }
         };
 
-        // 🚀 4. लाइव सर्च एवं फ़िल्टर इंजन
+        // 🚀 5. लाइव सर्च इंजन
         const searchEngine = {
             executeFilter: function() {
                 const val = document.getElementById('classicSearch').value.toLowerCase().trim();
@@ -1027,17 +1033,12 @@
                     const sName = (plant.scientificName || '').toLowerCase();
                     const eName = (plant.englishName || '').toLowerCase();
                     const desc = (plant.description || '').toLowerCase();
-                    const benefits = (plant.benefits || '').toLowerCase();
                     const usesText = Array.isArray(plant.uses) ? plant.uses.join(' ').toLowerCase() : (plant.uses || '').toLowerCase();
 
                     const matchesSearch = hName.includes(val) || sName.includes(val) || eName.includes(val) || desc.includes(val) || usesText.includes(val);
                     const matchesCat = selectedCategory === 'all' || plant.type === selectedCategory;
                     
-                    const matchesSymptom = selectedSymptom === 'all' || 
-                                           hName.includes(selectedSymptom) || 
-                                           desc.includes(selectedSymptom) || 
-                                           benefits.includes(selectedSymptom) ||
-                                           usesText.includes(selectedSymptom);
+                    const matchesSymptom = selectedSymptom === 'all' || hName.includes(selectedSymptom) || desc.includes(selectedSymptom) || usesText.includes(selectedSymptom);
 
                     return matchesSearch && matchesCat && matchesSymptom;
                 });
@@ -1065,51 +1066,5 @@
 
                 renderDatabaseGrid(results);
             },
-            resetAll: function() {
-                document.getElementById('classicSearch').value = '';
-                selectedCategory = 'all';
-                selectedSymptom = 'all';
-                if(document.getElementById('symptomFilter')) document.getElementById('symptomFilter').value = 'all';
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                if(document.querySelectorAll('.filter-btn')[0]) document.querySelectorAll('.filter-btn')[0].classList.add('active');
-                this.executeFilter();
-            }
-        };
+            resetAll
 
-        // 🚀 5. ऑटो-सजेशन बॉक्स इंजन
-        const suggestionEngine = {
-            trigger: function(input) {
-                const val = input.value.toLowerCase().trim();
-                const box = document.getElementById('suggestionBox');
-                if(!val) { box.style.display = 'none'; searchEngine.executeFilter(); return; }
-
-                box.innerHTML = '';
-                let counter = 0;
-
-                plantDatabase.forEach(plant => {
-                    const name = (plant.hindiName || plant.id).toLowerCase();
-                    const sci = (plant.scientificName || '').toLowerCase();
-                    
-                    if(name.includes(val) || sci.includes(val)) {
-                        const item = document.createElement('div');
-                        item.className = 'suggest-item';
-                        item.innerHTML = `<span>🌳 ${plant.hindiName || plant.id}</span><span style="opacity:0.5; font-size:0.85rem;">${plant.type || 'plant'}</span>`;
-                        item.onclick = () => {
-                            input.value = plant.hindiName || plant.id;
-                            box.style.display = 'none';
-                            searchEngine.executeFilter();
-                            cardToggleEngine.execute(plant.id);
-                        };
-                        box.appendChild(item);
-                        counter++;
-                    }
-                });
-
-                box.style.display = counter > 0 ? 'block' : 'none';
-                searchEngine.executeFilter();
-            }
-        };
-
-        // 🚀 6. संपर्क फॉर्म हैंडलर एवं व्हाट्सएप शेयर यूटिलिटी
-        const utilityEngine = {
-            shareWhatsApp: function(name, benefits
