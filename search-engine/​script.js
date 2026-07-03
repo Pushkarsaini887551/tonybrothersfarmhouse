@@ -2,7 +2,7 @@
 let plantDatabase = [];
 let selectedCategory = 'all';
 
-// CSS को ऑटोमैटिक फिक्स करने के लिए एक स्टाइल ब्लॉक जोड़ना (ताकि ग्रिड सुंदर दिखे)
+// CSS को ऑटोमैटिक फिक्स करने के लिए स्टाइल ब्लॉक
 const styleNode = document.createElement('style');
 styleNode.innerHTML = `
     #plantsGrid {
@@ -66,7 +66,6 @@ function renderDatabaseGrid(dataset) {
     }
 
     dataset.forEach(plant => {
-        // उपयोग (uses) या लाभ (benefits) की लिस्ट को व्यवस्थित करना
         let benefitsText = 'N/A';
         if (plant.benefits) {
             benefitsText = plant.benefits;
@@ -175,27 +174,20 @@ const voiceSearchEngine = {
     }
 };
 
-// पेज लोड होते ही plants-data.json से लाइव सारा डेटा खींचने का सिस्टम
+// लोड फंक्शन
 window.addEventListener('DOMContentLoaded', () => {
     fetch('../plants-data.json')
         .then(response => {
-            if (!response.ok) throw new Error('JSON फाइल लोड करने में समस्या आई');
+            if (!response.ok) throw new Error('JSON लोड एरर');
             return response.json();
         })
         .then(data => {
             plantDatabase = Object.keys(data).map(key => {
-                return {
-                    id: key,
-                    ...data[key]
-                };
+                return { id: key, ...data[key] };
             });
             renderDatabaseGrid(plantDatabase);
         })
         .catch(error => {
-            console.error('Error fetching data:', error);
-            const container = document.getElementById('plantsGrid');
-            if(container) {
-                container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:30px; color:red; font-weight:bold;">⚠️ plants-data.json फाइल लोड नहीं हो सकी।</div>`;
-            }
+            console.error('Error:', error);
         });
 });
