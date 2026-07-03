@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>प्लांट जर्नल - Tony Brothers</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f7f5; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { color: #2e7d32; text-align: center; }
+        textarea { width: 100%; height: 100px; margin-top: 10px; padding: 10px; border-radius: 8px; border: 1px solid #ddd; }
+        input { width: 100%; padding: 10px; margin-top: 10px; border-radius: 8px; border: 1px solid #ddd; }
+        button { width: 100%; padding: 15px; margin-top: 15px; background: #2e7d32; color: white; border: none; border-radius: 8px; cursor: pointer; }
+        .log-item { background: #f9f9f9; padding: 10px; margin-top: 10px; border-left: 4px solid #2e7d32; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📝 मेरा प्लांट जर्नल</h1>
+    <input type="text" id="plantName" placeholder="पौधे का नाम...">
+    <textarea id="plantNote" placeholder="आज क्या किया? (जैसे: पानी दिया, खाद डाली...)"></textarea>
+    <button onclick="saveLog()">नोट सेव करें</button>
+
+    <h3>हालिया लॉग्स:</h3>
+    <div id="logsContainer"></div>
+
+    <button style="background: #718096;" onclick="location.href='index.html'">⬅️ वापस टूल्स पर जाएं</button>
+</div>
+
+<script>
+    function saveLog() {
+        const name = document.getElementById('plantName').value;
+        const note = document.getElementById('plantNote').value;
+        if (!name || !note) return alert("नाम और नोट दोनों भरें!");
+
+        const log = `<div class="log-item"><b>${name}</b>: ${note}</div>`;
+        document.getElementById('logsContainer').insertAdjacentHTML('afterbegin', log);
+        
+        // क्लियर करें
+        document.getElementById('plantName').value = '';
+        document.getElementById('plantNote').value = '';
+    }
+</script>
+</body>
+</html>
+
