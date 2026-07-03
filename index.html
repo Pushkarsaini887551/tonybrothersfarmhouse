@@ -137,6 +137,7 @@
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
+            align-items: center;
         }
 
         .nav-tab-btn {
@@ -148,6 +149,8 @@
             font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .nav-tab-btn:hover, .nav-tab-btn.active-tab {
@@ -703,6 +706,7 @@
         <div class="nav-menu">
             <button class="nav-tab-btn active-tab" onclick="tabEngine.switch('home-tab', this)">🏠 होम</button>
             <button class="nav-tab-btn" onclick="tabEngine.switch('search-tab', this)">🔍 वनस्पति खजाना</button>
+            <a href="smart-tools/index.html" class="nav-tab-btn">🛠️ स्मार्ट टूल्स</a>
             <button class="nav-tab-btn" onclick="tabEngine.switch('about-tab', this)">📖 हमारे बारे में</button>
             <button class="nav-tab-btn" onclick="tabEngine.switch('contact-tab', this)">📞 संपर्क करें</button>
         </div>
@@ -820,7 +824,7 @@
             
             <h3 style="color: var(--primary-green); margin-bottom: 15px; font-size: 1.4rem;">🎯 हमारा लक्ष्य</h3>
             <p style="font-size: 1.1rem; margin-bottom: 15px;">✔ आने वाली पीढ़ी को पेड़-पौधों के महत्व और जैविक खेती के फायदों से अवगत कराना।</p>
-            <p style="font-size: 1.1rem; margin-bottom: 15px;">✔ औषधीय पौधों के डेटाबेस को पूरी तरह डिजिटल और ओपन-सोर्स बनाना।</p>
+            <p style="font-size: 1.1rem; margin-bottom: 15px;">✔ औषधीय पौधों के डेटाबेस को पूरी तरह डिजिटल and ओपन-सोर्स बनाना।</p>
             <p style="font-size: 1.1rem;">✔ पानी की न्यूनतम खपत वाले और पर्यावरण के अनुकूल पौधों की तकनीकों को बढ़ाना।</p>
         </div>
     </div>
@@ -1067,7 +1071,7 @@
                 selectedSymptom = 'all';
                 if(document.getElementById('symptomFilter')) document.getElementById('symptomFilter').value = 'all';
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.filter-btn')[0].classList.add('active');
+                if(document.querySelectorAll('.filter-btn')[0]) document.querySelectorAll('.filter-btn')[0].classList.add('active');
                 this.executeFilter();
             }
         };
@@ -1108,55 +1112,4 @@
 
         // 🚀 6. संपर्क फॉर्म हैंडलर एवं व्हाट्सएप शेयर यूटिलिटी
         const utilityEngine = {
-            shareWhatsApp: function(name, benefits) {
-                const text = `*वनस्पति रिपोर्ट:* 🌳 *${name}*\n\n💊 *उपयोग व लाभ:* ${benefits}\n\nअधिक जानकारी के लिए टोनी ब्रदर्स फार्म हाउस विजिट करें।`;
-                const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
-                window.open(url, '_blank');
-            },
-            handleFormSubmit: function(event) {
-                event.preventDefault();
-                const name = document.getElementById('formName').value;
-                alert(`धन्यवाद ${name}! आपका संदेश टोनी ब्रदर्स फार्म हाउस सर्वर पर सफलतापूर्वक सुरक्षित कर लिया गया है। हम जल्द ही आपसे संपर्क करेंगे।`);
-                document.getElementById('farmContactForm').reset();
-            }
-        };
-
-        // 🚀 7. लाइट/डार्क थीम इंजन
-        const themeEngine = {
-            toggle: function() {
-                const curr = document.documentElement.getAttribute('data-theme');
-                document.documentElement.setAttribute('data-theme', curr === 'dark' ? 'light' : 'dark');
-            }
-        };
-
-        // 🚀 8. ऑल व्यू मॉडल डेटा हैंडलर
-        window.openAllViewModal = function(plantId) {
-            const plant = plantDatabase.find(p => p.id === plantId);
-            if (plant) {
-                const content = document.getElementById('allViewContent');
-                const usesText = Array.isArray(plant.uses) ? plant.uses.join(', ') : (plant.uses || plant.benefits || 'उपलब्ध नहीं');
-                
-                content.innerHTML = `
-                    <h2 style="color:#2e7d32; margin-bottom:15px; font-size:2rem;">🌳 ${plant.hindiName || plant.id}</h2>
-                    <p style="font-style:italic; color:gray; margin-bottom:20px;">🧬 ${plant.scientificName || ''}</p>
-                    <hr style="border:0; border-top:1px dashed #e2e8f0; margin-bottom:15px;">
-                    <div style="font-size:1.1rem; line-height:1.8;">
-                        <p style="margin-bottom:10px;"><strong>📍 प्राप्ति स्थान:</strong> ${plant.location || 'N/A'}</p>
-                        <p style="margin-bottom:10px;"><strong>💧 सिंचाई/पानी:</strong> ${plant.water || 'N/A'}</p>
-                        <p style="margin-bottom:10px;"><strong>🌾 कुल (Family):</strong> ${plant.family || 'N/A'}</p>
-                        <p style="margin-bottom:10px;"><strong>📅 सीजन:</strong> ${plant.season || 'वर्ष भर'}</p>
-                        <p style="margin-bottom:15px; color:#2e7d32;"><strong>💊 मुख्य उपयोग:</strong> ${usesText}</p>
-                        <div style="background:var(--light-green); padding:15px; border-radius:8px; border-left:5px solid #2e7d32; color:var(--text-primary);">
-                            <strong>🎯 पूर्ण वृत्तांत:</strong> ${plant.description || 'कोई विवरण नहीं है।'}
-                        </div>
-                    </div>
-                `;
-                document.getElementById('allViewOverlay').classList.add('show');
-            }
-        };
-
-        // स्टार्टअप लोड इवेंट (यहाँ अब मास्टर फंक्शन ट्रिगर होगा)
-        window.addEventListener('DOMContentLoaded', loadDataFromJson);
-    </script>
-</body>
-</html>
+            shareWhatsApp: function(name, benefits
