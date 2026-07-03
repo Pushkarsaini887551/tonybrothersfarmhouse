@@ -384,6 +384,55 @@
             box-shadow: var(--shadow-sm);
         }
 
+        /* 🛠️ स्मार्ट डैशबोर्ड का नया स्टाइल */
+        .smart-dashboard {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 30px auto;
+            max-width: 850px;
+            box-shadow: var(--shadow-md);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+        .tool-box {
+            background: var(--bg-canvas);
+            border-left: 4px solid var(--primary-green);
+            border-radius: 8px;
+            padding: 15px;
+        }
+        .tool-box h4 {
+            margin: 0 0 10px 0;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tool-select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 0.95em;
+        }
+        .weather-info {
+            font-size: 0.95em;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        .calendar-badge {
+            display: inline-block;
+            background: var(--light-green);
+            color: var(--primary-green);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
         /* ==========================================================================
            6. CLASSIC GREEN CARDS ARCHITECTURE
            ========================================================================== */
@@ -663,7 +712,7 @@
 
     <div class="tony-ticker-container">
         <div class="tony-ticker-wrapper">
-            <span>🚀 यह डिजिटल प्लेटफार्म विशेष रूप से <span class="ticker-highlight">टोनी स्टार (पुष्कर सैनी)</span> द्वारा डिज़ाइन और निर्मित किया गया है। इस एडवांस साइट पर आपको विभिन्न प्रकार के पेड़-पौधों, दुर्लभ जड़ी-बूटियों एवं जैविक कृषि के बारे में सर्वश्रेष्ठ और अमूल्य जानकारी मिलती है। प्रकृति से जुड़ें, स्वस्थ रहें! 🌿</span>
+            <span>🚀 यह digital platform विशेष रूप से <span class="ticker-highlight">टोनी स्टार (पुष्कर सैनी)</span> द्वारा डिज़ाइन और निर्मित किया गया है। इस एडवांस साइट पर आपको विभिन्न प्रकार के पेड़-पौधों, दुर्लभ जड़ी-बूटियों एवं जैविक कृषि के बारे में सर्वश्रेष्ठ और अमूल्य जानकारी मिलती है। प्रकृति से जुड़ें, स्वस्थ रहें! 🌿</span>
         </div>
     </div>
 
@@ -697,6 +746,35 @@
                 <button class="filter-btn active" onclick="searchEngine.filterCategory('all', this)">🌱 सब कुछ देखें</button>
                 <button class="filter-btn" onclick="searchEngine.filterCategory('medicinal', this)">🩺 मुख्य औषधियां</button>
                 <button class="filter-btn" onclick="searchEngine.filterCategory('fruit', this)">🍎 फलदार पौधे</button>
+            </div>
+        </div>
+
+        <div id="tonySmartDashboard" class="smart-dashboard">
+            <div class="tool-box">
+                <h4>🧪 आयुर्वेदिक रोग-निवारक</h4>
+                <select id="symptomFilter" class="tool-select" onchange="searchEngine.filterBySymptom(this.value)">
+                    <option value="all">-- कोई बीमारी/समस्या चुनें --</option>
+                    <option value="त्वचा">त्वचा रोग / पिंपल्स</option>
+                    <option value="बुखार">बुखार / डेंगू / मलेरिया</option>
+                    <option value="इम्युनिटी">रोग प्रतिरोधक क्षमता (Immunity)</option>
+                    <option value="पाचन">पाचन तंत्र / पेट की समस्या</option>
+                    <option value="बाल">बालों का झड़ना / रूसी</option>
+                    <option value="खांसी">सर्दी, खांसी और जुकाम</option>
+                    <option value="रक्त">रक्त शुद्धिकरण (Blood Purifier)</option>
+                </select>
+            </div>
+
+            <div class="tool-box">
+                <h4>🌡️ लाइव मौसम व सिंचाई गाइड</h4>
+                <div id="weatherWidget" class="weather-info">मौसम का डेटा लोड हो रहा है...</div>
+            </div>
+
+            <div class="tool-box">
+                <h4>📅 AI प्लांट शेड्यूलर</h4>
+                <div class="weather-info">चालू महीना: <span class="calendar-badge" id="currentMonthBadge">जुलाई</span></div>
+                <button class="tool-select" style="margin-top:8px; background:var(--primary-green); color:white; font-weight:bold; cursor:pointer; border:none;" onclick="searchEngine.filterByCurrentSeason()">
+                    इस महीने के पौधे देखें
+                </button>
             </div>
         </div>
 
@@ -737,7 +815,7 @@
                 टोनी ब्रदर्स फार्म हाउस की नींव कृषि नवाचार और पारंपरिक भारतीय आयुर्वेद को एक साथ एक ही मंच पर लाने के विज़न के साथ रखी गई है। हमारा उद्देश्य है कि हर व्यक्ति को प्रकृति के अद्भुत पौधों, उनकी वास्तविक वैज्ञानिक पहचान और उनके स्वास्थ्य लाभों का सटीक ज्ञान आसानी से मिल सके। 
             </p>
             <p style="font-size: 1.15rem; text-align: justify; margin-bottom: 30px;">
-                हम आधुनिक तकनीकों का उपयोग करके औषधीय पौधों जैसे नीम, तुलसी, अश्वगंधा और विभिन्न प्रकार के उन्नत फलदार पेड़ों का संवर्धन करते हैं। हमारी यह डिजिटल प्रणाली सीधे कृषि क्षेत्र से डेटा को प्रोसेस करके विद्यार्थियों, शोधकर्ताओं and प्रकृति प्रेमियों तक पहुंचाती है।
+                हम आधुनिक तकनीकों का उपयोग करके औषधीय पौधों जैसे नीम, तुलसी, अश्वगंधा और विभिन्न प्रकार के उन्नत फलदार पेड़ों का संवर्धन करते हैं। हमारी यह डिजिटल प्रणाली सीधे कृषि क्षेत्र से डेटा को प्रोसेस करके विद्यार्थियों, शोधकर्ताओं और प्रकृति प्रेमियों तक पहुंचाती है।
             </p>
             
             <h3 style="color: var(--primary-green); margin-bottom: 15px; font-size: 1.4rem;">🎯 हमारा लक्ष्य</h3>
@@ -797,6 +875,7 @@
         // 🌿 पौधों का लाइव डायनेमिक डेटाबेस (अब सीधे plants-data.json से सिंक होगा)
         let plantDatabase = [];
         let selectedCategory = 'all';
+        let selectedSymptom = 'all';
 
         // 🚀 plants-data.json को होम पेज पर फ़ेच करने का मास्टर फंक्शन
         async function loadDataFromJson() {
@@ -813,11 +892,32 @@
                 document.getElementById('totalCountNode').innerText = plantDatabase.length;
                 document.getElementById('matchCountNode').innerText = plantDatabase.length;
                 
+                // चालू महीना सेट करना
+                const months = ["जनवरी", "फरवरी", "मार्च", "अप्रैल", "मई", "जून", "जुलाई", "अगस्त", "सितंबर", "अक्टूबर", "नवंबर", "दिसंबर"];
+                const currentMonth = months[new Date().getMonth()];
+                if(document.getElementById('currentMonthBadge')) {
+                    document.getElementById('currentMonthBadge').innerText = currentMonth;
+                }
+
+                fetchWeatherData();
                 renderDatabaseGrid(plantDatabase);
             } catch (error) {
                 console.error("JSON लोड करने में एरर आई:", error);
                 document.getElementById('plantsGrid').innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:red;">⚠️ plants-data.json फ़ाइल लोड नहीं हो सकी। कृपया सुनिश्चित करें कि फ़ाइल सही जगह पर है।</div>`;
             }
+        }
+
+        // 🌦️ मौसम और सिंचाई सलाह लॉजिक
+        function fetchWeatherData() {
+            const widget = document.getElementById('weatherWidget');
+            if (!widget) return;
+            const temp = 32; 
+            let advice = "पौधों में नमी बनाए रखें। सुबह या शाम को पानी देना सबसे उत्तम है।";
+            const hour = new Date().getHours();
+            if (hour >= 10 && hour <= 16) {
+                advice = "☀️ इस समय तेज धूप है, पौधों को सीधे पानी देने से बचें। शाम को पानी दें।";
+            }
+            widget.innerHTML = `<b>अनुमानित तापमान:</b> ${temp}°C<br><b>💧 सिंचाई सलाह:</b> ${advice}`;
         }
 
         // 🚀 1. टैब स्विचिंग इंजन (Tab System Router)
@@ -834,6 +934,7 @@
         // 🚀 2. कार्ड्स रेंडरिंग इंजन
         function renderDatabaseGrid(dataset) {
             const container = document.getElementById('plantsGrid');
+            if(!container) return;
             container.innerHTML = '';
             
             document.getElementById('matchCountNode').innerText = dataset.length;
@@ -843,7 +944,6 @@
                 return;
             }
 
-            // परफॉर्मेंस को बनाए रखने के लिए अधिकतम 100 कार्ड्स एक साथ दिखाएगा
             const visibleData = dataset.slice(0, 100);
 
             visibleData.forEach(plant => {
@@ -876,8 +976,8 @@
                             <span>${plant.family || 'N/A'}</span>
                         </div>
                         <div class="info-row">
-                            <span class="info-label">📏 ऊँचाई:</span>
-                            <span>${plant.height || 'N/A'}</span>
+                            <span class="info-label">📅 सीजन:</span>
+                            <span>${plant.season || 'वर्ष भर'}</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">💊 मुख्य उपयोग:</span>
@@ -903,6 +1003,7 @@
         const cardToggleEngine = {
             execute: function(id) {
                 const targetCard = document.getElementById(`card-${id}`);
+                if(!targetCard) return;
                 const isOpen = targetCard.classList.contains('open');
                 document.querySelectorAll('.classic-plant-card').forEach(c => c.classList.remove('open'));
                 if(!isOpen) {
@@ -922,24 +1023,49 @@
                     const sName = (plant.scientificName || '').toLowerCase();
                     const eName = (plant.englishName || '').toLowerCase();
                     const desc = (plant.description || '').toLowerCase();
-                    const usesText = Array.isArray(plant.uses) ? plant.uses.join(' ').toLowerCase() : (plant.uses || plant.benefits || '').toLowerCase();
+                    const benefits = (plant.benefits || '').toLowerCase();
+                    const usesText = Array.isArray(plant.uses) ? plant.uses.join(' ').toLowerCase() : (plant.uses || '').toLowerCase();
 
                     const matchesSearch = hName.includes(val) || sName.includes(val) || eName.includes(val) || desc.includes(val) || usesText.includes(val);
                     const matchesCat = selectedCategory === 'all' || plant.type === selectedCategory;
-                    return matchesSearch && matchesCat;
+                    
+                    const matchesSymptom = selectedSymptom === 'all' || 
+                                           hName.includes(selectedSymptom) || 
+                                           desc.includes(selectedSymptom) || 
+                                           benefits.includes(selectedSymptom) ||
+                                           usesText.includes(selectedSymptom);
+
+                    return matchesSearch && matchesCat && matchesSymptom;
                 });
 
                 renderDatabaseGrid(results);
             },
             filterCategory: function(cat, element) {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                element.classList.add('active');
+                if(element) element.classList.add('active');
                 selectedCategory = cat;
                 this.executeFilter();
+            },
+            filterBySymptom: function(symptom) {
+                selectedSymptom = symptom;
+                this.executeFilter();
+            },
+            filterByCurrentSeason: function() {
+                const months = ["जनवरी", "फरवरी", "मार्च", "अप्रैल", "मई", "जून", "जुलाई", "अगस्त", "सितंबर", "अक्टूबर", "नवंबर", "दिसंबर"];
+                const currentMonth = months[new Date().getMonth()].toLowerCase();
+
+                const results = plantDatabase.filter(plant => {
+                    const season = plant.season ? plant.season.toLowerCase() : '';
+                    return season.includes(currentMonth) || season.includes('वर्ष भर') || season.includes('सदाबहार');
+                });
+
+                renderDatabaseGrid(results);
             },
             resetAll: function() {
                 document.getElementById('classicSearch').value = '';
                 selectedCategory = 'all';
+                selectedSymptom = 'all';
+                if(document.getElementById('symptomFilter')) document.getElementById('symptomFilter').value = 'all';
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 document.querySelectorAll('.filter-btn')[0].classList.add('active');
                 this.executeFilter();
@@ -1018,7 +1144,7 @@
                         <p style="margin-bottom:10px;"><strong>📍 प्राप्ति स्थान:</strong> ${plant.location || 'N/A'}</p>
                         <p style="margin-bottom:10px;"><strong>💧 सिंचाई/पानी:</strong> ${plant.water || 'N/A'}</p>
                         <p style="margin-bottom:10px;"><strong>🌾 कुल (Family):</strong> ${plant.family || 'N/A'}</p>
-                        <p style="margin-bottom:10px;"><strong>📏 ऊँचाई:</strong> ${plant.height || 'N/A'}</p>
+                        <p style="margin-bottom:10px;"><strong>📅 सीजन:</strong> ${plant.season || 'वर्ष भर'}</p>
                         <p style="margin-bottom:15px; color:#2e7d32;"><strong>💊 मुख्य उपयोग:</strong> ${usesText}</p>
                         <div style="background:var(--light-green); padding:15px; border-radius:8px; border-left:5px solid #2e7d32; color:var(--text-primary);">
                             <strong>🎯 पूर्ण वृत्तांत:</strong> ${plant.description || 'कोई विवरण नहीं है।'}
