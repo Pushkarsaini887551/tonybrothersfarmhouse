@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>केयर कैलकुलेटर - Tony Brothers</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f7f5; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { color: #2e7d32; text-align: center; }
+        select { width: 100%; padding: 12px; margin-top: 10px; border-radius: 8px; }
+        button { width: 100%; padding: 15px; margin-top: 15px; background: #2e7d32; color: white; border: none; border-radius: 8px; cursor: pointer; }
+        #result { margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 8px; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🧮 केयर कैलकुलेटर</h1>
+    <label>पौधे का प्रकार चुनें:</label>
+    <select id="plantType">
+        <option value="cactus">कैक्टस (Cactus)</option>
+        <option value="flower">फूल वाले पौधे (Flowering)</option>
+        <option value="vegetable">सब्जियाँ (Vegetables)</option>
+    </select>
+    <button onclick="calculateCare()">पानी की जरूरत बताएं</button>
+
+    <div id="result"></div>
+    <br>
+    <button style="background: #718096;" onclick="location.href='index.html'">⬅️ वापस टूल्स पर जाएं</button>
+</div>
+
+<script>
+    function calculateCare() {
+        const type = document.getElementById('plantType').value;
+        const resultDiv = document.getElementById('result');
+        let info = "";
+
+        if (type === "cactus") info = "कैक्टस को हफ्ते में सिर्फ एक बार पानी दें।";
+        else if (type === "flower") info = "फूल वाले पौधों को हर दूसरे दिन पानी दें।";
+        else if (type === "vegetable") info = "सब्जियों को रोज सुबह पानी देना जरूरी है।";
+
+        resultDiv.innerHTML = "<strong>सुझाव:</strong> " + info;
+        resultDiv.style.display = "block";
+    }
+</script>
+</body>
+</html>
+
