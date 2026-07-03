@@ -2,26 +2,35 @@ async function searchTree() {
     const query = document.getElementById('searchInput').value.toLowerCase().trim();
     const resultContainer = document.getElementById('resultContainer');
 
+    // 1. खाली सर्च चेक करें
     if (!query) {
         resultContainer.innerHTML = `<p style="color: red; text-align: center; font-weight: bold; padding: 20px;">कृपया पेड़ का नाम दर्ज करें।</p>`;
         return;
     }
 
     try {
-        // यहाँ फाइल का नाम सही कर दिया है
+        // 2. डेटा फ़ाइल लोड करें
         const response = await fetch('./plants-data.json'); 
         
-        if (!response.ok) throw new Error("File not found");
+        if (!response.ok) {
+            throw new Error("फ़ाइल लोड नहीं हो सकी");
+        }
 
         const treesData = await response.json();
 
-        // यहाँ चेक करें कि क्या डेटा में पेड़ का नाम मौजूद है
+        // 3. चेक करें कि क्या डेटाबेस में सर्च किया गया पेड़ मौजूद है
         if (treesData[query]) {
             const tree = treesData[query];
             
-            // usesList बनाने का छोटा तरीका
-            const usesList = tree.uses.map(u => `<li>${u}</li>`).join('');
+            // usesList बनाने का लॉजिक
+            let usesList = '';
+            if (Array.isArray(tree.uses)) {
+                tree.uses.forEach(use => {
+                    usesList += `<li>${use}</li>`;
+                });
+            }
 
+            // 4. रिजल्ट कार्ड रेंडर करें
             resultContainer.innerHTML = `
                 <div class="tree-details-card">
                     <div class="card-header">
@@ -52,9 +61,11 @@ async function searchTree() {
                 </div>
             `;
         } else {
-            resultContainer.innerHTML = `<p style="color: orange; text-align: center; font-weight: bold; padding: 20px;">क्षमा करें! यह पेड़ डेटाबेस में नहीं है।</p>`;
+            // 5. अगर पेड़ डेटाबेस में नहीं है
+            resultContainer.innerHTML = `<p style="color: orange; text-align: center; font-weight: bold; padding: 20px;">क्षमा करें! "${query}" नाम का पेड़ अभी हमारे डेटाबेस में नहीं है।</p>`;
         }
     } catch (error) {
-        resultContainer.innerHTML = `<p style="color: red; text-align: center; font-weight: bold; padding: 20px;">डेटा लोड करने में त्रुटि!</p>`;
+        console.error("Error:", error);
+        resultContainer.innerHTML = `<p style="color: red; text-align: center; font-weight: bold; padding: 20px;">सर्वर या फ़ाइल लोड करने में समस्या आई। कृपया बाद में प्रयास करें।</p>`;
     }
 }
