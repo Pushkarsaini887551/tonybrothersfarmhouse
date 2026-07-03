@@ -247,24 +247,17 @@
             cursor: pointer;
             padding: 0 20px;
             color: var(--text-secondary);
-            border-radius: 50%;
-            height: 50px;
-            width: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .voice-assist-btn.listening {
-            color: white;
-            background: #ef4444;
+            color: #ef4444;
             animation: pulse 1s infinite;
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
         .search-execute-btn {
@@ -438,7 +431,7 @@
             margin-bottom: 6px;
         }
 
-        .node-value, .matrix-data-node-value {
+        .node-value {
             font-size: 1.25rem;
             font-weight: 700;
             color: var(--text-primary);
@@ -530,36 +523,17 @@
            ========================================================================== */
         .browse-grid-wrapper {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 25px;
-            padding: 10px 0;
         }
 
         .mini-matrix-card {
             background: var(--glass-surface);
             border: 1px solid var(--glass-border);
-            padding: 30px;
-            border-radius: 24px;
+            padding: 25px;
+            border-radius: 20px;
             box-shadow: var(--shadow-dense);
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .mini-matrix-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--grad-primary);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .mini-matrix-card:hover::before {
-            opacity: 1;
         }
 
         .mini-matrix-card:hover {
@@ -568,16 +542,15 @@
         }
 
         .mini-title {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 800;
             color: var(--text-primary);
-            margin-bottom: 5px;
         }
 
         .mini-sub {
-            font-size: 0.9rem;
-            color: var(--color-sky);
-            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-style: italic;
             margin-bottom: 15px;
         }
 
@@ -606,8 +579,10 @@
 </head>
 <body>
 
+    <!-- 🌌 एम्बिएंट क्वांटम फिजिक्स एनीमेशन लेयर -->
     <canvas id="cosmic-particle-canvas"></canvas>
 
+    <!-- 👑 सुपर-टियर कोर नेविगेशन हब -->
     <div class="os-nav-bar">
         <div class="os-branding">
             <div class="os-logo-icon">🌿</div>
@@ -621,8 +596,10 @@
         <button class="utility-btn" style="border-radius: 50px;" onclick="themeToggleEngine.toggle()">🌓 कॉस्मिक मोड</button>
     </div>
 
+    <!-- 💻 मुख्य सिस्टम व्यूपोर्ट कंटेनर -->
     <div class="os-viewport-container">
         
+        <!-- 📊 लाइव कोर टेलीमेट्री मॉनिटर -->
         <div class="telemetry-dashboard">
             <div class="telemetry-node">
                 <div class="tel-value" id="tel-total-count">3</div>
@@ -633,20 +610,22 @@
                 <div class="tel-label">बुकमार्क की गई प्रजातियां</div>
             </div>
             <div class="telemetry-node">
-                <div class="tel-value" id="latency-val">0.00ms</div>
+                <div class="tel-value">0.00ms</div>
                 <div class="tel-label">सर्च पाइपलाइन लेटेंसी</div>
             </div>
         </div>
 
+        <!-- ==================== TAB 1: SEARCH CENTER ==================== -->
         <div id="search-tab" class="os-tab-panel active-panel">
             <div class="search-engine-complex">
                 <div class="input-composite-box">
-                    <input type="text" id="searchInput" class="input-main-core" placeholder="वनस्पति का नाम दर्ज करें (जैसे: neem, tulsi)..." oninput="predictiveMatrixEngine.process(this)">
-                    <button id="voiceBtn" class="voice-assist-btn" title="आवाज से खोजें">🎙️</button>
+                    <input type="text" id="searchInput" class="input-main-core" placeholder="वनस्पति का नाम दर्ज करें..." oninput="predictiveMatrixEngine.process(this)">
+                    <button id="voiceBtn" class="voice-assist-btn" onclick="speechRecognitionEngine.listen()">🎙️</button>
                     <button class="search-execute-btn" onclick="searchPipelineEngine.execute()">सर्च करें</button>
                 </div>
                 <div class="autosuggest-matrix-panel" id="matrixSuggestBox"></div>
 
+                <!-- क्विक पिल्स -->
                 <div class="filter-capsule-deck">
                     <span class="filter-pill" onclick="searchPipelineEngine.quickTrigger('neem')">नीम (Neem)</span>
                     <span class="filter-pill" onclick="searchPipelineEngine.quickTrigger('tulsi')">तुलसी (Tulsi)</span>
@@ -656,17 +635,19 @@
 
             <div class="dynamic-output-viewport" id="masterResultViewport">
                 <div class="status-terminal-board">
-                    🌐 सिस्टम ऑनलाइन। कृपया ऊपर सर्च बार का उपयोग करके आर्किटेक्चर क्वेरी शुरू करें या एक्सप्लोरर ग्रिड देखें।
+                    🌐 सिस्टम ऑनलाइन। कृपया ऊपर सर्च बार का उपयोग करके आर्किटेक्चर क्वेरी शुरू करें।
                 </div>
             </div>
         </div>
 
+        <!-- ==================== TAB 2: EXPLORER BROWSE GRID ==================== -->
         <div id="browse-tab" class="os-tab-panel">
-            <div style="margin-bottom: 20px; font-weight: bold; font-size: 1.2rem; color: var(--color-emerald);">📂 डेटाबेस के सभी सक्रिय पेड़:</div>
             <div class="browse-grid-wrapper" id="explorerGridContainer">
-                </div>
+                <!-- जावास्क्रिप्ट द्वारा डायनामिक रूप से उत्पन्न कार्ड्स -->
+            </div>
         </div>
 
+        <!-- ==================== TAB 3: FAVORITES HARVEST ==================== -->
         <div id="fav-tab" class="os-tab-panel">
             <div class="browse-grid-wrapper" id="favoritesGridContainer">
                 <div class="status-terminal-board" style="grid-column: 1/-1;">
@@ -681,6 +662,9 @@
         <p>© 2026 Tony Brothers Farm House | Monolithic Scaled Quantum Language Matrix Core Platform</p>
     </footer>
 
+    <!-- ==========================================================================
+         9. MASTER JAVASCRIPT LOGICAL CORE ENGINE
+         ========================================================================== */ -->
     <script>
         // 🔮 FALLBACK MATRIX ARCHITECTURE DATA - सर्वर एरर या डेटा न होने पर भी सिस्टम को 100% चालू रखेगा
         const fallbackDatabaseMatrix = {
@@ -819,7 +803,7 @@
                 }
 
                 const end = performance.now();
-                document.getElementById('latency-val').innerText = (end - start).toFixed(2) + "ms";
+                document.querySelectorAll('.tel-value')[2].innerText = (end - start).toFixed(2) + "ms";
             }
         };
 
@@ -863,34 +847,14 @@
                 recognition.lang = 'hi-IN';
                 const btn = document.getElementById('voiceBtn');
 
-                recognition.onstart = () => {
-                    btn.classList.add('listening');
-                    btn.innerText = "🛑";
-                };
-                
-                recognition.onend = () => {
-                    btn.classList.remove('listening');
-                    btn.innerText = "🎙️";
-                };
+                recognition.onstart = () => btn.classList.add('listening');
+                recognition.onend = () => btn.classList.remove('listening');
                 
                 recognition.onresult = (event) => {
-                    let transcript = event.results[0][0].transcript.toLowerCase().replace(/[.,?/]/g, "").trim();
-                    
-                    // वॉयस इनपुट को कीवर्ड मैपिंग में बदलना ताकि हिंदी बोलने पर भी सही सर्च हो
-                    if (transcript.includes("नीम") || transcript.includes("neem")) transcript = "neem";
-                    if (transcript.includes("तुलसी") || transcript.includes("tulsi")) transcript = "tulsi";
-                    if (transcript.includes("अश्वगंधा") || transcript.includes("ashwagandha")) transcript = "ashwagandha";
-
+                    const transcript = event.results[0][0].transcript.toLowerCase().replace(/[.,]/g, "").trim();
                     document.getElementById('searchInput').value = transcript;
                     searchPipelineEngine.execute();
                 };
-                
-                recognition.onerror = (err) => {
-                    console.error(err);
-                    btn.classList.remove('listening');
-                    btn.innerText = "🎙️";
-                };
-
                 recognition.start();
             }
         };
@@ -902,9 +866,7 @@
                     window.speechSynthesis.cancel();
                     return;
                 }
-                const payloadElement = document.getElementById('textToSpeechPayload');
-                if(!payloadElement) return;
-                const txt = payloadElement.innerText;
+                const txt = document.getElementById('textToSpeechPayload').innerText;
                 const utter = new SpeechSynthesisUtterance(txt);
                 utter.lang = 'hi-IN';
                 window.speechSynthesis.speak(utter);
@@ -921,9 +883,8 @@
                     card.className = 'mini-matrix-card';
                     card.innerHTML = `
                         <div class="mini-title">🌳 ${mainActiveCache[key].hindiName}</div>
-                        <div class="mini-sub">🔬 ${mainActiveCache[key].scientificName}</div>
+                        <div class="mini-sub">${mainActiveCache[key].scientificName}</div>
                         <p style="font-size:0.95rem; color:var(--text-secondary); line-height:1.5;">${mainActiveCache[key].description.substring(0, 85)}...</p>
-                        <div style="margin-top: 15px; font-weight: bold; color: var(--color-emerald); font-size: 0.9rem;">क्लिक करके पूर्ण विवरण देखें →</div>
                     `;
                     card.onclick = () => {
                         tabSwitchEngine.switch('search-tab', document.querySelectorAll('.tab-trigger')[0]);
@@ -963,7 +924,7 @@
                         card.className = 'mini-matrix-card';
                         card.innerHTML = `
                             <div class="mini-title">🌳 ${mainActiveCache[key].hindiName}</div>
-                            <div class="mini-sub">🔬 ${mainActiveCache[key].scientificName}</div>
+                            <div class="mini-sub">${mainActiveCache[key].scientificName}</div>
                         `;
                         card.onclick = () => {
                             tabSwitchEngine.switch('search-tab', document.querySelectorAll('.tab-trigger')[0]);
@@ -1033,14 +994,6 @@
         window.addEventListener('DOMContentLoaded', async () => {
             initCosmicCoreCanvas();
             favoritesEngine.updateCounters();
-            
-            // माइक क्लिक इवेंट बाइंडिंग
-            document.getElementById('voiceBtn').addEventListener('click', () => {
-                speechRecognitionEngine.listen();
-            });
-
-            // कुल डेटाबेस काउंट सेट करें
-            document.getElementById('tel-total-count').innerText = Object.keys(mainActiveCache).length;
             
             // बाहरी trees.json डेटा लोड करने का प्रयास
             try {
