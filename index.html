@@ -627,7 +627,6 @@
 </head>
 <body>
 
-    <!-- 👑 क्लासिक ग्रीन टॉप हेडर एवं मुख्य नेविगेशन -->
     <div class="header-bar">
         <div class="brand-logo">🌿 Tony Brothers Farm</div>
         
@@ -641,14 +640,12 @@
         <button class="theme-btn" onclick="themeEngine.toggle()">🌓 डार्क/लाइट</button>
     </div>
 
-    <!-- 📢 NEW FEATURE: एडवांस्ड चलती हुई सूचना पट्टी (Premium Dynamic Ticker) -->
     <div class="tony-ticker-container">
         <div class="tony-ticker-wrapper">
             <span>🚀 यह डिजिटल प्लेटफार्म विशेष रूप से <span class="ticker-highlight">टोनी स्टार (पुष्कर सैनी)</span> द्वारा डिज़ाइन और निर्मित किया गया है। इस एडवांस साइट पर आपको विभिन्न प्रकार के पेड़-पौधों, दुर्लभ जड़ी-बूटियों एवं जैविक कृषि के बारे में सर्वश्रेष्ठ और अमूल्य जानकारी मिलती है। प्रकृति से जुड़ें, स्वस्थ रहें! 🌿</span>
         </div>
     </div>
 
-    <!-- ==================== TAB 1: HOME PAGE ==================== -->
     <div id="home-tab" class="os-viewport-panel active-panel">
         <div class="hero-banner">
             <h1>टोनी ब्रदर्स फार्म हाउस में आपका स्वागत है</h1>
@@ -675,9 +672,7 @@
         </div>
     </div>
 
-    <!-- ==================== TAB 2: EXPLORER / SEARCH CENTER ==================== -->
     <div id="search-tab" class="os-viewport-panel">
-        <!-- लाइव एनालिटिक्स डैशबोर्ड -->
         <div class="analytics-dashboard">
             <div class="metric-node">
                 <div class="metric-val" id="totalCountNode">0</div>
@@ -689,7 +684,6 @@
             </div>
         </div>
 
-        <!-- एडवांस सर्च कॉरिडोर -->
         <div class="search-container">
             <div class="search-box-wrapper">
                 <input type="text" id="classicSearch" class="search-input" placeholder="पौधा, बीमारी, कुल या कोई भी उपयोग टाइप करें..." oninput="suggestionEngine.trigger(this)">
@@ -698,10 +692,8 @@
                 <button class="clear-btn" onclick="searchEngine.resetAll()">रीसेट</button>
             </div>
 
-            <!-- सजेशन ड्रॉपडाउन मैट्रिक्स -->
             <div class="suggestion-panel" id="suggestionBox"></div>
 
-            <!-- क्लासिक फ़िल्टर स्विचर -->
             <div class="filter-buttons">
                 <button class="filter-btn active" onclick="searchEngine.filterCategory('all', this)">🌱 सब कुछ देखें</button>
                 <button class="filter-btn" onclick="searchEngine.filterCategory('medicinal', this)">🩺 मुख्य औषधियां</button>
@@ -709,11 +701,9 @@
             </div>
         </div>
 
-        <!-- पौधों का कोर ग्रिड व्यू -->
         <div class="cards-grid" id="plantsGrid"></div>
     </div>
 
-    <!-- ==================== TAB 3: ABOUT US PANEL ==================== -->
     <div id="about-tab" class="os-viewport-panel">
         <div class="prose-content-block">
             <h2>📖 हमारे बारे में (Our Story)</h2>
@@ -731,14 +721,12 @@
         </div>
     </div>
 
-    <!-- ==================== TAB 4: CONTACT US PANEL ==================== -->
     <div id="contact-tab" class="os-viewport-panel">
         <div class="prose-content-block">
             <h2>📞 हमसे संपर्क करें (Contact Us)</h2>
             <p style="color: var(--text-secondary); margin-bottom: 30px;">यदि आपके पास कोई प्रश्न है, या आप पौधों की बुकिंग या फार्म विजिट करना चाहते हैं, तो हमें नीचे संदेश भेजें।</p>
             
             <div class="contact-form-grid">
-                <!-- फॉर्म एलिमेंट -->
                 <form id="farmContactForm" onsubmit="utilityEngine.handleFormSubmit(event)">
                     <div class="form-group">
                         <label>आपका नाम (Full Name)</label>
@@ -755,7 +743,6 @@
                     <button type="submit" class="form-submit-btn">📨 संदेश भेजें</button>
                 </form>
 
-                <!-- सीधे पते की जानकारी -->
                 <div style="background: var(--light-green); padding: 30px; border-radius: var(--radius-main); border-left: 6px solid var(--primary-green);">
                     <h3 style="color: var(--primary-green); margin-bottom: 20px; font-size: 1.4rem;">📍 फार्म हाउस संपर्क केंद्र</h3>
                     <p style="margin-bottom: 15px; font-size: 1.1rem;"><strong>🏢 पता:</strong> टोनी ब्रदर्स फार्म हाउस, राजस्थान, भारत</p>
@@ -773,9 +760,6 @@
         <p>© 2026 Tony Brothers Farm House | Automated Botanical Ecosystem Core</p>
     </footer>
 
-    <!-- ==========================================================================
-         8. CORE JAVASCRIPT ARCHITECTURE ENGINE
-         ========================================================================== */ -->
     <script>
         // 🌿 पौधों का विस्तारित मास्टर डेटाबेस (Expanded for larger codebase)
         const plantDatabase = [
