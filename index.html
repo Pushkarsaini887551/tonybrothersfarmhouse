@@ -857,19 +857,19 @@
     </footer>
 
     <script>
-        // 🌿 पौधों का लाइव डायनेमिक डेटाबेस (अब आपके trees.json से सिंक होगा)
+        // 🌿 पौधों का लाइव डायनेमिक डेटाबेस (अब आपके plants-data.json से सिंक होगा)
         let plantDatabase = [];
         let rawTreesObject = {}; // आपके पुराने फॉर्मेट को स्टोर करने के लिए
         let selectedCategory = 'all';
         let selectedSymptom = 'all';
 
-        // 🚀 `trees.json` लोड करने का मुख्य फंक्शन
+        // 🚀 `plants-data.json` लोड करने का मुख्य फंक्शन
         async function loadDataFromJson() {
             try {
                 // यहाँ हमने फ़ाइल पाथ सेट कर दिया है
-                const response = await fetch('./trees.json');
+                const response = await fetch('./plants-data.json');
                 if (!response.ok) {
-                    throw new Error("trees.json file not found");
+                    throw new Error("plants-data.json file not found");
                 }
                 
                 rawTreesObject = await response.json();
@@ -893,7 +893,7 @@
                 renderDatabaseGrid(plantDatabase);
             } catch (error) {
                 console.error("JSON लोड करने में एरर आई:", error);
-                document.getElementById('resultContainer').innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:red;">⚠️ ./trees.json फ़ाइल लोड नहीं हो सकी। कृपया चेक करें।</div>`;
+                document.getElementById('resultContainer').innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:red;">⚠️ ./plants-data.json फ़ाइल लोड नहीं हो सकी। कृपया चेक करें।</div>`;
             }
         }
 
@@ -908,9 +908,9 @@
             }
 
             try {
-                const response = await fetch('./trees.json');
+                const response = await fetch('./plants-data.json');
                 if (!response.ok) {
-                    throw new Error("trees.json file not found");
+                    throw new Error("plants-data.json file not found");
                 }
 
                 const treesData = await response.json();
