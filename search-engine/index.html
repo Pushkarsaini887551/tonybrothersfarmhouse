@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tony Brothers - Advanced Search Engine</title>
+    <title>Tony Brothers - Botanical Search Engine</title>
     <style>
-        /* ==========================================================================
-           CORE THEME & GREEN PALETTE VARIABLES 
-           ========================================================================== */
         :root {
             --bg-canvas: #f4f7f5;
             --card-bg: #ffffff;
@@ -15,24 +12,9 @@
             --text-secondary: #718096;
             --primary-green: #2e7d32;
             --light-green: #e8f5e9;
-            --accent-green: #4caf50;
             --border-color: #e2e8f0;
-            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.05);
             --radius-main: 16px;
-        }
-
-        [data-theme="dark"] {
-            --bg-canvas: #121814;
-            --card-bg: #1e2521;
-            --text-primary: #f7fafc;
-            --text-secondary: #a0aec0;
-            --primary-green: #4caf50;
-            --light-green: #1b2e24;
-            --accent-green: #81c784;
-            --border-color: #2d3748;
-            --shadow-sm: 0 4px 6px rgba(0,0,0,0.2);
-            --shadow-md: 0 10px 15px rgba(0,0,0,0.3);
         }
 
         body {
@@ -43,10 +25,7 @@
             margin: 0;
         }
 
-        .back-nav {
-            margin-bottom: 20px;
-        }
-
+        .back-nav { margin-bottom: 20px; }
         .back-btn {
             display: inline-block;
             padding: 10px 20px;
@@ -57,21 +36,16 @@
             font-weight: 700;
         }
 
-        .back-btn:hover {
+        .search-container { max-width: 850px; margin: 40px auto; text-align: center; }
+        .search-header h1 { color: var(--primary-green); font-size: 2.6rem; margin-bottom: 10px; }
+        
+        .counter-badge {
             background: var(--primary-green);
             color: white;
-        }
-
-        .search-container {
-            max-width: 800px;
-            margin: 40px auto;
-            text-align: center;
-        }
-
-        .search-header h1 {
-            color: var(--primary-green);
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
         }
 
         .search-box-wrapper {
@@ -82,7 +56,7 @@
             padding: 6px 15px;
             box-shadow: var(--shadow-md);
             align-items: center;
-            margin-top: 20px;
+            margin-top: 25px;
         }
 
         .search-input {
@@ -91,23 +65,13 @@
             background: transparent;
             padding: 12px 15px;
             font-size: 1.15rem;
-            color: var(--text-primary);
             outline: none;
-        }
-
-        .search-btn {
-            background: var(--primary-green);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: 700;
-            cursor: pointer;
+            color: var(--text-primary);
         }
 
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 25px;
             margin-top: 40px;
         }
@@ -116,15 +80,16 @@
             background: var(--card-bg);
             border-radius: var(--radius-main);
             padding: 25px;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-md);
             border-top: 5px solid var(--primary-green);
             text-align: left;
         }
 
-        .plant-card h3 {
-            color: var(--primary-green);
-            margin-bottom: 10px;
-        }
+        .plant-card h3 { color: var(--primary-green); margin: 0 0 5px 0; font-size: 1.6rem; }
+        .sci-title { font-style: italic; color: var(--text-secondary); margin-bottom: 15px; font-size: 0.95rem; }
+        .info-line { margin-bottom: 8px; font-size: 1rem; }
+        .info-label { font-weight: bold; color: var(--primary-green); }
+        .desc-box { background: var(--light-green); padding: 12px; border-radius: 8px; margin-top: 15px; font-size: 0.95rem; }
     </style>
 </head>
 <body>
@@ -135,54 +100,92 @@
 
     <div class="search-container">
         <div class="search-header">
-            <h1>🌿 वनस्पति अनुसंधान इंजन</h1>
-            <p>किसी भी पौधे का नाम या बीमारी टाइप करके लाइव सर्च करें</p>
+            <h1>🌿 महा वनस्पति अनुसंधान充 इंजन</h1>
+            <p>डेटाबेस स्थिति: <span class="counter-badge" id="countBadge">लोड हो रहा है...</span></p>
         </div>
 
         <div class="search-box-wrapper">
-            <input type="text" id="engineSearch" class="search-input" placeholder="यहाँ लिखना शुरू करें..." oninput="liveSearch()">
-            <button class="search-btn">खोजें</button>
+            <input type="text" id="megaSearch" class="search-input" placeholder="पौधे का नाम, वैज्ञानिक नाम या रोग लिखकर तुरंत खोजें..." oninput="searchEngine.execute()">
         </div>
 
-        <div class="cards-grid" id="engineGrid"></div>
+        <div class="cards-grid" id="megaGrid"></div>
     </div>
 
     <script>
-        const searchDatabase = [
-            { name: "नीम", sci: "Azadirachta indica", use: "रक्त शुद्धि, एंटी-बैक्टीरियल, त्वचा रोग निवारण।" },
-            { name: "तुलसी", sci: "Ocimum sanctum", use: "इम्युनिटी बूस्टर, सर्दी-खांसी, श्वास रोग।" },
-            { name: "अश्वगंधा", sci: "Withania somnifera", use: "तनाव मुक्ति, शारीरिक शक्ति वर्धन, अनिद्रा।" },
-            { name: "एलोवेरा", sci: "Aloe barbadensis", use: "त्वचा विकार, पाचन तंत्र, बालों की मजबूती।" }
-        ];
+        let globalPlantDatabase = [];
+
+        // plants-data.json फ़ाइल को लोड करने का फंक्शन
+        async function loadDatabase() {
+            try {
+                // यहाँ अब यह '../plants-data.json' फ़ाइल को रीड करेगा
+                const response = await fetch('../plants-data.json');
+                const rawData = await response.json();
+                
+                // ऑब्जेक्ट फॉर्मेट को एरे फॉर्मेट में बदलना
+                globalPlantDatabase = Object.keys(rawData).map(key => {
+                    return { id: key, ...rawData[key] };
+                });
+
+                document.getElementById('countBadge').innerText = `${globalPlantDatabase.length} पौधे एक्टिव`;
+                renderGrid(globalPlantDatabase);
+            } catch (error) {
+                console.error("डेटा लोड करने में एरर:", error);
+                document.getElementById('megaGrid').innerHTML = '<p style="color:red; grid-column:1/-1;">plants-data.json फ़ाइल लोड नहीं हो सकी। कृपया नाम और पाथ चेक करें।</p>';
+            }
+        }
 
         function renderGrid(data) {
-            const grid = document.getElementById('engineGrid');
+            const grid = document.getElementById('megaGrid');
             grid.innerHTML = '';
+            
             if(data.length === 0) {
-                grid.innerHTML = '<p style="grid-column:1/-1; color:gray;">कोई परिणाम नहीं मिला।</p>';
+                grid.innerHTML = '<p style="grid-column:1/-1; color:gray; font-size:1.1rem;">🔍 कोई परिणाम नहीं मिला।</p>';
                 return;
             }
-            data.forEach(p => {
+
+            const limitedData = data.slice(0, 100);
+
+            limitedData.forEach(p => {
+                const usesText = Array.isArray(p.uses) ? p.uses.join(', ') : (p.uses || 'उपलब्ध नहीं');
+
                 grid.innerHTML += `
                     <div class="plant-card">
-                        <h3>🌳 ${p.name}</h3>
-                        <p style="font-style:italic; color:gray; font-size:0.9rem; margin-bottom:10px;">🧬 ${p.sci}</p>
-                        <p><strong>💊 उपयोग:</strong> ${p.use}</p>
+                        <h3>🌳 ${p.hindiName || p.id}</h3>
+                        <div class="sci-title">🧬 ${p.scientificName || ''} (${p.englishName || ''})</div>
+                        <div class="info-line"><span class="info-label">📍 स्थान:</span> ${p.location || 'N/A'}</div>
+                        <div class="info-line"><span class="info-label">💧 पानी:</span> ${p.water || 'N/A'}</div>
+                        <div class="info-line"><span class="info-label">🌾 कुल (Family):</span> ${p.family || 'N/A'}</div>
+                        <div class="info-line"><span class="info-label">📏 ऊँचाई:</span> ${p.height || 'N/A'}</div>
+                        <div class="info-line"><span class="info-label">💊 मुख्य उपयोग:</span> ${usesText}</div>
+                        <div class="desc-box">
+                            <strong>विवरण:</strong> ${p.description || 'कोई विवरण नहीं।'}
+                        </div>
                     </div>
                 `;
             });
         }
 
-        function liveSearch() {
-            const val = document.getElementById('engineSearch').value.toLowerCase().trim();
-            const filtered = searchDatabase.filter(p => 
-                p.name.toLowerCase().includes(val) || p.use.toLowerCase().includes(val)
-            );
-            renderGrid(filtered);
-        }
+        const searchEngine = {
+            execute: function() {
+                const val = document.getElementById('megaSearch').value.toLowerCase().trim();
+                if(!val) {
+                    renderGrid(globalPlantDatabase);
+                    return;
+                }
+                const filtered = globalPlantDatabase.filter(p => {
+                    const hName = (p.hindiName || '').toLowerCase();
+                    const sName = (p.scientificName || '').toLowerCase();
+                    const eName = (p.englishName || '').toLowerCase();
+                    const desc = (p.description || '').toLowerCase();
+                    const usesText = Array.isArray(p.uses) ? p.uses.join(' ').toLowerCase() : (p.uses || '').toLowerCase();
 
-        // लोड होने पर पूरा डेटा दिखाएं
-        window.addEventListener('DOMContentLoaded', () => renderGrid(searchDatabase));
+                    return hName.includes(val) || sName.includes(val) || eName.includes(val) || desc.includes(val) || usesText.includes(val);
+                });
+                renderGrid(filtered);
+            }
+        };
+
+        window.addEventListener('DOMContentLoaded', loadDatabase);
     </script>
 </body>
 </html>
