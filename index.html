@@ -306,26 +306,6 @@
             outline: none;
         }
 
-        .mic-btn {
-            background: transparent;
-            border: none;
-            font-size: 1.4rem;
-            cursor: pointer;
-            padding: 0 12px;
-            color: var(--text-secondary);
-        }
-
-        .mic-btn.listening {
-            color: #ef4444;
-            animation: voicePulse 1.2s infinite;
-        }
-
-        @keyframes voicePulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-            100% { transform: scale(1); }
-        }
-
         .search-btn {
             background: var(--primary-green);
             color: white;
@@ -707,7 +687,6 @@
         <div class="search-container">
             <div class="search-box-wrapper">
                 <input type="text" id="classicSearch" class="search-input" placeholder="पौधा, बीमारी, कुल या कोई भी उपयोग टाइप करें..." oninput="suggestionEngine.trigger(this)">
-                <button id="micBtn" class="mic-btn" onclick="voiceSearchEngine.listen()" title="बोलकर सर्च करें">🎙️</button>
                 <button class="search-btn" onclick="searchEngine.executeFilter()">सर्च</button>
                 <button class="clear-btn" onclick="searchEngine.resetAll()">रीसेट</button>
             </div>
@@ -815,77 +794,31 @@
     </footer>
 
     <script>
-        // 🌿 पौधों का विस्तारित मास्टर डेटाबेस (Expanded for larger codebase)
-        const plantDatabase = [
-            {
-                id: "neem",
-                hindiName: "नीम",
-                scientificName: "Azadirachta indica (Margosa, Neem tree)",
-                type: "medicinal",
-                location: "पूरे भारत के मैदानी एवं शुष्क इलाकों में",
-                water: "बहुत कम (सूखा सहनशील वृक्ष)",
-                season: "मार्च - मई (सफेद सुगंधित फूल)",
-                benefits: "रक्त साफ करने, एंटी-बैक्टीरियल सुरक्षा, त्वचा रोग और बेहतरीन प्राकृतिक कीटनाशक निर्माण में उपयोगी।",
-                description: "नीम आयुर्वेद और ग्रामीण चिकित्सा का मुख्य आधार स्तंभ है। इसके पत्ते, फल (निंबोली) और छाल अत्यधिक कड़वे होते हैं, लेकिन उतने ही चमत्कारी औषधीय गुणों से समृद्ध होते हैं। यह पर्यावरण को अत्यधिक शुद्ध रखता है।"
-            },
-            {
-                id: "mango",
-                hindiName: "आम",
-                scientificName: "Mangifera indica (Mango Tree)",
-                type: "fruit",
-                location: "उत्तर प्रदेश, बिहार, आंध्र प्रदेश और संपूर्ण भारत",
-                water: "मध्यम से नियमित सिंचाई",
-                season: "जनवरी - मार्च (मंजरियों का आगमन)",
-                benefits: "फलों के राजा के रूप में प्रसिद्ध, विटामिन ए और सी का स्रोत, धार्मिक अनुष्ठानों में पत्तों का विशेष महत्व।",
-                description: "आम भारत का राष्ट्रीय फल है। इसका विशालकाय पेड़ गर्मियों के दिनों में मीठे और रसीले फल देता है। इसकी लकड़ी और पत्तियों का उपयोग भारतीय रीति-रिवाजों और मांगलिक कार्यों में सदियों से किया जा रहा है।"
-            },
-            {
-                id: "tulsi",
-                hindiName: "तुलसी",
-                scientificName: "Ocimum sanctum (Holy Basil)",
-                type: "medicinal",
-                location: "लगभग प्रत्येक भारतीय घर के पवित्र आंगन में",
-                water: "नियमित सिंचाई (मध्यम पानी)",
-                season: "वर्ष भर (सदाबहार औषधीय पौधा)",
-                benefits: "इम्युनिटी बढ़ाने, सर्दी, खांसी, जुकाम और श्वास रोगों को जड़ से मिटाने में अत्यंत असरदार संजीवनी बूटी।",
-                description: "तुलसी को 'जड़ी-बूटियों की रानी' कहा जाता है। इसमें प्रचुर मात्रा में एंटी-ऑक्सीडेंट पाए जाते हैं जो मानसिक तनाव को दूर करते हैं और वातावरण में पर्याप्त ऑक्सीजन प्रवाहित करते हैं।"
-            },
-            {
-                id: "ashwagandha",
-                hindiName: "अश्वगंधा",
-                scientificName: "Withania somnifera (Indian Ginseng)",
-                type: "medicinal",
-                location: "मध्य प्रदेश, राजस्थान और शुष्क भारतीय भागों में",
-                water: "न्यूनतम जल आवश्यकता",
-                season: "अक्टूबर - नवंबर",
-                benefits: "मानसिक तनाव दूर करने, शारीरिक ताकत बढ़ाने और अनिद्रा की समस्या को खत्म करने में अचूक औषधि।",
-                description: "अश्वगंधा की जड़ों से विशिष्ट अश्व (घोड़े) जैसी महक आती है, जिसके सेवन से शरीर को अपार ऊर्जा और स्फूर्ति प्राप्त होती है। यह नर्वस सिस्टम को मजबूत करने वाली सर्वश्रेष्ठ रसायन औषधि है।"
-            },
-            {
-                id: "aloevera",
-                hindiName: "एलोवेरा (घृतकुमारी)",
-                scientificName: "Aloe barbadensis miller",
-                type: "medicinal",
-                location: "शुष्क जलवायु, मरुस्थलीय और घरेलू बगीचों में",
-                water: "कम पानी (सक्यूलेंट वैरायटी)",
-                season: "सदाबहार (सर्दियों में पीले फूल)",
-                benefits: "त्वचा को चमकाने, पाचन क्रिया दुरुस्त करने, बालों को मजबूत बनाने और जले-कटे घावों को तेजी से भरने में गुणकारी।",
-                description: "एलोवेरा एक चमत्कारी पौधा है जिसके गूदे (Gel) में विटामिन, खनिज और एंटी-ऑक्सीडेंट्स का खजाना होता है। कॉस्मेटिक और फार्मास्युटिकल इंडस्ट्री में इसका उपयोग अरबों रुपये के स्तर पर किया जाता है।"
-            },
-            {
-                id: "papaya",
-                hindiName: "पपीता",
-                scientificName: "Carica papaya (Papaya)",
-                type: "fruit",
-                location: "उष्णकटिबंधीय क्षेत्र, दक्षिण एवं उत्तर भारत के मैदानी भाग",
-                water: "नियमित लेकिन जलभराव रहित सिंचाई",
-                season: "वर्ष भर फल देने वाला पौधा",
-                benefits: "प्लेटлетов बढ़ाने में पत्ते उपयोगी, विटामिन ए से भरपूर, पाचन तंत्र को तीव्र और मजबूत बनाने में सहायक फल।",
-                description: "पपीता बहुत तेजी से बढ़ने वाला पौधा है। इसके कच्चे फल से सब्जी और पका फल सीधे खाया जाता है। डेंगू बुखार में इसके पत्तों का रस प्लेटлетов की संख्या को जादुई गति से बढ़ाने के लिए जाना जाता है।"
-            }
-        ];
-
+        // 🌿 पौधों का लाइव डायनेमिक डेटाबेस (अब सीधे plants-data.json से सिंक होगा)
+        let plantDatabase = [];
         let selectedCategory = 'all';
+
+        // 🚀 plants-data.json को होम पेज पर फ़ेच करने का मास्टर फंक्शन
+        async function loadDataFromJson() {
+            try {
+                const response = await fetch('plants-data.json');
+                const rawData = await response.json();
+                
+                // ऑब्जेक्ट फॉर्मेट को सर्च-फ्रेंडली एरे फॉर्मेट में कंवर्ट करना
+                plantDatabase = Object.keys(rawData).map(key => {
+                    return { id: key, ...rawData[key] };
+                });
+
+                // डैशबोर्ड काउंटर्स को रियल-टाइम अपडेट करना
+                document.getElementById('totalCountNode').innerText = plantDatabase.length;
+                document.getElementById('matchCountNode').innerText = plantDatabase.length;
+                
+                renderDatabaseGrid(plantDatabase);
+            } catch (error) {
+                console.error("JSON लोड करने में एरर आई:", error);
+                document.getElementById('plantsGrid').innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:red;">⚠️ plants-data.json फ़ाइल लोड नहीं हो सकी। कृपया सुनिश्चित करें कि फ़ाइल सही जगह पर है।</div>`;
+            }
+        }
 
         // 🚀 1. टैब स्विचिंग इंजन (Tab System Router)
         const tabEngine = {
@@ -898,7 +831,7 @@
             }
         };
 
-        // 🚀 2. कार्ड्स रेंडरिंग इंजन (इसमें '👁️ All View' बटन को शामिल कर दिया गया है)
+        // 🚀 2. कार्ड्स रेंडरिंग इंजन
         function renderDatabaseGrid(dataset) {
             const container = document.getElementById('plantsGrid');
             container.innerHTML = '';
@@ -910,16 +843,21 @@
                 return;
             }
 
-            dataset.forEach(plant => {
+            // परफॉर्मेंस को बनाए रखने के लिए अधिकतम 100 कार्ड्स एक साथ दिखाएगा
+            const visibleData = dataset.slice(0, 100);
+
+            visibleData.forEach(plant => {
                 const card = document.createElement('div');
                 card.className = 'classic-plant-card';
                 card.id = `card-${plant.id}`;
 
+                const usesText = Array.isArray(plant.uses) ? plant.uses.join(', ') : (plant.uses || plant.benefits || 'उपलब्ध नहीं');
+
                 card.innerHTML = `
                     <div class="card-header-trigger" onclick="cardToggleEngine.execute('${plant.id}')" title="विवरण देखने के लिए क्लिक करें">
                         <div class="card-title">
-                            <h3>🌳 ${plant.hindiName}</h3>
-                            <div class="scientific-name">🧬 ${plant.scientificName}</div>
+                            <h3>🌳 ${plant.hindiName || plant.id}</h3>
+                            <div class="scientific-name">🧬 ${plant.scientificName || ''} (${plant.englishName || ''})</div>
                         </div>
                         <div class="arrow-icon">▼</div>
                     </div>
@@ -927,29 +865,32 @@
                     <div class="card-collapsible-body">
                         <div class="info-row">
                             <span class="info-label">📍 प्राप्ति स्थान:</span>
-                            <span>${plant.location}</span>
+                            <span>${plant.location || 'N/A'}</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">💧 सिंचाई/पानी:</span>
-                            <span>${plant.water}</span>
+                            <span>${plant.water || 'N/A'}</span>
                         </div>
                         <div class="info-row">
-                            <span class="info-label">🌸 बौर/फूल समय:</span>
-                            <span>${plant.season}</span>
+                            <span class="info-label">🌾 कुल (Family):</span>
+                            <span>${plant.family || 'N/A'}</span>
                         </div>
                         <div class="info-row">
-                            <span class="info-label">💊 औषधीय लाभ:</span>
-                            <span class="highlight-text">${plant.benefits}</span>
+                            <span class="info-label">📏 ऊँचाई:</span>
+                            <span>${plant.height || 'N/A'}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">💊 मुख्य उपयोग:</span>
+                            <span class="highlight-text">${usesText}</span>
                         </div>
                         
                         <div class="description-box" id="desc-text-${plant.id}">
-                            🎯 <strong>पूर्ण वृत्तांत:</strong> ${plant.description}
+                            🎯 <strong>पूर्ण वृत्तांत:</strong> ${plant.description || 'कोई विवरण उपलब्ध नहीं।'}
                         </div>
 
                         <div class="action-button-deck">
                             <button class="action-mini-btn all-view-btn" onclick="openAllViewModal('${plant.id}')">👁️ All View</button>
-                            <button class="action-mini-btn" style="background:var(--light-green); color:var(--primary-green);" onclick="audioEngine.speak('${plant.id}')">🔊 AI वाचन</button>
-                            <button class="action-mini-btn" onclick="utilityEngine.shareWhatsApp('${plant.hindiName}', '${plant.benefits}')">📱 व्हाट्सएप शेयर</button>
+                            <button class="action-mini-btn" onclick="utilityEngine.shareWhatsApp('${plant.hindiName || plant.id}', '${usesText}')">📱 व्हाट्सएप शेयर</button>
                             <button class="action-mini-btn" onclick="window.print()">🖨️ प्रिंट रिपोर्ट</button>
                         </div>
                     </div>
@@ -977,10 +918,13 @@
                 document.getElementById('suggestionBox').style.display = 'none';
 
                 const results = plantDatabase.filter(plant => {
-                    const matchesSearch = plant.hindiName.toLowerCase().includes(val) || 
-                                          plant.scientificName.toLowerCase().includes(val) ||
-                                          plant.benefits.toLowerCase().includes(val) ||
-                                          plant.description.toLowerCase().includes(val);
+                    const hName = (plant.hindiName || '').toLowerCase();
+                    const sName = (plant.scientificName || '').toLowerCase();
+                    const eName = (plant.englishName || '').toLowerCase();
+                    const desc = (plant.description || '').toLowerCase();
+                    const usesText = Array.isArray(plant.uses) ? plant.uses.join(' ').toLowerCase() : (plant.uses || plant.benefits || '').toLowerCase();
+
+                    const matchesSearch = hName.includes(val) || sName.includes(val) || eName.includes(val) || desc.includes(val) || usesText.includes(val);
                     const matchesCat = selectedCategory === 'all' || plant.type === selectedCategory;
                     return matchesSearch && matchesCat;
                 });
@@ -1013,12 +957,15 @@
                 let counter = 0;
 
                 plantDatabase.forEach(plant => {
-                    if(plant.hindiName.toLowerCase().includes(val) || plant.scientificName.toLowerCase().includes(val)) {
+                    const name = (plant.hindiName || plant.id).toLowerCase();
+                    const sci = (plant.scientificName || '').toLowerCase();
+                    
+                    if(name.includes(val) || sci.includes(val)) {
                         const item = document.createElement('div');
                         item.className = 'suggest-item';
-                        item.innerHTML = `<span>🌳 ${plant.hindiName}</span><span style="opacity:0.5; font-size:0.85rem;">${plant.type}</span>`;
+                        item.innerHTML = `<span>🌳 ${plant.hindiName || plant.id}</span><span style="opacity:0.5; font-size:0.85rem;">${plant.type || 'plant'}</span>`;
                         item.onclick = () => {
-                            input.value = plant.hindiName;
+                            input.value = plant.hindiName || plant.id;
                             box.style.display = 'none';
                             searchEngine.executeFilter();
                             cardToggleEngine.execute(plant.id);
@@ -1033,52 +980,10 @@
             }
         };
 
-        // 🚀 6. AI वॉइस सर्च इंजन
-        const voiceSearchEngine = {
-            listen: function() {
-                const SpeechReq = window.SpeechRecognition || window.webkitSpeechRecognition;
-                if(!SpeechReq) { alert("आपका ब्राउज़र वॉइस इनपुट सपोर्ट नहीं करता।"); return; }
-
-                const rec = new SpeechReq();
-                rec.lang = 'hi-IN';
-                const btn = document.getElementById('micBtn');
-
-                rec.onstart = () => { btn.classList.add('listening'); btn.innerText = "🛑"; };
-                rec.onend = () => { btn.classList.remove('listening'); btn.innerText = "🎙️"; };
-                rec.onresult = (e) => {
-                    let text = e.results[0][0].transcript.toLowerCase().replace(/[.]/g, "").trim();
-                    if(text.includes("नीम") || text.includes("neem")) text = "नीम";
-                    if(text.includes("तुलसी") || text.includes("tulsi")) text = "तुलसी";
-                    if(text.includes("आम") || text.includes("mango")) text = "आम";
-                    if(text.includes("अश्वगंधा") || text.includes("ashwagandha")) text = "अश्वगंधा";
-                    if(text.includes("एलोवेरा") || text.includes("aloe")) text = "एलोवेरा (घृतकुमारी)";
-                    if(text.includes("पपीता") || text.includes("papaya")) text = "पपीता";
-
-                    document.getElementById('classicSearch').value = text;
-                    searchEngine.executeFilter();
-                };
-                rec.start();
-            }
-        };
-
-        // 🚀 7. AI टेक्स्ट-टू-स्पीच वाचन इंजन
-        const audioEngine = {
-            speak: function(id) {
-                if(window.speechSynthesis.speaking) {
-                    window.speechSynthesis.cancel();
-                    return;
-                }
-                const text = document.getElementById(`desc-text-${id}`).innerText;
-                const utter = new SpeechSynthesisUtterance(text);
-                utter.lang = 'hi-IN';
-                window.speechSynthesis.speak(utter);
-            }
-        };
-
-        // 🚀 8. संपर्क फॉर्म हैंडलर एवं व्हाट्सएप शेयर यूटिलिटी
+        // 🚀 6. संपर्क फॉर्म हैंडलर एवं व्हाट्सएप शेयर यूटिलिटी
         const utilityEngine = {
             shareWhatsApp: function(name, benefits) {
-                const text = `*वनस्पति रिपोर्ट:* 🌳 *${name}*\n\n💊 *औषधीय लाभ:* ${benefits}\n\nअधिक जानकारी के लिए टोनी ब्रदर्स फार्म हाउस विजिट करें।`;
+                const text = `*वनस्पति रिपोर्ट:* 🌳 *${name}*\n\n💊 *उपयोग व लाभ:* ${benefits}\n\nअधिक जानकारी के लिए टोनी ब्रदर्स फार्म हाउस विजिट करें।`;
                 const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
                 window.open(url, '_blank');
             },
@@ -1090,7 +995,7 @@
             }
         };
 
-        // 🚀 9. लाइट/डार्क थीम इंजन
+        // 🚀 7. लाइट/डार्क थीम इंजन
         const themeEngine = {
             toggle: function() {
                 const curr = document.documentElement.getAttribute('data-theme');
@@ -1098,22 +1003,25 @@
             }
         };
 
-        // 🚀 10. ऑल व्यू मॉडल डेटा हैंडलर
+        // 🚀 8. ऑल व्यू मॉडल डेटा हैंडलर
         window.openAllViewModal = function(plantId) {
             const plant = plantDatabase.find(p => p.id === plantId);
             if (plant) {
                 const content = document.getElementById('allViewContent');
+                const usesText = Array.isArray(plant.uses) ? plant.uses.join(', ') : (plant.uses || plant.benefits || 'उपलब्ध नहीं');
+                
                 content.innerHTML = `
-                    <h2 style="color:#2e7d32; margin-bottom:15px; font-size:2rem;">🌳 ${plant.hindiName}</h2>
-                    <p style="font-style:italic; color:gray; margin-bottom:20px;">🧬 ${plant.scientificName}</p>
+                    <h2 style="color:#2e7d32; margin-bottom:15px; font-size:2rem;">🌳 ${plant.hindiName || plant.id}</h2>
+                    <p style="font-style:italic; color:gray; margin-bottom:20px;">🧬 ${plant.scientificName || ''}</p>
                     <hr style="border:0; border-top:1px dashed #e2e8f0; margin-bottom:15px;">
                     <div style="font-size:1.1rem; line-height:1.8;">
-                        <p style="margin-bottom:10px;"><strong>📍 प्राप्ति स्थान:</strong> ${plant.location}</p>
-                        <p style="margin-bottom:10px;"><strong>💧 सिंचाई/पानी:</strong> ${plant.water}</p>
-                        <p style="margin-bottom:10px;"><strong>🌸 बौर/फूल समय:</strong> ${plant.season}</p>
-                        <p style="margin-bottom:15px; color:#2e7d32;"><strong>💊 औषधीय लाभ:</strong> ${plant.benefits}</p>
+                        <p style="margin-bottom:10px;"><strong>📍 प्राप्ति स्थान:</strong> ${plant.location || 'N/A'}</p>
+                        <p style="margin-bottom:10px;"><strong>💧 सिंचाई/पानी:</strong> ${plant.water || 'N/A'}</p>
+                        <p style="margin-bottom:10px;"><strong>🌾 कुल (Family):</strong> ${plant.family || 'N/A'}</p>
+                        <p style="margin-bottom:10px;"><strong>📏 ऊँचाई:</strong> ${plant.height || 'N/A'}</p>
+                        <p style="margin-bottom:15px; color:#2e7d32;"><strong>💊 मुख्य उपयोग:</strong> ${usesText}</p>
                         <div style="background:var(--light-green); padding:15px; border-radius:8px; border-left:5px solid #2e7d32; color:var(--text-primary);">
-                            <strong>🎯 पूर्ण वृत्तांत:</strong> ${plant.description}
+                            <strong>🎯 पूर्ण वृत्तांत:</strong> ${plant.description || 'कोई विवरण नहीं है।'}
                         </div>
                     </div>
                 `;
@@ -1121,11 +1029,8 @@
             }
         };
 
-        // स्टार्टअप लोड इवेंट
-        window.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('totalCountNode').innerText = plantDatabase.length;
-            renderDatabaseGrid(plantDatabase);
-        });
+        // स्टार्टअप लोड इवेंट (यहाँ अब मास्टर फंक्शन ट्रिगर होगा)
+        window.addEventListener('DOMContentLoaded', loadDataFromJson);
     </script>
 </body>
 </html>
