@@ -2,15 +2,65 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>प्लांट जर्नल - Tony Brothers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@600;700&family=Hind:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; background: #f4f7f5; padding: 20px; }
-        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1 { color: #2e7d32; text-align: center; }
-        textarea { width: 100%; height: 100px; margin-top: 10px; padding: 10px; border-radius: 8px; border: 1px solid #ddd; }
-        input { width: 100%; padding: 10px; margin-top: 10px; border-radius: 8px; border: 1px solid #ddd; }
-        button { width: 100%; padding: 15px; margin-top: 15px; background: #2e7d32; color: white; border: none; border-radius: 8px; cursor: pointer; }
-        .log-item { background: #f9f9f9; padding: 10px; margin-top: 10px; border-left: 4px solid #2e7d32; }
+        :root {
+            --bg-canvas: #f3f6ee;
+            --card-bg: #fffefb;
+            --text-primary: #23301c;
+            --text-secondary: #6c7a63;
+            --primary-green: #1f4d2c;
+            --light-green: #e7efdf;
+            --gold: #c1892e;
+            --border-color: #dde3d3;
+            --shadow-md: 0 14px 30px -8px rgba(31,40,20,0.14), 0 4px 8px -2px rgba(31,40,20,0.05);
+            --font-display: 'Noto Serif Devanagari', serif;
+            --font-body: 'Hind', sans-serif;
+            --font-label: 'Poppins', 'Hind', sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-body); }
+        body { background: var(--bg-canvas); padding: 24px 16px; color: var(--text-primary); }
+        .container {
+            max-width: 600px; margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 34px 28px;
+            border-radius: 6px 22px 6px 22px;
+            box-shadow: var(--shadow-md);
+            position: relative; overflow: hidden;
+        }
+        .container::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+            background: linear-gradient(90deg, var(--primary-green) 0%, var(--primary-green) 70%, var(--gold) 100%);
+        }
+        h1 { font-family: var(--font-display); color: var(--primary-green); text-align: center; font-size: 1.7rem; margin-bottom: 20px; }
+        h3 { font-family: var(--font-label); color: var(--primary-green); font-size: 1rem; margin-top: 26px; margin-bottom: 8px; }
+        input, textarea {
+            width: 100%; padding: 12px; margin-top: 10px;
+            border-radius: 10px; border: 1.5px solid var(--border-color);
+            background: var(--card-bg); color: var(--text-primary); font-size: 0.98rem;
+            font-family: var(--font-body);
+        }
+        input:focus, textarea:focus { outline: none; border-color: var(--gold); }
+        textarea { height: 100px; resize: vertical; }
+        button {
+            width: 100%; padding: 15px; margin-top: 16px;
+            background: var(--primary-green); color: white;
+            border: 2px solid var(--gold); border-radius: 30px;
+            cursor: pointer; font-family: var(--font-label); font-weight: 600; font-size: 0.98rem;
+        }
+        .back-btn { background: var(--card-bg) !important; color: var(--text-secondary) !important; border: 1.5px solid var(--border-color) !important; margin-top: 12px; }
+        .log-item {
+            background: var(--light-green);
+            padding: 12px 16px; margin-top: 10px;
+            border-radius: 4px 14px 4px 14px;
+            border-left: 4px solid var(--gold);
+            line-height: 1.6;
+        }
+        .log-item b { color: var(--primary-green); }
     </style>
 </head>
 <body>
@@ -24,7 +74,7 @@
     <h3>हालिया लॉग्स:</h3>
     <div id="logsContainer"></div>
 
-    <button style="background: #718096;" onclick="location.href='index.html'">⬅️ वापस टूल्स पर जाएं</button>
+    <button class="back-btn" onclick="location.href='index.html'">⬅️ वापस टूल्स पर जाएं</button>
 </div>
 
 <script>
@@ -35,12 +85,10 @@
 
         const log = `<div class="log-item"><b>${name}</b>: ${note}</div>`;
         document.getElementById('logsContainer').insertAdjacentHTML('afterbegin', log);
-        
-        // क्लियर करें
+
         document.getElementById('plantName').value = '';
         document.getElementById('plantNote').value = '';
     }
 </script>
 </body>
 </html>
-
