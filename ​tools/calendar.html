@@ -2,21 +2,71 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>हार्वेस्ट कैलेंडर - Tony Brothers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@600;700&family=Hind:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; background: #f4f7f5; padding: 20px; }
-        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1 { color: #2e7d32; text-align: center; }
-        .calendar-box { margin-top: 20px; padding: 15px; border: 2px dashed #4caf50; border-radius: 10px; }
-        button { width: 100%; padding: 15px; margin-top: 15px; background: #2e7d32; color: white; border: none; border-radius: 8px; cursor: pointer; }
+        :root {
+            --bg-canvas: #f3f6ee;
+            --card-bg: #fffefb;
+            --text-primary: #23301c;
+            --text-secondary: #6c7a63;
+            --primary-green: #1f4d2c;
+            --light-green: #e7efdf;
+            --gold: #c1892e;
+            --border-color: #dde3d3;
+            --shadow-md: 0 14px 30px -8px rgba(31,40,20,0.14), 0 4px 8px -2px rgba(31,40,20,0.05);
+            --font-display: 'Noto Serif Devanagari', serif;
+            --font-body: 'Hind', sans-serif;
+            --font-label: 'Poppins', 'Hind', sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-body); }
+        body { background: var(--bg-canvas); padding: 24px 16px; color: var(--text-primary); }
+        .container {
+            max-width: 600px; margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 34px 28px;
+            border-radius: 6px 22px 6px 22px;
+            box-shadow: var(--shadow-md);
+            position: relative; overflow: hidden;
+        }
+        .container::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+            background: linear-gradient(90deg, var(--primary-green) 0%, var(--primary-green) 70%, var(--gold) 100%);
+        }
+        h1 { font-family: var(--font-display); color: var(--primary-green); text-align: center; font-size: 1.7rem; margin-bottom: 6px; }
+        .subtitle { text-align: center; color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 22px; }
+        .calendar-box {
+            margin-top: 20px; padding: 20px;
+            background: var(--light-green);
+            border-radius: 4px 16px 4px 16px;
+            border-left: 5px solid var(--gold);
+        }
+        .calendar-box ul { list-style: none; }
+        .calendar-box li {
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--border-color);
+            line-height: 1.6;
+        }
+        .calendar-box li:last-child { border-bottom: none; }
+        .calendar-box strong { color: var(--primary-green); }
+        button {
+            width: 100%; padding: 15px; margin-top: 20px;
+            background: var(--primary-green); color: white;
+            border: 2px solid var(--gold); border-radius: 30px;
+            cursor: pointer; font-family: var(--font-label); font-weight: 600; font-size: 0.98rem;
+        }
+        .back-btn { background: var(--card-bg) !important; color: var(--text-secondary) !important; border: 1.5px solid var(--border-color) !important; margin-top: 12px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>📅 हार्वेस्ट कैलेंडर</h1>
-    <p>अगले 30 दिनों का शेड्यूल देखें:</p>
-    
+    <p class="subtitle">अगले 30 दिनों का शेड्यूल देखें</p>
+
     <div class="calendar-box">
         <ul>
             <li><strong>अगले 7 दिन:</strong> टमाटर की तुड़ाई और खाद</li>
@@ -25,9 +75,8 @@
         </ul>
     </div>
 
-    <button style="background: #718096;" onclick="location.href='index.html'">⬅️ वापस टूल्स पर जाएं</button>
+    <button class="back-btn" onclick="location.href='index.html'">⬅️ वापस टूल्स पर जाएं</button>
 </div>
 
 </body>
 </html>
-
