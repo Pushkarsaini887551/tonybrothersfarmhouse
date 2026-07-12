@@ -4,21 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>प्लांट हेल्थ डायग्नोस्टिक - Tony Brothers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@600;700&family=Hind:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f5; padding: 20px; color: #2d3748; }
-        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
-        h1 { color: #2e7d32; text-align: center; }
-        select, button { width: 100%; padding: 15px; margin-top: 15px; border-radius: 8px; border: 1px solid #ddd; font-size: 1rem; }
-        button { background: #2e7d32; color: white; border: none; cursor: pointer; font-weight: bold; }
-        #result { margin-top: 25px; padding: 20px; border-radius: 8px; background: #e8f5e9; display: none; border-left: 5px solid #2e7d32; }
+        :root {
+            --bg-canvas: #f3f6ee;
+            --card-bg: #fffefb;
+            --text-primary: #23301c;
+            --text-secondary: #6c7a63;
+            --primary-green: #1f4d2c;
+            --light-green: #e7efdf;
+            --gold: #c1892e;
+            --border-color: #dde3d3;
+            --shadow-md: 0 14px 30px -8px rgba(31,40,20,0.14), 0 4px 8px -2px rgba(31,40,20,0.05);
+            --font-display: 'Noto Serif Devanagari', serif;
+            --font-body: 'Hind', sans-serif;
+            --font-label: 'Poppins', 'Hind', sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-body); }
+        body { background: var(--bg-canvas); padding: 24px 16px; color: var(--text-primary); }
+        .container {
+            max-width: 600px; margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 34px 28px;
+            border-radius: 6px 22px 6px 22px;
+            box-shadow: var(--shadow-md);
+            position: relative; overflow: hidden;
+        }
+        .container::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+            background: linear-gradient(90deg, var(--primary-green) 0%, var(--primary-green) 70%, var(--gold) 100%);
+        }
+        h1 { font-family: var(--font-display); color: var(--primary-green); text-align: center; font-size: 1.7rem; margin-bottom: 6px; }
+        .subtitle { text-align: center; color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 22px; }
+        select {
+            width: 100%; padding: 13px; margin-top: 10px;
+            border-radius: 10px; border: 1.5px solid var(--border-color);
+            background: var(--card-bg); color: var(--text-primary); font-size: 1rem;
+        }
+        select:focus { outline: none; border-color: var(--gold); }
+        button {
+            width: 100%; padding: 15px; margin-top: 16px;
+            background: var(--primary-green); color: white;
+            border: 2px solid var(--gold); border-radius: 30px;
+            cursor: pointer; font-family: var(--font-label); font-weight: 600; font-size: 0.98rem;
+        }
+        .back-btn { background: var(--card-bg) !important; color: var(--text-secondary) !important; border: 1.5px solid var(--border-color) !important; margin-top: 12px; }
+        #result {
+            margin-top: 22px; padding: 20px; border-radius: 4px 16px 4px 16px;
+            background: var(--light-green); display: none;
+            border-left: 5px solid var(--gold); line-height: 1.7;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>🩺 प्लांट डायग्नोस्टिक टूल</h1>
-    <p>अपने पौधे की समस्या चुनें, और समाधान पाएँ:</p>
-    
+    <p class="subtitle">अपने पौधे की समस्या चुनें, और समाधान पाएँ</p>
+
     <select id="symptomSelect">
         <option value="">-- समस्या चुनें --</option>
         <option value="pili_patti">पत्तियों का पीला पड़ना</option>
@@ -26,12 +71,11 @@
         <option value="sookhna">पौधा सूख रहा है (मुरझाया हुआ)</option>
         <option value="growth_ruk">पौधे की बढ़त रुकी हुई है</option>
     </select>
-    
+
     <button onclick="diagnosePlant()">समाधान दिखाएं</button>
 
     <div id="result"></div>
-    <br>
-    <button style="background: #718096;" onclick="location.href='index.html'">⬅️ वापस टूल्स पर जाएं</button>
+    <button class="back-btn" onclick="location.href='index.html'">⬅️ वापस टूल्स पर जाएं</button>
 </div>
 
 <script>
@@ -58,4 +102,3 @@
 </script>
 </body>
 </html>
-
