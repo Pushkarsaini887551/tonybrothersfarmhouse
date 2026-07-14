@@ -1279,14 +1279,16 @@
                 container.appendChild(card);
             });
 
-            // 🖼️ स्क्रॉल में आने पर तस्वीरें lazy-load करें
+            // 🖼️ स्क्रॉल में आने पर तस्वीरें lazy-load करें (थोड़ा stagger के साथ)
+            let imgLoadIndex = 0;
             const imgObserver = new IntersectionObserver((entries, obs) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const el = entry.target;
                         const plantId = el.dataset.plantId;
                         const plant = plantDatabase.find(p => p.id === plantId);
-                        if (plant) imageEngine.load(plant, el);
+                        const delay = (imgLoadIndex++ % 8) * 150;
+                        if (plant) setTimeout(() => imageEngine.load(plant, el), delay);
                         obs.unobserve(el);
                     }
                 });
@@ -1394,6 +1396,32 @@
         // 🖼️ इमेज इंजन — Wikipedia से असली पौधे की तस्वीर लाता है (मुफ़्त, बिना API key)
         const imageEngine = {
             cachePrefix: 'tonyPlantImg_',
+
+            getCandidates(plant) {
+                const fields = [plant.scientificName, plant.englishName, plant.hindiName].filter(Boolean);
+                const raw = [];
+                fields.forEach(v => {
+                    const base = v.replace(/\(.*?\)/g, '').trim();
+                    const insideMatches = v.match(/\(([^)]+)\)/g) || [];
+                    const insides = insideMatches.map(s => s.replace(/[()]/g, '').trim());
+                    [base, ...insides].forEach(part => {
+                        part.split(/[,/]/).map(s => s.trim()).filter(Boolean).forEach(s => raw.push(s));
+                    });
+                });
+                return [...new Set(raw)].filter(s => s.length > 1);
+            },
+
+            async fetchThumb(name) {
+                const apiUrl = `https://en.wikipedia.org/w/api.php?origin=*&action=query&generator=search&gsrsearch=${encodeURIComponent(name)}&gsrlimit=1&prop=pageimages&pithumbsize=420&format=json`;
+                const res = await fetch(apiUrl);
+                if (!res.ok) return null;
+                const data = await res.json();
+                const pages = data.query && data.query.pages;
+                if (!pages) return null;
+                const page = Object.values(pages)[0];
+                return (page && page.thumbnail && page.thumbnail.source) || null;
+            },
+
             async load(plant, containerEl) {
                 if (!containerEl) return;
                 const cacheKey = this.cachePrefix + plant.id;
@@ -1404,26 +1432,21 @@
                     if (cached) { this.render(containerEl, cached); return; }
                 } catch (e) { /* localStorage उपलब्ध नहीं, आगे बढ़ें */ }
 
-                const query = plant.englishName || plant.scientificName || plant.hindiName || plant.id;
-                if (!query) return;
+                const candidates = this.getCandidates(plant);
+                let imgUrl = null;
 
-                try {
-                    const apiUrl = `https://en.wikipedia.org/w/api.php?origin=*&action=query&titles=${encodeURIComponent(query)}&prop=pageimages&format=json&pithumbsize=420`;
-                    const res = await fetch(apiUrl);
-                    if (!res.ok) throw new Error('wiki fetch failed');
-                    const data = await res.json();
-                    const pages = data.query && data.query.pages;
-                    const page = pages ? Object.values(pages)[0] : null;
-                    const imgUrl = page && page.thumbnail && page.thumbnail.source;
+                for (const name of candidates) {
+                    try {
+                        imgUrl = await this.fetchThumb(name);
+                        if (imgUrl) break;
+                    } catch (err) { /* अगले नाम पर आज़माएं */ }
+                }
 
-                    if (imgUrl) {
-                        this.render(containerEl, imgUrl);
-                        try { localStorage.setItem(cacheKey, imgUrl); } catch (e) {}
-                    } else {
-                        try { localStorage.setItem(cacheKey, 'none'); } catch (e) {}
-                    }
-                } catch (err) {
-                    // चुपचाप fail — placeholder icon दिखता रहेगा
+                if (imgUrl) {
+                    this.render(containerEl, imgUrl);
+                    try { localStorage.setItem(cacheKey, imgUrl); } catch (e) {}
+                } else {
+                    try { localStorage.setItem(cacheKey, 'none'); } catch (e) {}
                 }
             },
             render(containerEl, src) {
