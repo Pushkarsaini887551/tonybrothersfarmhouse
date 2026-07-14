@@ -3,10 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tony Brothers - Advanced Botanical Operating System v12.5</title>
+    <title>टोनी ब्रदर्स फार्म हाउस | जैविक कृषि, औषधीय पौधे और आयुर्वेदिक जड़ी-बूटियां</title>
+    <meta name="description" content="टोनी ब्रदर्स फार्म हाउस — 168+ औषधीय पौधों, दुर्लभ जड़ी-बूटियों और जैविक कृषि की जानकारी। नीम, तुलसी, अश्वगंधा जैसे आयुर्वेदिक पौधों के उपयोग, देखभाल और लाभ जानें।">
+    <meta name="keywords" content="औषधीय पौधे, आयुर्वेदिक जड़ी बूटी, जैविक खेती, तुलसी, नीम, अश्वगंधा, टोनी ब्रदर्स फार्म, plant database hindi">
+    <meta name="author" content="Tony Brothers Farm House">
+    <link rel="canonical" href="https://pushkarsaini887551.github.io/tonybrothersfarmhouse/">
+
+    <!-- Open Graph / WhatsApp / Facebook Preview -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="टोनी ब्रदर्स फार्म हाउस | जैविक कृषि व आयुर्वेदिक पौधों का डिजिटल खजाना">
+    <meta property="og:description" content="168+ औषधीय पौधों, दुर्लभ जड़ी-बूटियों और जैविक कृषि की सटीक जानकारी — एक ही जगह।">
+    <meta property="og:image" content="https://pushkarsaini887551.github.io/tonybrothersfarmhouse/banner.jpg">
+    <meta property="og:url" content="https://pushkarsaini887551.github.io/tonybrothersfarmhouse/">
+    <meta property="og:locale" content="hi_IN">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="टोनी ब्रदर्स फार्म हाउस">
+    <meta name="twitter:description" content="जैविक कृषि व आयुर्वेदिक जड़ी-बूटियों का डिजिटल खजाना">
+    <meta name="twitter:image" content="https://pushkarsaini887551.github.io/tonybrothersfarmhouse/banner.jpg">
+
+    <!-- Structured Data for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Tony Brothers Farm House",
+      "description": "जैविक कृषि, औषधीय पौधे और आयुर्वेदिक जड़ी-बूटियों की जानकारी देने वाला डिजिटल प्लेटफॉर्म",
+      "url": "https://pushkarsaini887551.github.io/tonybrothersfarmhouse/",
+      "image": "https://pushkarsaini887551.github.io/tonybrothersfarmhouse/banner.jpg",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Rajasthan",
+        "addressCountry": "IN"
+      },
+      "email": "info@tonybrothersfarmhouse.io"
+    }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@600;700;800&family=Hind:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+
     <style>
         /* ==========================================================================
            1. CORE THEME & BOTANICAL PALETTE VARIABLES
@@ -571,6 +609,44 @@
             border-color: var(--gold);
         }
 
+        /* पौधे की तस्वीर */
+        .card-image-box {
+            position: relative;
+            width: 100%;
+            height: 170px;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--light-green), var(--gold-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .card-image-box img.loaded {
+            opacity: 1;
+        }
+        .card-image-box .img-placeholder {
+            font-size: 2.6rem;
+            opacity: 0.55;
+        }
+        .card-image-box .img-tag {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.45);
+            color: #fff;
+            font-family: var(--font-label);
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
         /* मुख्य हेडर ट्रिगर */
         .card-header-trigger {
             padding: 22px 25px;
@@ -1072,6 +1148,9 @@
                     // आपके कार्ड का डिज़ाइन जिसे क्लासिक ग्रीन लुक दिया गया है
                     resultContainer.innerHTML = `
                         <div class="classic-plant-card open" style="grid-column: 1/-1; max-width: 700px; margin: 0 auto; width:100%;">
+                            <div class="card-image-box" id="img-search-${query}" data-plant-id="search-${query}">
+                                <span class="img-placeholder">🌿</span>
+                            </div>
                             <div class="card-header-trigger" style="background: var(--light-green);">
                                 <div class="card-title">
                                     <h3>🌳 ${tree.hindiName} (${query.charAt(0).toUpperCase() + query.slice(1)})</h3>
@@ -1103,6 +1182,7 @@
                             </div>
                         </div>
                     `;
+                    imageEngine.load(tree, document.getElementById(`img-search-${query}`));
                 } else {
                     document.getElementById('matchCountNode').innerText = 0;
                     resultContainer.innerHTML = `<div style="grid-column: 1/-1;"><p style="color: orange; text-align: center; font-weight: bold; padding: 20px;">क्षमा करें! इस पेड़ की जानकारी अभी डेटाबेस में नहीं है।</p></div>`;
@@ -1167,6 +1247,9 @@
                 const usesText = Array.isArray(plant.uses) ? plant.uses.join(', ') : (plant.uses || 'N/A');
 
                 card.innerHTML = `
+                    <div class="card-image-box" id="img-${plant.id}" data-plant-id="${plant.id}">
+                        <span class="img-placeholder">🌿</span>
+                    </div>
                     <div class="card-header-trigger" onclick="cardToggleEngine.execute('${plant.id}')">
                         <div class="card-title">
                             <h3>🌳 ${plant.hindiName || plant.id}</h3>
@@ -1195,6 +1278,21 @@
                 `;
                 container.appendChild(card);
             });
+
+            // 🖼️ स्क्रॉल में आने पर तस्वीरें lazy-load करें
+            const imgObserver = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const plantId = el.dataset.plantId;
+                        const plant = plantDatabase.find(p => p.id === plantId);
+                        if (plant) imageEngine.load(plant, el);
+                        obs.unobserve(el);
+                    }
+                });
+            }, { rootMargin: '250px' });
+
+            container.querySelectorAll('.card-image-box').forEach(el => imgObserver.observe(el));
         }
 
         // 🚀 एक्सीलेंस एकॉर्डियन ट्रिगर
@@ -1293,6 +1391,58 @@
         };
 
         // 🚀 यूटिलिटी इंजन
+        // 🖼️ इमेज इंजन — Wikipedia से असली पौधे की तस्वीर लाता है (मुफ़्त, बिना API key)
+        const imageEngine = {
+            cachePrefix: 'tonyPlantImg_',
+            async load(plant, containerEl) {
+                if (!containerEl) return;
+                const cacheKey = this.cachePrefix + plant.id;
+
+                try {
+                    const cached = localStorage.getItem(cacheKey);
+                    if (cached === 'none') return;
+                    if (cached) { this.render(containerEl, cached); return; }
+                } catch (e) { /* localStorage उपलब्ध नहीं, आगे बढ़ें */ }
+
+                const query = plant.englishName || plant.scientificName || plant.hindiName || plant.id;
+                if (!query) return;
+
+                try {
+                    const apiUrl = `https://en.wikipedia.org/w/api.php?origin=*&action=query&titles=${encodeURIComponent(query)}&prop=pageimages&format=json&pithumbsize=420`;
+                    const res = await fetch(apiUrl);
+                    if (!res.ok) throw new Error('wiki fetch failed');
+                    const data = await res.json();
+                    const pages = data.query && data.query.pages;
+                    const page = pages ? Object.values(pages)[0] : null;
+                    const imgUrl = page && page.thumbnail && page.thumbnail.source;
+
+                    if (imgUrl) {
+                        this.render(containerEl, imgUrl);
+                        try { localStorage.setItem(cacheKey, imgUrl); } catch (e) {}
+                    } else {
+                        try { localStorage.setItem(cacheKey, 'none'); } catch (e) {}
+                    }
+                } catch (err) {
+                    // चुपचाप fail — placeholder icon दिखता रहेगा
+                }
+            },
+            render(containerEl, src) {
+                if (!containerEl) return;
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = '';
+                img.loading = 'lazy';
+                img.onload = () => img.classList.add('loaded');
+                img.onerror = () => { containerEl.innerHTML = '<span class="img-placeholder">🌿</span>'; };
+                containerEl.innerHTML = '';
+                containerEl.appendChild(img);
+                const tag = document.createElement('span');
+                tag.className = 'img-tag';
+                tag.textContent = 'Wikipedia';
+                containerEl.appendChild(tag);
+            }
+        };
+
         const utilityEngine = {
             shareWhatsApp: function(name, uses) {
                 const text = `🌱 *${name}* की जानकारी -\n📋 *मुख्य उपयोग:* ${uses}\nअधिक जानकारी के लिए विजिट करें टोनी ब्रदर्स फार्म हाउस!`;
